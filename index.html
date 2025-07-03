@@ -1,37 +1,115 @@
+<!-- 页面结构 -->
+<!-- 什么是标签：你可以把它想象成一个盒子，有开始 <标签名> 就必有结束 </标签名> -->
+
+<!-- 1. 写在所有HTML文档的开头标准声明，表示使用HTML5标准来写网页 -->
 <!DOCTYPE html>
+
+<!-- 2. html标签，是最大的盒子，所有的内容都被放在这个盒子中，你可以称之为根元素。lang="zh-CN" 属性表示网页使用的主要语言是简体中文 -->
 <html lang="zh-CN">
+
+<!-- 3. head标签，放置网页的元数据。 -->
 <head>
+    <!-- 4. meta标签，charset="UTF-8" 设置字符编码为UTF-8，防止中文乱码。 -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- 5. meta标签，name="viewport" 用于响应式设计，确保网页在手机和电脑上都能良好显示。 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 6. title标签，设置网页的标题，会显示在浏览器的标签页上。 -->
     <title>科创中心</title>
+    
+    <!-- 7. link标签，链接外部CSS样式表。网页的所有外观都由 style.css 文件控制。 -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- 引入Font Awesome图标库，方便我们使用漂亮的图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
+<!-- 8. body标签，网页的身体，所有用户能看到的内容都放在这里。 -->
 <body>
-    <header>
-        <h1>科创中心<h1>
-    </header>
-    <main>
-        <section>
-            <h2>关于我们</h2>
-            <p>助理科创</p>
-        </section>
-        <section>
-            <h2>活动安排</h2>
-            <ul>
-                <li>每月第一周：户外拓展活动</li>
-                <li>每季度一次：主题讲座</li>
+
+    <!-- ======================= 页眉和导航栏 ======================= -->
+    <!-- header标签，语义化标签，代表页眉区域。 -->
+    <header id="main-header">
+        <!-- nav标签，语义化标签，代表导航链接的容器。 -->
+        <nav class="container">
+            <!-- 网站Logo/标题，用一个a标签包裹，可以点击返回首页 -->
+            <a href="#" class="logo">
+                <i class="fas fa-rocket"></i> 科创中心
+            </a>
+            <!-- 桌面端导航菜单 -->
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link">关于我们</a></li>
+                <li><a href="#members" class="nav-link">核心成员</a></li>
+                <li><a href="#events" class="nav-link">近期活动</a></li>
+                <li><a href="#contact" class="nav-link">联系我们</a></li>
             </ul>
+            <!-- 移动端菜单按钮（汉堡按钮） -->
+            <button id="mobile-menu-button" class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ======================= 主要内容区域 ======================= -->
+    <!-- main标签，语义化标签，代表页面的核心内容。 -->
+    <main>
+        <!-- “关于我们” 章节 -->
+        <section id="about" class="section-padding">
+            <div class="container">
+                <h2>关于我们</h2>
+                <p>科创中心是充满活力的组织！<p>
+            </div>
         </section>
-        <section>
-            <h2>联系我们</h2>
-            <p>邮箱：<a href="mailto:<EMAIL>"><EMAIL></a></p>
-                <p>电话：123-456-7890</p>
-                <p>地址：中国上海</p>
-                <p>微信：our_student_org</p>
+
+        <!-- “核心成员” 章节 -->
+        <section id="members" class="section-padding bg-light">
+            <div class="container">
+                <h2>成员</h2>
+                <!-- 这个div将由JavaScript动态填充成员卡片 -->
+                <div id="member-list" class="member-grid">
+                    <!-- JS生成卡片的模板会放在这里 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- “活动安排” 章节 -->
+        <section id="events" class="section-padding">
+            <div class="container">
+                <h2>活动安排</h2>
+                <ul class="event-list">
+                    <li><i class="fas fa-calendar-alt"></i> 大内建</li>
+                    <li><i class="fas fa-chalkboard-teacher"></i> 各种丰富的活动</li>
+                    <li><i class="fas fa-code"></i> 各种例会</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- “联系我们” 章节 -->
+        <section id="contact" class="section-padding bg-light">
+            <div class="container">
+                <h2>联系我们</h2>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> 邮箱：<a href="mailto:contact@example.com">contact@example.com</a></p>
+                    <p><i class="fas fa-phone-alt"></i> 电话：123-456-7890</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 地址：中国杭州</p>
+                    <p><i class="fab fa-weixin"></i> 微信：xk</p>
+                </div>
+            </div>
         </section>
     </main>
+
+    <!-- ======================= 页脚 ======================= -->
+    <!-- footer标签，语义化标签，代表页脚区域。 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 科创中心. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 9. script标签，链接外部JavaScript文件。'defer'属性让浏览器先解析完HTML再执行JS，是推荐的做法。 -->
+    <script src="script.js" defer></script>
+
 </body>
-<footer>
-    <p>&copy; 2023 我们的学生组织. 保留所有权利.</p>
-</footer>
 </html>
+<!-- 这是一个注释 -->

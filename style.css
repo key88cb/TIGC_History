@@ -1,12 +1,260 @@
-body {
-    font-family: sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
+/* ======================= 全局样式和变量 ======================= */
+
+/* 引入谷歌字体 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+/* 使用CSS变量来统一定义颜色和尺寸，方便后续修改 */
+:root {
+    --primary-color: #3b82f6; /* 主题色：蓝色 */
+    --secondary-color: #10b981; /* 辅色：绿色 */
+    --background-color: #f8f9fa; /* 页面背景色 */
+    --light-background: #ffffff; /* 浅色背景，用于卡片 */
+    --text-color: #333333; /* 主要文字颜色 */
+    --text-light: #666666; /* 次要文字颜色 */
+    --border-color: #dddddd; /* 边框颜色 */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 卡片阴影 */
+    --container-width: 1100px; /* 内容区域最大宽度 */
 }
-h1 {
-    color: #333;
+
+/* 基础重置和默认样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 让盒子的宽高计算更直观 */
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans SC', sans-serif; /* 优先使用英文字体，中文回退到Noto Sans SC */
+    line-height: 1.7; /* 设置合适的行高 */
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* ======================= 通用样式类 ======================= */
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto; /* 水平居中 */
+    padding: 0 20px; /* 两侧留出边距 */
+}
+
+.section-padding {
+    padding: 60px 0; /* 上下内边距 */
+}
+
+.bg-light {
+    background-color: var(--light-background);
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none; /* 去掉下划线 */
+    transition: color 0.3s ease; /* 颜色变化动画 */
+}
+
+a:hover {
+    color: #1d4ed8; /* 鼠标悬停时加深颜色 */
+}
+
+/* ======================= 页眉和导航栏 ======================= */
+
+header {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px); /* 毛玻璃效果 */
+    border-bottom: 1px solid var(--border-color);
+    position: sticky; /* 吸顶效果 */
+    top: 0;
+    z-index: 1000; /* 确保在最上层 */
+    transition: box-shadow 0.3s ease;
+}
+
+header.scrolled {
+    box-shadow: var(--shadow);
+}
+
+header .container {
+    display: flex; /* 使用Flexbox布局 */
+    justify-content: space-between; /* 两端对齐 */
+    align-items: center; /* 垂直居中 */
+    height: 70px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo i {
+    margin-right: 8px;
+}
+
+.nav-menu {
+    list-style: none; /* 去掉列表的点 */
+    display: flex; /* 横向排列 */
+    gap: 30px; /* 列表项之间的间距 */
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--text-light);
+    position: relative;
+    padding: 5px 0;
+}
+
+/* 导航链接下划线动画 */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.mobile-menu-toggle {
+    display: none; /* 默认隐藏 */
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* ======================= 成员列表 ======================= */
+
+.member-grid {
+    display: grid; /* 使用Grid布局 */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 响应式网格 */
+    gap: 30px; /* 网格间距 */
+}
+
+.member-card {
+    background-color: var(--light-background);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-10px); /* 鼠标悬停时上移 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.member-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* 圆形头像 */
+    object-fit: cover; /* 保证图片不变形 */
+    margin-bottom: 20px;
+    border: 4px solid var(--primary-color);
+}
+
+.member-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+}
+
+.member-card .role {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.member-card .bio {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ======================= 其他区域 ======================= */
+
+.event-list {
+    list-style: none;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.event-list li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.event-list i {
+    margin-right: 15px;
+    color: var(--secondary-color);
+}
+
+.contact-info {
+    text-align: center;
+    max-width: 600px;
+    margin: 20px auto 0;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+.contact-info i {
+    margin-right: 10px;
+}
+
+/* ======================= 页脚 ======================= */
+
+footer {
+    background-color: #333;
+    color: #eee;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* ======================= 响应式设计 ======================= */
+
+/* 当屏幕宽度小于768px时应用以下样式 */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none; /* 隐藏桌面菜单 */
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        flex-direction: column; /* 纵向排列 */
+        text-align: center;
+        padding: 20px 0;
+        box-shadow: var(--shadow);
+    }
+
+    .nav-menu.active {
+        display: flex; /* 显示移动端菜单 */
+    }
+    
+    .nav-menu li {
+        margin: 10px 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block; /* 显示汉堡按钮 */
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
 }

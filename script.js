@@ -17,12 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. **成员数据**
     // 成员数据保持不变，通过 'departmentId' 关联到部门。
     const members = [
-        { name: 'CT', role: 'Leader', bio: '待填充', imageUrl: '2_zdls.jpg', departmentId: 'lead' },
-        { name: 'WH', role: '科创中心负责人', bio: '待填写', imageUrl: '2_fzr.jpg', departmentId: 'lead' },
-        { name: 'HQ', role: '文宣部部长', bio: '待填写', imageUrl: '2_wx.jpg', departmentId: 'wx' },
-        { name: 'HQ', role: '前研探索部部长', bio: '待填充', imageUrl: '2_qy.jpg', departmentId: 'qy' },
-        { name: 'TK', role: '技术推广部部长', bio: '待填充', imageUrl: '2_jt.jpg', departmentId: 'jt' },
-        { name: 'HB', role: '创新实践部部长', bio: '无桎梏自由的风，千万个无色温柔的梦', imageUrl: '2_cj.jpg', departmentId: 'cj' }
+        { name: 'CT', role: 'Leader', bio: '待填充', imageUrl: 'image/2_zdls.jpg', departmentId: 'lead' },
+        { name: 'WH', role: '科创中心负责人', bio: '待填写', imageUrl: 'image/2_fzr.jpg', departmentId: 'lead' },
+        { name: 'HQ', role: '文宣部部长', bio: '待填写', imageUrl: 'image/2_wx.jpg', departmentId: 'wx' },
+        { name: 'HQ', role: '前研探索部部长', bio: '待填充', imageUrl: 'image/2_qy.jpg', departmentId: 'qy' },
+        { name: 'TK', role: '技术推广部部长', bio: '待填充', imageUrl: 'image/2_jt.jpg', departmentId: 'jt' },
+        { name: 'HB', role: '创新实践部部长', bio: '无桎梏自由的风，千万个无色温柔的梦', imageUrl: 'image/2_cj.jpg', departmentId: 'cj' }
     ];
 
 

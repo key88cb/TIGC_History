@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>前端三件套学习示例 (创意设计版)</title>
+    <title>前端三件套示例</title>
 
     <!-- 引入Font Awesome图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -15,7 +15,7 @@
     <!-- ======================= CSS 样式区 ======================= -->
     <style>
         /* --- 1. 全局样式与CSS变量 (默认赛博朋克/极光主题) --- */
-        /* * :root 伪类代表文档的根元素(<html>)，在这里定义CSS变量(--variable-name)
+        /* * :root 代表文档的根元素(<html>)，在这里定义CSS变量(--variable-name)
          * 意味着这些变量在整个文档中都可用。这是现代CSS主题化和换肤技术的核心。
          */
         :root {
@@ -54,7 +54,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- **新增**: 黑白凌厉线条主题 --- */
+        /* 黑白凌厉线条主题 --- */
         /* * 当 body 元素拥有 'bw-theme' 这个类时，它内部的所有CSS变量将被下面的值覆盖。
          * JS通过切换这个类名，就能瞬间改变整个页面的视觉风格，这就是CSS变量换肤的强大之处。
          */
@@ -102,7 +102,7 @@
             animation: slideInUp 0.6s ease-out;
         }
 
-        /* --- 元素样式 (全新设计) --- */
+        /* --- 元素样式  --- */
         h1, h2, h3 {
             color: var(--text-dark);
             /* text-shadow 属性为文字添加霓虹灯光晕效果 */
@@ -136,7 +136,7 @@
         .btn-danger { background-image: linear-gradient(to right, #ff512f 0%, #dd2476 51%, #ff512f 100%); }
         .btn-secondary { background-image: linear-gradient(to right, #8A2387 0%, #E94057 51%, #F27121 100%); }
         
-        /* **新增**: 黑白主题下的按钮样式 */
+        /* 黑白主题下的按钮样式 */
         .bw-theme .btn {
             background-image: none; /* 移除渐变 */
             background-color: transparent;
@@ -231,24 +231,26 @@
 
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <!-- ======================= HTML 结构区 ======================= -->
         <header>
-            <h1><i class="fas fa-cogs"></i> 前端三件套交互示例 (创意设计版)</h1>
-            <p>这是一个交互式的学习沙盘，展示HTML, CSS, 和 JavaScript的强大功能。</p>
-            <!-- **新增**: 切换主题按钮 -->
+            <h1><i class="fas fa-cogs"></i> 前端三件套示例</h1>
+            <p>这是一个段落</p>
+            <!-- 切换主题的按钮 它用<button></button>包裹 在标签内设置id 类名-->
+             <!-- <i class="fas fa-palette"></i>是一个特殊的表示，代表一个调色板的表情符号 -->
             <button id="theme-switcher-btn" class="btn btn-secondary"><i class="fas fa-palette"></i> 切换主题</button>
             <button id="open-modal-btn" class="btn btn-primary"><i class="fas fa-window-maximize"></i> 打开模态框</button>
         </header>
         
         <main>
             <div class="interactive-zone">
-                <!-- 面板1: 交互式技能雷达图 -->
+                <!-- 交互式雷达图 -->
                 <div class="interactive-panel">
                     <h3><i class="fas fa-chart-pie"></i> 交互式技能雷达图 (Canvas)</h3>
-                    <p>这是一个使用HTML5 Canvas绘制的动态图表。点击按钮来随机更新技能点，并观察动画效果。</p>
+                    <p>[进阶] 这是一个使用HTML5 Canvas绘制的动态图表。点击按钮来随机更新技能点，并观察动画效果。</p>
                     <div id="skill-chart-container">
                         <canvas id="skill-chart"></canvas>
                     </div>
@@ -298,29 +300,22 @@
             const canvas = document.getElementById('skill-chart');
             const ctx = canvas.getContext('2d');
 
-            // --- 2. 主题切换与本地存储 (新) ---
-            // 检查localStorage中是否已保存主题偏好，并在页面加载时应用
-            if (localStorage.getItem('theme') === 'bw') {
-                document.body.classList.add('bw-theme');
-            }
-            
             themeSwitcherBtn.addEventListener('click', () => {
                 // 切换 'bw-theme' 类
                 document.body.classList.toggle('bw-theme');
                 // 将当前主题偏好保存到localStorage，以便下次访问时记住选择
                 const currentTheme = document.body.classList.contains('bw-theme') ? 'bw' : 'cyberpunk';
                 localStorage.setItem('theme', currentTheme);
-                // **重要**: 主题切换时必须重绘图表，以更新图表的颜色
+                // 主题切换时必须重绘图表，以更新图表的颜色
                 drawRadarChart();
             });
 
-            // --- 3. 技能雷达图 ---
-            const skills = ['HTML', 'CSS', 'JavaScript', '设计', '沟通', '学习'];
+            const skills = ['外向性', '计划性', '逻辑性', '沟通力', '内驱力', '学习力'];
             let currentSkillData = [0.7, 0.8, 0.9, 0.6, 0.8, 1.0];
             let targetSkillData = [...currentSkillData];
 
             function drawRadarChart() {
-                // **改动**: 通过JS获取CSS变量的值，让Canvas的颜色与当前主题保持同步
+                // 通过JS获取CSS变量的值，让Canvas的颜色与当前主题保持同步
                 const style = getComputedStyle(document.body);
                 const gridColor = style.getPropertyValue('--border-color').trim();
                 const textColor = style.getPropertyValue('--text-dark').trim();
@@ -392,7 +387,7 @@
             // 随机化按钮的事件监听
             randomizeSkillsBtn.addEventListener('click', () => {
                 for (let i = 0; i < skills.length; i++) {
-                    targetSkillData[i] = Math.random() * 0.8 + 0.2; // 随机生成0.2到1.0之间的值
+                   targetSkillData[i] = Math.random() * 0.8 + 0.2; // 随机生成0.2到1.0之间的值
                 }
                 animateChart(); // 启动动画
             });

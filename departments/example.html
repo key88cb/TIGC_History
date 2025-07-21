@@ -249,8 +249,9 @@
             <div class="interactive-zone">
                 <!-- 交互式雷达图 -->
                 <div class="interactive-panel">
-                    <h3><i class="fas fa-chart-pie"></i> 交互式技能雷达图 (Canvas)</h3>
-                    <p>[进阶] 这是一个使用HTML5 Canvas绘制的动态图表。点击按钮来随机更新技能点，并观察动画效果。</p>
+                    <h3><i class="fas fa-chart-pie"></i> 技能雷达图 (Canvas)</h3>
+                    <p>[进阶] 这是使用HTML5 Canvas绘制的动态图表。点击按钮来随机更新技能点，并观察动画效果。</p>
+                    <!-- 你可以发现 雷达图的数据不是固定嵌入在这里的，而是放在了css部分 -->
                     <div id="skill-chart-container">
                         <canvas id="skill-chart"></canvas>
                     </div>
@@ -284,11 +285,11 @@
         </div>
     </div>
 
-    <!-- ======================= JavaScript 脚本区 ======================= -->
+    <!-- ======================= JavaScript 脚本区 这里定义了网页的行为 ======================= -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // --- 1. 获取所有需要操作的HTML元素 ---
+            // --- 1. 获取所有需要操作的HTML元素 通过ID也就是英文名字 把它们都拿过来 ---
             const themeSwitcherBtn = document.getElementById('theme-switcher-btn');
             const todoForm = document.getElementById('todo-form');
             const todoInput = document.getElementById('todo-input');

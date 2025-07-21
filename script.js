@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 数据定义区 ---
 
-    // 1. **部门地图 (Department Map)**
-    // 我们依然保留这个映射，因为它对于部门详情页是必需的。
+    // 1. 部门地图 (Department Map)
+    // 这是一个映射 把一些数据关联在一起
     const departments = [
         { id: 'lead', name: '指导老师 & 负责人', icon: 'fas fa-star', description: '指导和管理中心的核心团队。', pageUrl: 'departments/example.html' },
         { id: 'wx', name: '文宣部', icon: 'fas fa-bullhorn', description: '负责组织的宣传、品牌建设和活动推广。', pageUrl: 'departments/example.html' },
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'cj', name: '创新实践部', icon: 'fas fa-lightbulb', description: '将创新想法付诸实践，孵化项目。', pageUrl: 'departments/example.html' }
     ];
 
-    // 2. **成员数据**
+    // 2. 成员数据
     // 成员数据保持不变，通过 'departmentId' 关联到部门。
     const members = [
         { name: 'CT', role: 'Leader', bio: '待填充', imageUrl: 'image/2_zdls.jpg', departmentId: 'lead' },
@@ -27,9 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- 功能函数区 ---
-
-    // **新增功能: 在主页动态创建所有成员的卡片**
-// **功能: 在主页动态创建所有成员的卡片，并让角色链接到部门页**
+// 功能: 在主页动态创建所有成员的卡片，并让角色链接到部门页
     function displayAllMembers() {
         const memberListContainer = document.getElementById('member-list');
         if (!memberListContainer) return;
@@ -38,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const card = document.createElement('div');
             card.className = 'member-card';
             
-            // **核心逻辑在这里**
+            // 核心逻辑在这里
             // 1. 根据当前成员的 departmentId 从部门地图中查找对应的部门信息
             const departmentInfo = departments.find(d => d.id === member.departmentId);
 
@@ -50,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             //    - 使用 <a> 标签来创建链接。
             //    - 将 class="role" 应用于 <a> 标签，这样它看起来就像之前的文本。
-            //    - 使用 ${departmentLink} 将我们上面计算出的正确URL放入 href 属性中。
+            //    - 使用 ${departmentLink} 将上面计算出的正确URL放入 href 属性中。
             card.innerHTML = `
                 <img src="${member.imageUrl}" alt="成员 ${member.name} 的头像">
                 <h3>${member.name}</h3>
@@ -94,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         memberList.appendChild(memberCard);
                     });
                 } else {
-                    memberList.innerHTML = '<p>该部门暂无成员信息。</p>';
+                    memberList.innerHTML = '<p>暂无成员信息。</p>';
                 }
             }
         } else {
@@ -121,11 +119,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // --- **主执行逻辑 (页面路由)** ---
+    // --- 主执行逻辑 (页面路由)** ---
     // 这是脚本的入口，它会判断当前在哪个页面，然后调用对应的功能函数。
     setupCommonFeatures(); // 先加载所有页面都需要的通用功能
-    
-    // **核心改动**: 调整路由逻辑
+
     if (document.getElementById('member-list') && !document.getElementById('department-detail-container')) {
         // 如果页面上有 'member-list'，但没有 'department-detail-container'，说明是主页
         displayAllMembers();

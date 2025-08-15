@@ -1,4 +1,4 @@
-// 这是一个.js (javascript)文件 你可以看到 这里的注释使用的是 //
+// 这是一个.js (javascript)文件 你可以看到 这里的注释使用的是 // 同上 注释不必熟记哦！
 // 使用 'DOMContentLoaded' 事件确保在整个HTML文档被完全加载和解析后才执行脚本。
 // 这是一个良好的编程习惯，可以防止因DOM元素未加载而导致的错误。
 document.addEventListener('DOMContentLoaded', function() {

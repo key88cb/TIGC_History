@@ -1,233 +1,404 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
+        注释：
+        - 这是另一个 `<meta>` 标签，专门用于响应式设计（Responsive Design）。
+        - name="viewport" 告诉浏览器如何控制页面的视口（viewport），即用户可见的区域。
+        - content="width=device-width, initial-scale=1.0"：
+            - width=device-width：将视口的宽度设置为设备屏幕的宽度。
+            - initial-scale=1.0：设置页面的初始缩放比例为1.0。
+        - 这段代码确保了网页在手机、平板等不同设备上都能良好显示和布局，不会出现横向滚动条。
+    -->
     <title>前端三件套示例</title>
+    <!--
+        注释：
+        - <title> 标签设置了网页的标题。这个标题会显示在浏览器的标签页（Tab） 上，也会作为搜索引擎的搜索结果标题。
+    -->
 
     <!-- 引入Font Awesome图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!--
+        注释：
+        - <link> 标签用于链接外部资源，这里引入的是 Font Awesome 图标库的 CSS 文件。
+        - Font Awesome 是一个流行的图标字体库，可以让我们像使用文字一样方便地在网页中插入各种矢量图标（如齿轮、调色板等），它们可以任意缩放而不会失真。
+        - `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css` 是该库在 CDN (内容分发网络) 上的 URL，从 CDN 加载可以加快文件传输速度。
+    -->
     <!-- 引入更具设计感的 Google 字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!--
+        注释：
+        - rel="preconnect" 属性提示浏览器预连接到 `https://fonts.googleapis.com` 这个域名。这可以加快后续字体资源的加载速度。
+    -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!--
+        注释：
+        - 同样是预连接到 `https://fonts.gstatic.com`，这是 Google Fonts 存储字体文件的另一个域名。
+        - `crossorigin` 属性用于指定请求资源的 CORS (跨域资源共享) 模式，以确保字体可以被加载。
+    -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <!--
+        注释：
+        - 这行 `<link>` 标签从 Google Fonts 引入了两个自定义字体：`Poppins` (英文字体) 和 `Noto Sans SC` (思源黑体中文)。
+        - `wght@300;400;600;700` 表示加载这些字体的不同字重（粗细）。
+        - `display=swap` 是一个字体显示策略。它告诉浏览器，在自定义字体加载完成前，先使用系统默认的通用字体来显示文本。一旦自定义字体加载完成，就会“交换”显示，防止文本在加载过程中“隐形”过久（FOIT - Flash of Invisible Text），提升用户体验。
+    -->
 
     <!-- ======================= CSS 样式区 ======================= -->
     <style>
+        /*
+            注释：
+            - <style> 标签用于在 HTML 文档内部直接定义 CSS 样式（Cascading Style Sheets）。
+            - 这种方式被称为“内联样式表”或“内部样式表”。CSS 负责控制网页的视觉表现（如颜色、字体、布局、大小、边距等），与 HTML 的结构分离。
+            - 尽管对于大型项目，推荐将 CSS 放在单独的外部 `.css` 文件中，但在这里为了演示和方便阅读，直接嵌入到了 HTML 中。
+        */
+
         /* --- 1. 全局样式与CSS变量 (默认赛博朋克/极光主题) --- */
-        /* * :root 代表文档的根元素(<html>)，在这里定义CSS变量(--variable-name)
-         * 意味着这些变量在整个文档中都可用。这是现代CSS主题化和换肤技术的核心。
-         */
+        /*
+            注释：
+            - `:root` 选择器代表文档的根元素（即 `<html>` 标签）。
+            - 在 `:root` 中定义 CSS 变量（Custom Properties / CSS Variables） 是现代 CSS 主题化和换肤技术的核心。
+            - 变量名以 `--` 开头 (例如 `--primary-color`)，可以在整个文档的任何 CSS 规则中通过 `var(--variable-name)` 来引用。
+            - 这样做的好处是：当你想改变主题颜色或字体等全局样式时，只需修改 `:root` 中对应的变量值，所有引用该变量的地方都会自动更新，极大地提高了样式的可维护性和灵活性。
+            - 这里的默认主题是“赛博朋克/极光”风格，使用了鲜艳的亮色和深色背景，营造出科技感和未来感。
+        */
         :root {
-            --primary-color: #00aaff;   /* 明亮的青色 */
-            --secondary-color: #ff00ff; /* 鲜艳的品红色 */
-            --success-color: #00ff9d;   /* 荧光绿 */
-            --danger-color: #ff4d4d;    /* 警告红 */
-            --light-bg: #1a1a2e;        /* 深邃的午夜蓝背景 */
-            --text-light: #e0e0e0;      /* 浅灰色文字 */
-            --text-dark: #ffffff;       /* 亮白色文字 */
-            --panel-bg: rgba(255, 255, 255, 0.05); /* 玻璃拟物面板背景 */
-            --border-color: rgba(255, 255, 255, 0.2); /* 玻璃边框颜色 */
-            --border-radius: 12px;      /* 圆角大小 */
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.37); /* 阴影效果 */
-            --transition-speed: 0.4s;   /* 全局过渡动画速度 */
+            --primary-color: #00aaff;    /* 主色调：明亮的青色（RGB: 0, 170, 255），用于强调元素、边框、标题光晕等。*/
+            --secondary-color: #ff00ff;  /* 辅助色调：鲜艳的品红色，可用于完成状态、次要元素等。*/
+            --success-color: #00ff9d;    /* 成功色：荧光绿，用于表示成功或积极状态，如按钮背景。*/
+            --danger-color: #ff4d4d;     /* 危险色：警告红，用于表示危险或错误状态，如删除按钮。*/
+            --light-bg: #1a1a2e;         /* 浅背景色：深邃的午夜蓝，作为整体页面的默认背景色。*/
+            --text-light: #e0e0e0;       /* 浅文本色：浅灰色，用于默认文本颜色，与深色背景形成对比，确保可读性。*/
+            --text-dark: #ffffff;        /* 深文本色：亮白色，用于标题或重要文本，通常与 --primary-color 搭配，形成高对比度。*/
+            --panel-bg: rgba(255, 255, 255, 0.05); /* 面板背景色：半透明的白色 (5% 不透明度)。这是实现玻璃拟物效果（Glassmorphism） 的基础，让背景透过面板隐约可见。*/
+            --border-color: rgba(255, 255, 255, 0.2); /* 边框颜色：半透明白色 (20% 不透明度)，用于元素边框，也服务于玻璃拟物风格。*/
+            --border-radius: 12px;       /* 圆角大小：用于按钮、面板等元素的圆角效果，增加柔和感。*/
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.37); /* 阴影效果：为元素提供深度感，使它们从背景中“浮”出来。*/
+            --transition-speed: 0.4s;    /* 全局过渡动画速度：定义所有 CSS 属性变化时的平滑过渡动画持续时间，使交互更流畅。*/
+            --rgb-primary: 0, 170, 255;  /* 主色调的 RGB 值：用于 `box-shadow` 等需要 RGB 颜色分量而不是十六进制或 rgba() 的场景。*/
         }
 
         /* 基础样式重置，并设置全局字体 */
         body {
-            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: var(--light-bg);
-            color: var(--text-light);
+            font-family: 'Poppins', 'Noto Sans SC', sans-serif; /* 设置页面默认字体，优先使用 Poppins（英文），中文使用 Noto Sans SC，否则使用系统默认无衬线字体。 */
+            margin: 0; /* 移除浏览器默认的外边距，确保页面内容紧贴边缘。 */
+            padding: 20px; /* 设置页面内容与边缘的内边距，使内容不紧贴屏幕边缘，提供呼吸空间。 */
+            background: var(--light-bg); /* 使用 CSS 变量设置页面背景色。 */
+            color: var(--text-light); /* 使用 CSS 变量设置页面默认文本颜色。 */
             transition: background-color var(--transition-speed), color var(--transition-speed);
+            /*
+                注释：
+                - transition 属性定义了当指定 CSS 属性发生变化时，动画过渡效果的时间和方式。
+                - 这里设置了 `background-color` 和 `color` 在改变时，会以 `--transition-speed`（0.4秒）的速度平滑过渡，而不是瞬间变化，提升用户体验。
+            */
             /* 动态渐变背景，通过动画实现流光效果 */
             background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #533483);
+            /*
+                注释：
+                - `linear-gradient()` 函数创建一个线性渐变背景。
+                - `45deg` 指定渐变方向为45度。
+                - 后面列出的是四个颜色停止点，渐变将从第一个颜色平滑过渡到第二个，再到第三个，以此类推。这些颜色与赛博朋克主题相符。
+            */
             background-size: 400% 400%;
+            /*
+                注释：
+                - `background-size` 属性设置背景图片的尺寸。
+                - `400% 400%` 表示背景图片（这里是渐变）的宽度和高度都是其容器（`body`）的四倍。这为后续的动画提供了更大的移动空间，使得“流光”效果更明显。
+            */
             animation: gradientBG 15s ease infinite;
+            /*
+                注释：
+                - `animation` 属性将名为 `gradientBG` 的动画应用于 `body` 元素。
+                - `15s` 是动画持续时间（15秒）。
+                - `ease` 是动画的缓动函数（easing function），表示动画开始时速度较慢，然后加速，最后减速。
+                - `infinite` 表示动画将无限循环播放。
+            */
         }
         
         /* 定义背景渐变动画 */
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            /*
+                注释：
+                - `@keyframes` 规则用于定义 CSS 动画序列中的关键帧（或中间点）。
+                - `gradientBG` 是动画的名称，与 `animation` 属性中引用的名称一致。
+                - 动画在 0%、50% 和 100% 的时间点定义了背景的位置，从而创建背景渐变来回移动的“流光”效果。
+            */
+            0% { background-position: 0% 50%; } /* 动画开始时，背景位置在容器的左中（水平 0%，垂直 50%）。 */
+            50% { background-position: 100% 50%; } /* 动画进行到一半时，背景位置移动到容器的右中（水平 100%，垂直 50%）。 */
+            100% { background-position: 0% 50%; } /* 动画结束时，背景回到起始位置，形成平滑的循环。 */
         }
 
         /* 黑白凌厉线条主题 --- */
-        /* * 当 body 元素拥有 'bw-theme' 这个类时，它内部的所有CSS变量将被下面的值覆盖。
-         * JS通过切换这个类名，就能瞬间改变整个页面的视觉风格，这就是CSS变量换肤的强大之处。
-         */
+        /*
+            注释：
+            - `body.bw-theme` 选择器表示当 `<body>` 元素同时拥有 `bw-theme` 这个类时，应用这些样式。
+            - 当 JavaScript 通过 `document.body.classList.toggle('bw-theme')` 来切换 `body` 元素的这个类名时，这里定义的 CSS 变量值就会覆盖 `:root` 中默认的值。
+            - 这是 CSS 变量实现“换肤”或“主题切换”的强大之处：JavaScript 只需要操作一个类名，就能瞬间改变整个页面的视觉风格，因为所有引用这些变量的 CSS 规则都会使用新的值。
+            - 这个主题是“黑白凌厉线条”风格，去除了色彩和柔和感，强调硬朗的线条和简洁的黑白对比，与默认的赛博朋克主题形成鲜明对比。
+        */
         body.bw-theme {
-            --primary-color: #ffffff;
-            --secondary-color: #bbbbbb;
-            --success-color: #ffffff;
-            --danger-color: #ffffff;
-            --light-bg: #000000;
-            --text-light: #cccccc;
-            --text-dark: #ffffff;
-            --panel-bg: rgba(0, 0, 0, 0.2);
-            --border-color: #ffffff;
-            --border-radius: 0px; /* 锐利直角，体现“凌厉”感 */
-            --shadow: none;       /* 无阴影，风格更扁平 */
-            animation: none;      /* 关闭背景动画 */
-            background: #000000;  /* 纯黑背景 */
+            --primary-color: #ffffff;    /* 主色变为纯白色。 */
+            --secondary-color: #bbbbbb;  /* 辅助色变为浅灰色。 */
+            --success-color: #ffffff;    /* 成功色变为白色。 */
+            --danger-color: #ffffff;     /* 危险色变为白色。 */
+            --light-bg: #000000;         /* 背景变为纯黑色。 */
+            --text-light: #cccccc;       /* 文本变为深灰色，与纯黑背景搭配。 */
+            --text-dark: #ffffff;        /* 亮文本变为白色。 */
+            --panel-bg: rgba(0, 0, 0, 0.2); /* 面板背景变为半透明黑色，玻璃感减弱，更偏向扁平。 */
+            --border-color: #ffffff;     /* 边框颜色变为白色，形成鲜明线条感。 */
+            --border-radius: 0px;        /* 锐利直角：移除所有圆角，体现“凌厉”感，与赛博朋克主题的圆角形成对比。 */
+            --shadow: none;              /* 无阴影：移除所有阴影效果，风格更扁平、简洁。 */
+            animation: none;             /* 关闭背景动画：移除动态渐变背景动画，使用纯黑背景。 */
+            background: #000000;         /* 纯黑背景。 */
         }
 
         .container {
-            max-width: 960px;
-            margin: 20px auto;
-            padding: 30px;
-            background: var(--panel-bg);
-            /* **新**: 玻璃拟物效果的核心属性 */
+            max-width: 960px; /* 容器的最大宽度，防止内容在宽屏幕上铺得过开，保持可读性。 */
+            margin: 20px auto; /* 上下外边距为 20px，左右外边距 `auto` 使容器在父元素中水平居中。 */
+            padding: 30px; /* 容器内部内容的内边距，提供内容与容器边缘的间隙。 */
+            background: var(--panel-bg); /* 使用 CSS 变量设置背景色，实现半透明效果。 */
+            /* 新: 玻璃拟物效果的核心属性 */
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* 兼容Safari浏览器 */
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-            transition: all var(--transition-speed); /* 所有属性变化都应用过渡效果 */
+            /*
+                注释：
+                - `backdrop-filter` 是 CSS 滤镜属性，它允许你对元素后面（即背景） 的区域应用图形效果（如模糊、对比度、亮度等），然后让结果显示在该元素上方。
+                - `blur(10px)` 应用 10 像素的模糊效果，这是创建“磨砂玻璃”或“毛玻璃”效果的关键，使背景内容透过元素模糊地显示，增加了界面的层次感和现代感。
+            */
+            -webkit-backdrop-filter: blur(10px); /* 兼容 Safari 浏览器，需要添加 `-webkit-` 前缀。 */
+            border-radius: var(--border-radius); /* 使用 CSS 变量设置圆角，与主题变量保持一致。 */
+            border: 1px solid var(--border-color); /* 使用 CSS 变量设置边框，同样与主题变量保持一致。 */
+            box-shadow: var(--shadow); /* 使用 CSS 变量设置阴影，与主题变量保持一致。 */
+            transition: all var(--transition-speed); /* 所有属性变化都应用全局过渡效果，使样式切换平滑。 */
         }
         /* 黑白主题下移除玻璃效果，因为它在纯黑背景下无意义 */
         .bw-theme .container {
-            backdrop-filter: none;
+            backdrop-filter: none; /* 在黑白主题下移除背景模糊效果，因为纯黑背景下没有模糊的意义。 */
+            -webkit-backdrop-filter: none; /* 兼容 Safari */
         }
 
 
         /* --- 动画效果 (Keyframes) --- */
         @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            /*
+                注释：
+                - `slideInUp` 动画定义了元素从下方滑入并渐显的效果。
+                - `@keyframes` 规则用于创建自定义动画。
+            */
+            from { opacity: 0; transform: translateY(20px); } /* 动画开始时 (`from` 或 `0%`)：元素完全透明 (`opacity: 0`)，并向下平移 20 像素 (`translateY(20px)`)。 */
+            to { opacity: 1; transform: translateY(0); } /* 动画结束时 (`to` 或 `100%`)：元素完全不透明 (`opacity: 1`)，并回到原始位置 (`translateY(0)`)。 */
         }
         .interactive-panel {
             animation: slideInUp 0.6s ease-out;
+            /*
+                注释：
+                - 将 `slideInUp` 动画应用到所有 `.interactive-panel` 元素上。
+                - `0.6s`：动画持续时间为 0.6 秒。
+                - `ease-out`：动画的缓动函数，表示动画开始时速度较快，然后逐渐减慢，使进入效果更自然。
+            */
         }
 
-        /* --- 元素样式  --- */
+        /* --- 元素样式 --- */
         h1, h2, h3 {
-            color: var(--text-dark);
+            color: var(--text-dark); /* 标题文字颜色，通常是亮白色，与当前主题的 `text-dark` 变量一致。 */
             /* text-shadow 属性为文字添加霓虹灯光晕效果 */
             text-shadow: 0 0 5px var(--primary-color);
-            transition: all var(--transition-speed);
+            /*
+                注释：
+                - `text-shadow` 属性为文本添加阴影效果。
+                - `0 0 5px` 分别是水平偏移、垂直偏移和模糊半径。
+                - `var(--primary-color)` 使用当前主题的主色调作为阴影颜色，创造出类似霓虹灯的“光晕”效果，增强赛博朋克风格。
+            */
+            transition: all var(--transition-speed); /* 标题所有属性变化都平滑过渡，与主题切换时的颜色变化同步。 */
         }
         /* 黑白主题下移除光晕 */
         .bw-theme h1, .bw-theme h2, .bw-theme h3 {
-            text-shadow: none;
+            text-shadow: none; /* 在黑白主题下，移除标题的文本阴影/光晕，以保持其简洁的“凌厉”风格。 */
         }
-        h1 { font-size: 2.5rem; }
-        h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-bottom: 20px; }
-        h3 { margin-bottom: 15px; }
+        h1 { font-size: 2.5rem; } /* 一级标题字体大小，`rem` 是相对单位，相对于根元素（html）的字体大小。 */
+        h2 { 
+            border-bottom: 2px solid var(--primary-color); /* 为二级标题添加一个 2px 宽、实线、使用主色调的底部边框，作为内容的分割线。 */
+            padding-bottom: 10px; /* 边框下方添加 10px 的内边距，使文字与边框有一定距离。 */
+            margin-bottom: 20px; /* 边框下方添加 20px 的外边距，使标题与下方内容保持适当的间距。 */
+        }
+        h3 { margin-bottom: 15px; } /* 三级标题的底部外边距，用于与下方内容隔开。 */
 
         .btn {
-            padding: 12px 24px; border: 1px solid transparent; border-radius: var(--border-radius);
-            color: white; font-size: 16px; font-weight: 600; cursor: pointer;
-            transition: all var(--transition-speed) ease;
-            margin: 5px;
-            background-size: 200% auto;
-            text-shadow: 0 0 10px rgba(0,0,0,0.3);
+            padding: 12px 24px; /* 按钮的内边距，控制按钮的实际大小，上/下 12px，左/右 24px。 */
+            border: 1px solid transparent; /* 默认设置一个 1px 宽的透明边框，在某些情况下可以防止布局跳动。 */
+            border-radius: var(--border-radius); /* 使用 CSS 变量设置圆角，与主题变量保持一致。 */
+            color: white; /* 按钮文本颜色为白色。 */
+            font-size: 16px; /* 字体大小 16 像素。 */
+            font-weight: 600; /* 字体粗细为 600（半粗体）。 */
+            cursor: pointer; /* 鼠标悬停在按钮上时显示手型光标，表示这是一个可点击元素。 */
+            transition: all var(--transition-speed) ease; /* 所有 CSS 属性变化都以全局过渡速度平滑过渡。 */
+            margin: 5px; /* 按钮之间的外边距，提供按钮之间的间隔。 */
+            background-size: 200% auto; /* 背景图片（渐变）的尺寸，宽度是容器的两倍，高度自动。这是为了实现鼠标悬停时的渐变背景移动动画。 */
+            text-shadow: 0 0 10px rgba(0,0,0,0.3); /* 按钮文字阴影，提供一些立体感。 */
         }
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.5); /* 悬停时发光效果 */
-            background-position: right center; /* 触发渐变背景的移动 */
+            /*
+                注释：
+                - `:hover` 是一个 CSS 伪类（Pseudo-class），它应用于当用户鼠标指针悬停在元素上时。
+                - 这里的样式定义了按钮在鼠标悬停时的交互效果。
+            */
+            transform: translateY(-3px); /* 鼠标悬停时，按钮向上轻微移动 3 像素，提供交互感和“按下”的视觉效果。 */
+            box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.5); /* 悬停时添加发光效果：一个 20px 模糊半径的阴影，颜色使用主色调（`--rgb-primary`）的半透明版本。 */
+            background-position: right center; /* 触发渐变背景的移动，使渐变从左向右滑动，创建按钮高亮动画。 */
         }
         /* 使用渐变背景创建更具活力的按钮 */
-        .btn-primary { background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 51%, #00c6ff 100%); }
-        .btn-success { background-image: linear-gradient(to right, #00b09b 0%, #96c93d 51%, #00b09b 100%); }
-        .btn-danger { background-image: linear-gradient(to right, #ff512f 0%, #dd2476 51%, #ff512f 100%); }
-        .btn-secondary { background-image: linear-gradient(to right, #8A2387 0%, #E94057 51%, #F27121 100%); }
+        .btn-primary { background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 51%, #00c6ff 100%); } /* 主按钮：蓝色系渐变背景。 */
+        .btn-success { background-image: linear-gradient(to right, #00b09b 0%, #96c93d 51%, #00b09b 100%); } /* 成功按钮：绿黄色系渐变背景。 */
+        .btn-danger { background-image: linear-gradient(to right, #ff512f 0%, #dd2476 51%, #ff512f 100%); } /* 危险按钮：红粉色系渐变背景。 */
+        .btn-secondary { background-image: linear-gradient(to right, #8A2387 0%, #E94057 51%, #F27121 100%); } /* 辅助按钮：紫色到橙色系渐变背景。 */
         
         /* 黑白主题下的按钮样式 */
         .bw-theme .btn {
-            background-image: none; /* 移除渐变 */
-            background-color: transparent;
-            border: 2px solid var(--primary-color); /* 使用边框代替背景 */
-            color: var(--primary-color);
-            text-shadow: none;
+            /*
+                注释：
+                - 当 `body` 元素有 `bw-theme` 类时，这些样式会覆盖默认的按钮样式，实现黑白主题下的按钮外观。
+            */
+            background-image: none; /* 移除所有渐变背景，使背景扁平化。 */
+            background-color: transparent; /* 背景色变为透明。 */
+            border: 2px solid var(--primary-color); /* 使用 2px 宽的纯色边框代替背景，线条感更强。 */
+            color: var(--primary-color); /* 按钮文字颜色与边框颜色一致，均为当前主题的主色（白色）。 */
+            text-shadow: none; /* 移除文字阴影。 */
         }
         .bw-theme .btn:hover {
-            background-color: var(--primary-color);
-            color: #000; /* 文字反色 */
-            box-shadow: none;
+            background-color: var(--primary-color); /* 悬停时按钮背景变为当前主题的主色（白色）。 */
+            color: #000; /* 文字颜色反转为黑色，形成鲜明对比。 */
+            box-shadow: none; /* 移除阴影。 */
         }
 
         /* --- 布局演示 (Grid) --- */
         .interactive-zone {
-            display: grid;
+            display: grid; /* `display: grid` 将容器设置为 CSS 网格布局。 */
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            /*
+                注释：
+                - `grid-template-columns` 定义网格的列轨道。
+                - `repeat(auto-fit, minmax(300px, 1fr))`：这是一个响应式布局技巧。
+                    - `auto-fit`：浏览器会尽可能多地放置列，填充可用空间。
+                    - `minmax(300px, 1fr)`：定义每个列的最小宽度为 300px，最大宽度为可用空间的一部分（`1fr` 表示“一个分数”，即等分可用空间）。
+                    - 这意味着当屏幕足够宽时，会有多列（如两列或更多），每列至少 300px 宽，并均匀分配剩余空间。当屏幕变窄时，列会自动调整为单列布局，确保内容不会溢出或被压缩。
+            */
+            gap: 20px; /* 网格项之间（行和列之间）的间隙为 20px。 */
+            margin-top: 20px; /* 顶部外边距 20px。 */
         }
         .interactive-panel {
-            padding: 20px; 
-            background: var(--panel-bg);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            transition: all var(--transition-speed);
+            padding: 20px; /* 面板内边距。 */
+            background: var(--panel-bg); /* 面板背景色，使用玻璃拟物效果的半透明背景。 */
+            border-radius: var(--border-radius); /* 面板圆角，与主题变量一致。 */
+            border: 1px solid var(--border-color); /* 面板边框，与主题变量一致。 */
+            display: flex; /* `display: flex` 将面板内部的子元素设置为 Flexbox 布局。 */
+            flex-direction: column; /* `flex-direction: column` 使 Flex 子元素垂直方向排列（默认是水平排列）。 */
+            transition: all var(--transition-speed); /* 所有属性变化都平滑过渡。 */
         }
         
         /* --- 技能雷达图样式 --- */
         #skill-chart-container {
-            position: relative; width: 100%;
-            padding-top: 100%; margin-bottom: 15px;
+            position: relative; /* `position: relative` 设置相对定位，为子元素（Canvas）的绝对定位提供参考。 */
+            width: 100%; /* 容器宽度占满父元素。 */
+            padding-top: 100%; /* 关键技巧：通过设置与宽度相等的 `padding-top` 来创建正方形容器。这可以确保 Canvas 无论在何种屏幕比例下都能保持正方形，防止变形。 */
+            margin-bottom: 15px; /* 底部外边距。 */
         }
         #skill-chart {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: absolute; /* `position: absolute` 设置绝对定位，使其脱离文档流，并相对于最近的已定位父元素（`#skill-chart-container`）进行定位。 */
+            top: 0; left: 0; /* 将 Canvas 定位到父容器的左上角。 */
+            width: 100%; height: 100%; /* 宽度和高度占满父容器，因此它将是一个完美的正方形。 */
         }
 
         /* --- 待办事项列表 --- */
-        #todo-list { list-style: none; padding: 0; flex-grow: 1; }
-        #todo-list li {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px; border-bottom: 1px solid var(--border-color);
-            cursor: pointer; transition: background-color var(--transition-speed);
+        #todo-list { 
+            list-style: none; /* 移除列表项默认的项目符号（如圆点）。 */
+            padding: 0; /* 移除默认的左内边距。 */
+            flex-grow: 1; /* `flex-grow: 1` 允许列表在 Flex 容器（`.interactive-panel`）中占据所有可用空间，使其能够根据内容自动扩展高度。 */
         }
-        #todo-list li:hover { background-color: rgba(255,255,255,0.1); }
-        .bw-theme #todo-list li:hover { background-color: #222; }
+        #todo-list li {
+            display: flex; /* 使用 Flexbox 布局。 */
+            justify-content: space-between; /* 子元素之间均匀分布空间，两端对齐（任务文本在左，删除按钮在右）。 */
+            align-items: center; /* 子元素垂直居中对齐。 */
+            padding: 12px; /* 列表项内边距。 */
+            border-bottom: 1px solid var(--border-color); /* 底部边框。 */
+            cursor: pointer; /* 鼠标悬停时显示手型光标。 */
+            transition: background-color var(--transition-speed); /* 背景色变化平滑过渡。 */
+        }
+        #todo-list li:hover { background-color: rgba(255,255,255,0.1); } /* 悬停时背景色变亮，提供视觉反馈。 */
+        .bw-theme #todo-list li:hover { background-color: #222; } /* 黑白主题下悬停背景色。 */
         #todo-list li.completed {
-            text-decoration: line-through;
-            color: var(--secondary-color);
-            opacity: 0.5;
+            /*
+                注释：
+                - 当列表项添加了 `completed` 类时，应用这些样式，表示任务已完成。
+            */
+            text-decoration: line-through; /* 添加删除线，表示任务已完成。 */
+            color: var(--secondary-color); /* 文本颜色变为辅助色，与主题相关。 */
+            opacity: 0.5; /* 设置为半透明，进一步强调任务已完成的状态。 */
         }
         .delete-btn {
-            background: none; border: none; color: var(--danger-color);
-            font-size: 1.2rem; cursor: pointer; opacity: 0.5;
-            transition: opacity var(--transition-speed), transform var(--transition-speed);
+            background: none; /* 移除背景。 */
+            border: none; /* 移除边框。 */
+            color: var(--danger-color); /* 文本颜色为危险色（红色），突出删除操作。 */
+            font-size: 1.2rem; /* 字体大小，使其比普通文本大，更易点击。 */
+            cursor: pointer; /* 手型光标。 */
+            opacity: 0.5; /* 默认半透明，使其不那么抢眼。 */
+            transition: opacity var(--transition-speed), transform var(--transition-speed); /* 透明度和形变平滑过渡，提供动画效果。 */
         }
-        .delete-btn:hover { opacity: 1; transform: scale(1.2); }
+        .delete-btn:hover { opacity: 1; transform: scale(1.2); } /* 悬停时完全不透明并放大 1.2 倍，提供强烈的交互反馈。 */
         #todo-input {
-            width: calc(100% - 100px); padding: 8px;
-            background-color: rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            color: var(--text-dark);
-            transition: all var(--transition-speed);
+            width: calc(100% - 100px); /* `calc()` 函数用于计算 CSS 值。这里设置输入框宽度为父容器宽度的 100% 减去 100px（为旁边的“添加”按钮留出空间）。 */
+            padding: 8px; /* 内边距。 */
+            background-color: rgba(0,0,0,0.2); /* 半透明背景。 */
+            border: 1px solid var(--border-color); /* 边框。 */
+            border-radius: var(--border-radius); /* 圆角。 */
+            color: var(--text-dark); /* 文字颜色。 */
+            transition: all var(--transition-speed); /* 平滑过渡。 */
         }
         
         /* --- 模态框 (Modal) 样式 --- */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden;
-            transition: opacity var(--transition-speed), visibility var(--transition-speed);
-            z-index: 1000;
+            position: fixed; /* `position: fixed` 固定定位，使其相对于浏览器视口定位，即使页面滚动也不会移动。 */
+            top: 0; left: 0; /* 放置在视口的左上角。 */
+            width: 100%; height: 100%; /* 宽度和高度占满整个视口，形成全屏覆盖。 */
+            background-color: rgba(0,0,0,0.6); /* 半透明黑色背景，用于覆盖页面内容，形成遮罩层效果，突出模态框。 */
+            display: flex; /* 使用 Flexbox 布局。 */
+            justify-content: center; /* 子元素水平居中对齐。 */
+            align-items: center; /* 子元素垂直居中对齐。 */
+            opacity: 0; /* 默认完全透明，模态框初始是隐藏的。 */
+            visibility: hidden; /* `visibility: hidden` 默认隐藏元素，并且不占用布局空间，也无法交互（而 `opacity: 0` 只是透明，仍然占用空间）。 */
+            transition: opacity var(--transition-speed), visibility var(--transition-speed); /* 透明度和可见性平滑过渡，实现模态框的淡入淡出效果。 */
+            z-index: 1000; /* `z-index` 设置元素的堆叠顺序。值越大，元素越靠上。`1000` 确保模态框在所有其他页面内容之上。 */
         }
-        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-overlay.visible { 
+            /*
+                注释：
+                - 当 JavaScript 为 `.modal-overlay` 元素添加 `visible` 类时，这些样式会被应用，使模态框显示。
+            */
+            opacity: 1; /* 完全不透明，实现淡入效果。 */
+            visibility: visible; /* 变为可见，显示模态框。 */
+        }
         .modal-content {
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 30px; border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 90%; max-width: 500px;
-            transform: scale(0.9); transition: transform var(--transition-speed);
+            background: var(--panel-bg); /* 内容面板背景，使用玻璃拟物效果的半透明背景。 */
+            backdrop-filter: blur(20px); /* 背景模糊效果，比容器更强烈的模糊，增强模态框的视觉焦点。 */
+            -webkit-backdrop-filter: blur(20px); /* 兼容 Safari。 */
+            padding: 30px; /* 内边距。 */
+            border-radius: var(--border-radius); /* 圆角。 */
+            border: 1px solid var(--border-color); /* 边框。 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* 阴影。 */
+            width: 90%; max-width: 500px; /* 响应式宽度，最大宽度为 500px，确保在小屏幕上也能良好显示。 */
+            transform: scale(0.9); /* 默认缩小 0.9 倍，为后续的弹出动画做准备。 */
+            transition: transform var(--transition-speed); /* 缩放变化平滑过渡。 */
         }
-        .modal-overlay.visible .modal-content { transform: scale(1); }
-        .bw-theme .modal-content { backdrop-filter: none; }
+        .modal-overlay.visible .modal-content { 
+            /*
+                注释：
+                - 当模态框可见时，内容面板应用这些样式。
+            */
+            transform: scale(1); /* 内容面板放大到原始大小，产生从中心弹出的动画效果。 */
+        }
+        .bw-theme .modal-content { backdrop-filter: none; } /* 黑白主题下移除模态框内容的背景模糊。 */
 
     </style>
 </head>
@@ -235,39 +406,140 @@
 <body>
 
     <div class="container">
-        <!-- ======================= HTML 结构区 ======================= -->
+        <!--
+            注释：
+            - 这个 `<div>` 元素是页面的主要内容容器，应用了 `container` 类来控制最大宽度和居中，并拥有玻璃拟物效果。
+        -->
         <header>
+            <!--
+                注释：
+                - `<header>` 标签代表页面的头部区域，通常包含标题、Logo、导航等。
+            -->
             <h1><i class="fas fa-cogs"></i> 前端三件套示例</h1>
+            <!--
+                注释：
+                - `<h1>` 标签定义了页面的一级标题，通常是页面最重要的标题。
+                - `<i class="fas fa-cogs"></i>` 是 Font Awesome 的“齿轮”图标，常用于表示设置、工具或技术。
+            -->
             <p>这是一个段落</p>
+            <!--
+                注释：
+                - `<p>` 标签定义一个段落。
+            -->
             <!-- 切换主题的按钮 它用<button></button>包裹 在标签内设置id 类名-->
-             <!-- <i class="fas fa-palette"></i>是一个特殊的表示，代表一个调色板的表情符号 -->
+            <!-- <i class="fas fa-palette"></i>是一个特殊的表示，代表一个调色板的表情符号 -->
             <button id="theme-switcher-btn" class="btn btn-secondary"><i class="fas fa-palette"></i> 切换主题</button>
+            <!--
+                注释：
+                - `<button>` 标签创建一个可点击的按钮。
+                - `id="theme-switcher-btn"` 为按钮提供了唯一的 ID，方便 JavaScript 监听点击事件。
+                - `class="btn btn-secondary"` 应用了 CSS 样式类，`.btn` 是通用按钮样式，`.btn-secondary` 提供了特定主题的背景渐变。
+                - `<i class="fas fa-palette"></i>` 是 Font Awesome 的“调色板”图标，形象地表示主题切换功能。
+            -->
             <button id="open-modal-btn" class="btn btn-primary"><i class="fas fa-window-maximize"></i> 打开模态框</button>
+            <!--
+                注释：
+                - `id="open-modal-btn"` 用于 JavaScript 控制打开模态框。
+                - `class="btn btn-primary"` 应用了主色调的按钮样式。
+                - `<i class="fas fa-window-maximize"></i>` 是 Font Awesome 的“最大化窗口”图标，表示打开一个弹窗或新界面。
+            -->
         </header>
         
         <main>
+            <!--
+                注释：
+                - `<main>` 标签定义页面的主要内容区域。
+            -->
             <div class="interactive-zone">
+                <!--
+                    注释：
+                    - `interactive-zone` 是一个容器，用于放置多个交互式面板，并使用 CSS Grid 布局进行排列。
+                -->
                 <!-- 交互式雷达图 -->
                 <div class="interactive-panel">
+                    <!--
+                        注释：
+                        - `interactive-panel` 是一个独立的交互式模块面板，应用了玻璃拟物和动画效果。
+                    -->
                     <h3><i class="fas fa-chart-pie"></i> 技能雷达图 (Canvas)</h3>
+                    <!--
+                        注释：
+                        - `<h3>` 标签定义三级标题。
+                        - `<i class="fas fa-chart-pie"></i>` 是 Font Awesome 的“饼图”图标，这里用作雷达图的视觉指示。
+                    -->
                     <p>[进阶] 这是使用HTML5 Canvas绘制的动态图表。点击按钮来随机更新技能点，并观察动画效果。</p>
+                    <!--
+                        注释：
+                        - `<p>` 标签定义段落。
+                        - 强调了这是一个“进阶”功能，使用了 HTML5 Canvas 技术进行图形绘制。
+                    -->
                     <!-- 你可以发现 雷达图的数据不是固定嵌入在这里的，而是放在了css部分 -->
                     <div id="skill-chart-container">
+                        <!--
+                            注释：
+                            - `id="skill-chart-container"` 是雷达图画布的容器，用于控制画布的宽高比和定位，确保 Canvas 保持正方形。
+                        -->
                         <canvas id="skill-chart"></canvas>
+                        <!--
+                            注释：
+                            - `<canvas>` 标签是 HTML5 提供的一个绘图区域，允许使用 JavaScript 在上面绘制图形、动画等。
+                            - `id="skill-chart"` 是画布的唯一 ID，JavaScript 会通过这个 ID 获取画布的绘图上下文 (context)，然后在其上进行绘制操作。
+                        -->
                     </div>
                     <button id="randomize-skills-btn" class="btn btn-success" style="width: 100%;">随机化技能点</button>
+                    <!--
+                        注释：
+                        - `id="randomize-skills-btn"` 用于 JavaScript 监听点击事件，触发雷达图数据的随机更新。
+                        - `class="btn btn-success"` 应用了成功色调的按钮样式。
+                        - `style="width: 100%;"` 是内联样式，直接设置按钮宽度为 100% 占满父容器。
+                    -->
                 </div>
 
                 <!-- 面板2: 待办事项列表 (事件委托) -->
                 <div class="interactive-panel">
                     <h3><i class="fas fa-tasks"></i> 动态待办事项 (事件委托)</h3>
+                    <!--
+                        注释：
+                        - `<i class="fas fa-tasks"></i>` 是 Font Awesome 的“任务”图标，表示待办事项列表。
+                        - “事件委托（Event Delegation）” 是一种 JavaScript 技术，可以提高性能。它通过在父元素上监听事件，来管理子元素（即使是动态添加的子元素）的事件。这样做可以减少事件监听器的数量，优化内存使用。
+                    -->
                     <form id="todo-form">
+                        <!--
+                            注释：
+                            - `<form>` 标签定义一个 HTML 表单，用于收集用户输入。
+                            - `id="todo-form"` 用于 JavaScript 监听表单的提交事件。
+                        -->
                         <input type="text" id="todo-input" placeholder="输入新任务...">
+                        <!--
+                            注释：
+                            - `<input type="text">` 创建一个单行文本输入框。
+                            - `id="todo-input"` 用于 JavaScript 获取用户输入的值。
+                            - `placeholder="输入新任务..."` 是输入框的提示文本，在用户输入前显示。
+                        -->
                         <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">添加</button>
+                        <!--
+                            注释：
+                            - `type="submit"` 表示这是一个提交按钮，点击后会触发表单的提交事件。
+                            - 内联样式 `padding: 8px 12px;` 调整按钮大小，使其与输入框对齐。
+                        -->
                     </form>
                     <ul id="todo-list">
+                        <!--
+                            注释：
+                            - `id="todo-list"` 是待办事项列表的容器，JavaScript 会在这里动态添加、删除和修改列表项。
+                        -->
                         <li>学习HTML <button class="delete-btn"><i class="fas fa-trash-alt"></i></button></li>
+                        <!--
+                            注释：
+                            - 初始的列表项示例。
+                            - `学习HTML` 是任务文本。
+                            - `<button class="delete-btn"><i class="fas fa-trash-alt"></i></button>` 是一个删除按钮，包含一个 Font Awesome 的“垃圾桶”图标。
+                        -->
                         <li class="completed">掌握CSS <button class="delete-btn"><i class="fas fa-trash-alt"></i></button></li>
+                        <!--
+                            注释：
+                            - `class="completed"` 表示这个任务已完成，CSS 会为其添加删除线和半透明效果。
+                        -->
                         <li>探索JavaScript <button class="delete-btn"><i class="fas fa-trash-alt"></i></button></li>
                     </ul>
                 </div>
@@ -277,159 +549,283 @@
 
     <!-- 模态框的HTML结构 (默认隐藏) -->
     <div id="info-modal" class="modal-overlay">
+        <!--
+            注释：
+            - `id="info-modal"` 是整个模态框（Modal） 的容器。它在 CSS 中被设置为默认隐藏，并通过 JavaScript 控制其显示与隐藏。
+            - `modal-overlay` 类定义了模态框的背景覆盖层，通常是一个半透明的黑色遮罩，用于覆盖主页面内容，突出模态框。
+        -->
         <div class="modal-content">
+            <!--
+                注释：
+                - `modal-content` 类定义了模态框内部实际显示内容的面板样式，通常是居中的一个浮动面板。
+            -->
             <h2><i class="fas fa-info-circle"></i> 关于此页面</h2>
+            <!--
+                注释：
+                - `<i class="fas fa-info-circle"></i>` 是 Font Awesome 的“信息圆圈”图标，表示信息提示。
+            -->
             <p>这是一个使用原生HTML, CSS和JavaScript构建的交互式学习页面。</p>
             <p>它演示了DOM操作、事件处理、CSS变量、动画、布局、本地存储和组件构建等多种前端核心技术。</p>
             <button id="close-modal-btn" class="btn btn-danger" style="margin-top: 20px;">关闭</button>
+            <!--
+                注释：
+                - `id="close-modal-btn"` 用于 JavaScript 监听点击事件，关闭模态框。
+                - `class="btn btn-danger"` 应用了危险色调的按钮样式。
+            -->
         </div>
     </div>
 
     <!-- ======================= JavaScript 脚本区 这里定义了网页的行为 ======================= -->
+    <!--
+        注释：
+        - `<script>` 标签用于嵌入 JavaScript 代码。JavaScript 是前端开发的“行为”层，它负责实现网页的交互性、动态内容和复杂逻辑。
+        - `src="script.js"`：这是将 JavaScript 代码放在一个外部文件（`script.js`）中的推荐方式。这样做可以：
+            - 代码分离：将 HTML 结构、CSS 样式和 JavaScript 逻辑分开，使代码组织更清晰。
+            - 缓存优化：浏览器可以缓存 `.js` 文件，提高二次访问时的加载速度。
+            - 代码复用：同一个 `.js` 文件可以在多个 HTML 页面中被引用。
+        - `defer` 属性：这是一个非常重要的属性。它告诉浏览器，这个脚本应该在文档解析完成（HTML 内容全部加载并构建为 DOM 树）之后，但在 `DOMContentLoaded` 事件触发之前执行。
+            - 好处：确保 JavaScript 代码在尝试操作 HTML 元素之前，这些元素都已经存在于页面上，从而避免“元素未找到”的错误。
+        - 在这个示例中，为了方便在一个文件中展示所有注释，JavaScript 代码被直接嵌入到了 `<script>` 标签中。但在实际项目中，你通常会将这段 JavaScript 放在一个独立的 `script.js` 文件里。
+    -->
     <script>
+        // 使用 'DOMContentLoaded' 事件确保在整个HTML文档被完全加载和解析后才执行脚本。
+        // 这是一个良好的编程习惯，可以防止因DOM元素未加载而导致的错误。
         document.addEventListener('DOMContentLoaded', function() {
+            // `document.addEventListener()`：这是一个 DOM (文档对象模型) 方法，用于为指定元素（这里是 `document` 对象，代表整个HTML文档）添加一个事件监听器。
+            // `'DOMContentLoaded'`：这是一个事件名称。当HTML文档被完全加载和解析，且DOM树构建完成时，这个事件就会被浏览器触发。它比 `window.onload` 事件触发得更早，因为它不需要等待所有图片、样式表等外部资源加载完成。
+            // `function() { ... }`：这是一个匿名函数（Anonymous Function），作为回调函数传递给 `addEventListener`。当 `'DOMContentLoaded'` 事件发生时，这个函数就会被执行。
+            // 这样做的好处是，确保JavaScript代码在尝试操作HTML元素之前，这些元素都已经存在于页面上，从而避免因元素未加载而导致的 JavaScript 错误。
 
             // --- 1. 获取所有需要操作的HTML元素 通过ID也就是英文名字 把它们都拿过来 ---
-            const themeSwitcherBtn = document.getElementById('theme-switcher-btn');
-            const todoForm = document.getElementById('todo-form');
-            const todoInput = document.getElementById('todo-input');
-            const todoList = document.getElementById('todo-list');
-            const openModalBtn = document.getElementById('open-modal-btn');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-            const infoModal = document.getElementById('info-modal');
-            const randomizeSkillsBtn = document.getElementById('randomize-skills-btn');
-            const canvas = document.getElementById('skill-chart');
+            // 为了能够通过 JavaScript 对 HTML 元素进行操作（如修改内容、添加事件监听器、改变样式等），
+            // 首先需要通过特定的方法（通常是 `document.getElementById()` 或 `document.querySelector()`）获取这些元素的引用。
+            // `const` 关键字用于声明一个常量（constant），表示这个变量的值在声明后不能被重新赋值。
+            const themeSwitcherBtn = document.getElementById('theme-switcher-btn'); // 获取 ID 为 'theme-switcher-btn' 的按钮元素，用于切换主题。
+            const todoForm = document.getElementById('todo-form');             // 获取 ID 为 'todo-form' 的表单元素，用于添加待办事项。
+            const todoInput = document.getElementById('todo-input');           // 获取 ID 为 'todo-input' 的输入框元素，用于输入待办事项文本。
+            const todoList = document.getElementById('todo-list');             // 获取 ID 为 'todo-list' 的无序列表元素，待办事项将在此处显示。
+            const openModalBtn = document.getElementById('open-modal-btn');     // 获取 ID 为 'open-modal-btn' 的按钮，用于打开模态框。
+            const closeModalBtn = document.getElementById('close-modal-btn');   // 获取 ID 为 'close-modal-btn' 的按钮，用于关闭模态框。
+            const infoModal = document.getElementById('info-modal');           // 获取 ID 为 'info-modal' 的模态框（覆盖层）元素。
+            const randomizeSkillsBtn = document.getElementById('randomize-skills-btn'); // 获取 ID 为 'randomize-skills-btn' 的按钮，用于随机化雷达图技能点。
+            const canvas = document.getElementById('skill-chart');             // 获取 ID 为 'skill-chart' 的 Canvas 元素，用于绘制雷达图。
+            // `canvas.getContext('2d')`：获取 Canvas 元素的 2D 渲染上下文（rendering context）。所有的 2D 绘图操作都必须通过这个上下文对象来完成。
             const ctx = canvas.getContext('2d');
 
+            // --- 2. 主题切换功能实现 ---
+            // 为主题切换按钮添加点击事件监听器。
             themeSwitcherBtn.addEventListener('click', () => {
-                // 切换 'bw-theme' 类
+                // `document.body.classList`：`document.body` 指的是整个 HTML 文档的 `<body>` 元素。`classList` 属性返回一个 `DOMTokenList`，它是一个方便操作元素 CSS 类名列表的接口。
+                // `toggle('bw-theme')`：`toggle()` 方法用于切换类名：如果 `body` 元素已经包含 `bw-theme` 类，则移除它；如果不存在，则添加它。
+                // 这个操作会触发 CSS 中 `:root` 和 `body.bw-theme` 选择器定义的 CSS 变量值的改变，从而实现主题的动态切换。
                 document.body.classList.toggle('bw-theme');
-                // 将当前主题偏好保存到localStorage，以便下次访问时记住选择
+                // 将当前主题偏好保存到 localStorage，以便用户下次访问时记住他们的选择。
+                // `localStorage`：浏览器提供的一种 Web Storage API，允许 JavaScript 将键值对数据存储在浏览器中，即使浏览器关闭后数据也仍然保留（持久化存储）。
+                // `document.body.classList.contains('bw-theme')`：检查 `body` 元素是否包含 `bw-theme` 类。
+                // 这是一个三元运算符：`条件 ? 表达式1 : 表达式2`。如果条件为真，返回表达式1的值；否则返回表达式2的值。
                 const currentTheme = document.body.classList.contains('bw-theme') ? 'bw' : 'cyberpunk';
+                // `localStorage.setItem(key, value)`：用于将数据存储到 localStorage。这里 'theme' 是键，`currentTheme` 是值。
                 localStorage.setItem('theme', currentTheme);
-                // 主题切换时必须重绘图表，以更新图表的颜色
+                // 主题切换时必须重绘图表，以更新图表的颜色。因为 Canvas 绘图是像素级的，它不会自动响应 CSS 变量的变化，所以需要手动调用绘图函数。
                 drawRadarChart();
             });
 
+            // 在页面加载时检查并应用上次保存的主题偏好。
+            // `localStorage.getItem('theme')`：用于从 localStorage 中获取之前存储的名为 'theme' 的值。
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'bw') {
+                // 如果上次保存的是黑白主题，则在 `body` 元素上添加 `bw-theme` 类，从而应用黑白主题的样式。
+                document.body.classList.add('bw-theme'); 
+            }
+            // 注意：首次加载时，`drawRadarChart()` 会在 `initCanvas()` 函数中被调用，
+            // 确保雷达图的颜色与初始（或从 localStorage 加载的）主题匹配。
+
+            // --- 3. 技能雷达图绘制与动画 (Canvas) ---
+            // 定义雷达图的技能标签（轴线名称）。
             const skills = ['外向性', '计划性', '逻辑性', '沟通力', '内驱力', '学习力'];
+            // `currentSkillData` 存储当前显示的技能点数据，这些数据会随着动画平滑地变化。
+            // `let` 关键字表示这是一个可以被重新赋值的变量。
             let currentSkillData = [0.7, 0.8, 0.9, 0.6, 0.8, 1.0];
-            let targetSkillData = [...currentSkillData];
+            // `targetSkillData` 存储技能点最终要达到的目标值。`currentSkillData` 会逐渐向这个目标值靠近，产生动画效果。
+            // `[...currentSkillData]`：使用扩展运算符（Spread Syntax） 创建 `currentSkillData` 数组的一个副本。这样做是为了确保 `targetSkillData` 是一个独立的数组，而不是仅仅引用 `currentSkillData`，避免它们互相影响。
+            let targetSkillData = [...currentSkillData]; 
 
+            // `drawRadarChart` 函数：用于在 Canvas 上绘制雷达图的所有元素（网格、数据区域、标签）。
             function drawRadarChart() {
-                // 通过JS获取CSS变量的值，让Canvas的颜色与当前主题保持同步
+                // 通过 JavaScript 获取 CSS 变量的值，让 Canvas 的绘图颜色与当前主题保持同步。
+                // `getComputedStyle(document.body)`：获取 `<body>` 元素所有计算后的样式（包括通过 CSS 变量应用的值）。
+                // `getPropertyValue('--variable-name')`：获取指定 CSS 变量的当前值。`.trim()` 用于移除可能的空白符。
                 const style = getComputedStyle(document.body);
-                const gridColor = style.getPropertyValue('--border-color').trim();
-                const textColor = style.getPropertyValue('--text-dark').trim();
-                const primaryColor = style.getPropertyValue('--primary-color').trim();
-                const areaColor = primaryColor + '66'; // 在颜色代码后加两位十六进制数来表示透明度
+                const gridColor = style.getPropertyValue('--border-color').trim(); // 雷达图网格线的颜色，从 CSS 变量 `--border-color` 获取。
+                const textColor = style.getPropertyValue('--text-dark').trim();   // 文本标签的颜色，从 CSS 变量 `--text-dark` 获取。
+                const primaryColor = style.getPropertyValue('--primary-color').trim(); // 主色调，从 CSS 变量 `--primary-color` 获取，用于数据区域的描边。
+                const areaColor = primaryColor + '66'; // 数据区域的填充颜色。在主色调的十六进制颜色代码后添加两位十六进制数 `'66'`，表示该颜色的透明度（`66` 在十六进制中转换为十进制是 `102`，所以 `102/255` 约等于 40% 的透明度）。
 
-                const size = canvas.width;
-                const center = size / 2;
-                const radius = size * 0.35;
-                ctx.clearRect(0, 0, size, size);
+                const size = canvas.width; // 获取 Canvas 的实际宽度（已在 `initCanvas` 中设置）。Canvas 的绘图坐标系是基于其自身的 `width` 和 `height` 属性。
+                const center = size / 2; // 计算 Canvas 中心点的坐标，所有绘图都将围绕这个中心。
+                const radius = size * 0.35; // 定义雷达图的最大半径，设置为 Canvas 宽度或高度的 35%。
+                ctx.clearRect(0, 0, size, size); // `ctx.clearRect(x, y, width, height)`：清除 Canvas 上指定矩形区域内的所有像素，为新的绘制做准备。这里清除了整个 Canvas。
 
-                // a. 绘制网格
+                // a. 绘制网格 (同心多边形)
+                // 循环 5 次，绘制 5 层同心网格。
                 for (let i = 1; i <= 5; i++) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = gridColor;
+                    ctx.beginPath(); // `ctx.beginPath()`：开始一个新的绘图路径。所有的绘图操作都将在此路径上进行，直到调用 `closePath()`、`stroke()` 或 `fill()`。
+                    ctx.strokeStyle = gridColor; // 设置描边颜色为从 CSS 变量获取的 `gridColor`。
+                    // 循环技能数量的次数，绘制每个轴线上的点，形成多边形。
                     for (let j = 0; j < skills.length; j++) {
+                        // 计算每个技能轴线在雷达图上的角度。
+                        // `Math.PI * 2` 是一个圆的弧度（360度）。除以 `skills.length` (6) 得到每个轴线之间的夹角。
+                        // `- Math.PI / 2` 调整起始角度，使第一个轴线（“外向性”）垂直朝上，而不是水平向右（默认 0 弧度方向）。
                         const angle = (Math.PI * 2 / skills.length) * j - Math.PI / 2;
+                        // 计算每个点的 x 坐标。
+                        // `radius * (i / 5)` 根据当前网格层数（i，从 1 到 5）和总层数（5）按比例调整半径，确保网格由内向外逐渐增大。
+                        // `Math.cos(angle)`：计算对应角度的余弦值。
                         const x = center + radius * (i / 5) * Math.cos(angle);
+                        // 计算每个点的 y 坐标。
+                        // `Math.sin(angle)`：计算对应角度的正弦值。
                         const y = center + radius * (i / 5) * Math.sin(angle);
-                        if (j === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
+                        if (j === 0) ctx.moveTo(x, y); // 如果是当前多边形的第一个点，移动到该点（不绘制线条）。
+                        else ctx.lineTo(x, y); // 从当前点绘制一条线到该点。
                     }
-                    ctx.closePath();
-                    ctx.stroke();
+                    ctx.closePath(); // `ctx.closePath()`：闭合当前路径，将最后一个点连接到第一个点，形成一个闭合的多边形。
+                    ctx.stroke(); // `ctx.stroke()`：描边当前路径，绘制网格线。
                 }
 
-                // b. 绘制数据区域
-                ctx.beginPath();
-                ctx.fillStyle = areaColor;
-                ctx.strokeStyle = primaryColor;
-                ctx.lineWidth = 2;
+                // b. 绘制数据区域 (填充区域和描边)
+                ctx.beginPath(); // 开始一个新的路径。
+                ctx.fillStyle = areaColor; // 设置填充颜色为半透明的主色调 `areaColor`。
+                ctx.strokeStyle = primaryColor; // 设置描边颜色为不透明的主色调 `primaryColor`。
+                ctx.lineWidth = 2; // 设置描边线的宽度为 2 像素。
+                // 循环技能数量的次数，绘制每个技能点的数据。
                 for (let i = 0; i < skills.length; i++) {
+                    // 计算每个技能点在雷达图上的角度（与网格轴线相同）。
                     const angle = (Math.PI * 2 / skills.length) * i - Math.PI / 2;
+                    // 计算每个技能点的 x 坐标。`currentSkillData[i]` 是该技能的数值（0.0-1.0），它决定了点离中心多远。
                     const x = center + radius * currentSkillData[i] * Math.cos(angle);
+                    // 计算每个技能点的 y 坐标。
                     const y = center + radius * currentSkillData[i] * Math.sin(angle);
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
+                    if (i === 0) ctx.moveTo(x, y); // 如果是数据区域的第一个点，移动到该点。
+                    else ctx.lineTo(x, y); // 从当前点绘制一条线到该点。
                 }
-                ctx.closePath();
-                ctx.fill();
-                ctx.stroke();
+                ctx.closePath(); // 闭合路径，形成数据区域的多边形。
+                ctx.fill(); // `ctx.fill()`：填充当前路径（即数据区域），使其显示 `areaColor`。
+                ctx.stroke(); // `ctx.stroke()`：描边当前路径的轮廓（数据区域的边），使其显示 `primaryColor`。
 
-                // c. 绘制标签
-                ctx.fillStyle = textColor;
-                ctx.font = 'bold 14px Poppins';
+                // c. 绘制标签 (技能名称)
+                ctx.fillStyle = textColor; // 设置文本颜色。
+                ctx.font = 'bold 14px Poppins'; // 设置字体样式和大小。
+                // 循环技能数量的次数，绘制每个技能的名称标签。
                 for (let i = 0; i < skills.length; i++) {
+                    // 计算标签的显示角度。
                     const angle = (Math.PI * 2 / skills.length) * i - Math.PI / 2;
+                    // 计算标签的 x 坐标，使其位于比雷达图半径稍远的位置 (`radius + 25`)，确保不与图表重叠。
                     const x = center + (radius + 25) * Math.cos(angle);
+                    // 计算标签的 y 坐标。
                     const y = center + (radius + 25) * Math.sin(angle);
+                    // `ctx.textAlign`：根据标签在 Canvas 上的位置，动态调整文本的水平对齐方式，使其更美观。
+                    // `x < center ? 'right' : (x > center ? 'left' : 'center')`：如果 x 坐标小于中心，文本右对齐；如果大于中心，左对齐；否则居中。
                     ctx.textAlign = x < center ? 'right' : (x > center ? 'left' : 'center');
+                    // `ctx.textBaseline`：根据标签在 Canvas 上的位置，动态调整文本的垂直对齐方式。
+                    // `y < center ? 'bottom' : (y > center ? 'top' : 'middle')`：如果 y 坐标小于中心，文本底部对齐；如果大于中心，顶部对齐；否则居中。
                     ctx.textBaseline = y < center ? 'bottom' : (y > center ? 'top' : 'middle');
-                    ctx.fillText(skills[i], x, y);
+                    ctx.fillText(skills[i], x, y); // `ctx.fillText(text, x, y)`：在指定坐标绘制文本。
                 }
             }
             
-            // 缓动动画函数
+            // `animateChart` 缓动动画函数：使技能点数据平滑过渡到目标值。
             function animateChart() {
-                let allMatch = true;
+                let allMatch = true; // 标志位，用于判断所有技能点是否都已达到目标值。
                 for(let i=0; i<skills.length; i++) {
-                    // 核心缓动算法：当前值每次向目标值靠近一小步 (10%)
+                    // 核心缓动算法：当前值每次向目标值靠近一小步 (10%)。
+                    // `currentSkillData[i] += (targetSkillData[i] - currentSkillData[i]) * 0.1;`
+                    // 这种方法称为“线性插值”（Linear Interpolation） 或“缓动”（Easing），它会使得 `currentSkillData` 平滑地接近 `targetSkillData`，而不是立即跳变。每次更新的步长是当前值与目标值之间差值的 10%。
                     currentSkillData[i] += (targetSkillData[i] - currentSkillData[i]) * 0.1;
+                    // 判断动画是否完成：如果当前值与目标值的绝对差值大于一个很小的阈值（0.001），则认为动画尚未完成，还需要继续。
                     if (Math.abs(targetSkillData[i] - currentSkillData[i]) > 0.001) allMatch = false;
                 }
-                drawRadarChart();
-                // 如果数据还没完全到达目标值，就请求浏览器在下一帧继续执行动画
+                drawRadarChart(); // 每次更新 `currentSkillData` 后，重新绘制雷达图，显示动画的当前帧。
+                // `requestAnimationFrame(animateChart)`：这是一个浏览器 API。
+                // 它请求浏览器在下一次重绘（repaint）之前调用指定的函数（`animateChart`）。
+                // 这样做可以确保动画在浏览器的绘制周期中进行，从而实现流畅且性能优化的动画，避免卡顿和不必要的CPU/GPU消耗。
+                // 如果数据还没完全到达目标值（即 `allMatch` 为 `false`），就继续请求下一帧动画。
                 if (!allMatch) requestAnimationFrame(animateChart);
             }
 
-            // 随机化按钮的事件监听
+            // 随机化按钮的事件监听。
             randomizeSkillsBtn.addEventListener('click', () => {
                 for (let i = 0; i < skills.length; i++) {
-                   targetSkillData[i] = Math.random() * 0.8 + 0.2; // 随机生成0.2到1.0之间的值
+                    // 随机生成 0.2 到 1.0 之间的值作为新的目标技能点。
+                    // `Math.random()` 返回 0（包括）到 1（不包括）之间的浮点数。
+                    // `* 0.8` 将随机数范围缩放到 0-0.8。
+                    // `+ 0.2` 将范围整体上移到 0.2-1.0。
+                    targetSkillData[i] = Math.random() * 0.8 + 0.2; 
                 }
-                animateChart(); // 启动动画
+                animateChart(); // 启动缓动动画，使雷达图平滑过渡到新的随机技能点。
             });
             
-            // 初始化Canvas尺寸并首次绘制
+            // `initCanvas` 函数：初始化 Canvas 元素的尺寸，并进行首次绘制。
             function initCanvas() {
+                // `canvas.parentElement.clientWidth`：获取 Canvas 元素父元素的实际可用宽度（不包括内边距和边框）。
+                // 这样设置可以确保 Canvas 始终适应其容器的大小，实现响应式布局，无论屏幕大小如何，Canvas 都能保持正确的显示比例。
                 const size = canvas.parentElement.clientWidth;
-                canvas.width = size;
-                canvas.height = size;
-                drawRadarChart();
+                canvas.width = size; // 设置 Canvas 的绘制宽度。
+                canvas.height = size; // 设置 Canvas 的绘制高度，使其保持正方形。
+                drawRadarChart(); // 首次绘制雷达图，确保在页面加载后立即显示。
             }
-            initCanvas();
-            // 当浏览器窗口大小变化时，重新计算Canvas尺寸并重绘
+            initCanvas(); // 页面加载后立即调用 `initCanvas` 进行初始化。
+            // 当浏览器窗口大小变化时，重新计算 Canvas 尺寸并重绘。
+            // `window.addEventListener('resize', initCanvas)`：为整个浏览器窗口的 `resize` 事件添加监听器。当用户改变浏览器窗口大小时，`initCanvas` 函数会被调用，从而重新调整 Canvas 的尺寸并重绘雷达图，确保其响应式表现。
             window.addEventListener('resize', initCanvas);
 
             // --- 4. 待办事项列表 (事件委托) ---
+            // 为待办事项表单添加提交事件监听器。
             todoForm.addEventListener('submit', (event) => {
+                // `event.preventDefault()`：阻止表单的默认提交行为。HTML 表单在提交时默认会刷新页面，这里通过此方法阻止刷新，以便通过 JavaScript 处理添加任务的逻辑。
                 event.preventDefault();
-                const taskText = todoInput.value.trim();
-                if (taskText) {
-                    const newTask = document.createElement('li');
+                const taskText = todoInput.value.trim(); // 获取输入框中的文本内容，并使用 `trim()` 方法移除文本两端的空白符（空格、制表符、换行符）。
+                if (taskText) { // 如果任务文本不为空（即用户输入了内容）。
+                    const newTask = document.createElement('li'); // `document.createElement('li')`：创建一个新的 HTML `<li>` 元素节点（一个待办事项）。
+                    // 设置新列表项的 HTML 内容，包括任务文本和删除按钮。使用了模板字符串方便嵌入变量。
                     newTask.innerHTML = `${taskText} <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>`;
-                    todoList.appendChild(newTask);
-                    todoInput.value = '';
+                    todoList.appendChild(newTask); // `todoList.appendChild(newTask)`：将新创建的 `<li>` 元素作为子节点，添加到 `todoList`（待办事项列表的 `<ul>` 容器）的末尾。
+                    todoInput.value = ''; // 清空输入框，方便用户输入下一个任务。
                 }
             });
 
+            // 为待办事项列表 (`todoList`) 添加点击事件监听器（使用事件委托）。
+            // 事件委托（Event Delegation） 的原理是：不为每个子元素单独添加事件监听器，而是在它们的共同父元素（这里是 `todoList`）上添加一个事件监听器。当子元素上的事件被触发时，事件会“冒泡”到父元素，父元素上的监听器就能捕获到这个事件。
+            // 这样做的好处是：
+            // 1. 性能优化：减少了事件监听器的数量，特别是当有大量动态添加的子元素时。
+            // 2. 代码简洁：无需为每个新增的待办事项都单独添加事件监听器。
             todoList.addEventListener('click', (event) => {
-                const target = event.target;
-                if (target.closest('.delete-btn')) {
-                    target.closest('li').remove();
-                } else if (target.tagName === 'LI') {
-                    target.classList.toggle('completed');
+                const target = event.target; // `event.target` 指的是实际触发事件的元素（即用户点击的那个元素）。例如，如果用户点击了垃圾桶图标，`target` 就是 `<i class="fas fa-trash-alt"></i>`。
+                // `target.closest('.delete-btn')`：`closest()` 方法从当前元素（`target`）开始，向上遍历 DOM 树（查找父级元素），直到找到第一个匹配给定 CSS 选择器（`.delete-btn`）的祖先元素。如果找不到，则返回 `null`。
+                if (target.closest('.delete-btn')) { // 如果点击的目标或其最近的祖先是删除按钮（即用户点击了删除图标或其父按钮）。
+                    target.closest('li').remove(); // 再次使用 `closest('li')` 找到最近的 `<li>` 元素（整个待办事项），然后调用 `remove()` 方法将其从 DOM 中移除，从而删除整个待办事项。
+                } else if (target.tagName === 'LI') { // 如果点击的目标是 `<li>` 元素本身（而不是删除按钮）。
+                    // `target.tagName` 返回元素的标签名（大写）。
+                    target.classList.toggle('completed'); // 切换 `completed` 类。这将触发 CSS 中为 `completed` 类定义的样式（如删除线、变色、半透明），从而切换任务的完成状态。
                 }
             });
 
             // --- 5. 模态框控制 ---
-            openModalBtn.addEventListener('click', () => infoModal.classList.add('visible'));
-            closeModalBtn.addEventListener('click', () => infoModal.classList.remove('visible'));
+            // 为打开模态框按钮添加点击事件。
+            openModalBtn.addEventListener('click', () => {
+                // `infoModal.classList.add('visible')`：为模态框容器添加 `visible` 类。根据 CSS 定义，这将使模态框的 `opacity` 变为 1 且 `visibility` 变为 `visible`，从而实现模态框的显示和淡入效果。
+                infoModal.classList.add('visible'); 
+            });
+            // 为关闭模态框按钮添加点击事件。
+            closeModalBtn.addEventListener('click', () => {
+                // `infoModal.classList.remove('visible')`：从模态框容器移除 `visible` 类，使其隐藏和淡出。
+                infoModal.classList.remove('visible'); 
+            });
+            // 为模态框覆盖层添加点击事件，实现点击覆盖层外部关闭模态框的功能。
             infoModal.addEventListener('click', (event) => {
-                if (event.target === infoModal) infoModal.classList.remove('visible');
+                // `event.target === infoModal`：检查实际触发点击事件的元素是否就是模态框的背景覆盖层本身（而不是模态框内容面板）。
+                // 这样做可以防止用户点击模态框内部内容时意外关闭模态框。
+                if (event.target === infoModal) {
+                    infoModal.classList.remove('visible'); // 如果点击的是覆盖层，则隐藏模态框。
+                }
             });
         });
     </script>

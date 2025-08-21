@@ -29,28 +29,28 @@ document.addEventListener('DOMContentLoaded', function() {
             name: '文宣部',
             icon: 'fas fa-bullhorn', // “扩音器”图标，象征宣传。
             description: 'TBD。',
-            pageUrl: 'departments/example.html'
+            pageUrl: 'departments/wx/dep_home.html'
         },
         {   // 第三个部门对象：前研探索部
             id: 'qy',
             name: '前研探索部',
             icon: 'fas fa-flask', // “烧瓶”图标，象征科研、探索。
             description: 'TBD。',
-            pageUrl: 'departments/example.html'
+            pageUrl: 'departments/qy/dep_home.html'
         },
         {   // 第四个部门对象：技术推广部
             id: 'jt',
             name: '技术推广部',
             icon: 'fas fa-code', // “代码”图标，象征技术。
             description: 'TBD。',
-            pageUrl: 'departments/example.html'
+            pageUrl: 'departments/jt/dep_home.html'
         },
         {   // 第五个部门对象：创新实践部
             id: 'cj',
             name: '创新实践部',
             icon: 'fas fa-lightbulb', // “灯泡”图标，象征创新。
             description: 'TBD。',
-            pageUrl: 'departments/example.html'
+            pageUrl: 'departments/cj/dep_home.html'
         }
     ];
 

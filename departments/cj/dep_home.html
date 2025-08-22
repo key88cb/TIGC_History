@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         /* --- 练兵场样式 这部分的样式表等到你看明白了javascript就可以来研究一下啦  --- */
-        /* 如果你不喜欢颜色和字体和位置 来改这里！ */
         :root {
             --primary-color: #6a5af9; /* 更鲜明的紫色 */
             --secondary-color: #00aaff;
@@ -28,7 +27,7 @@
             background-color: var(--background-color);
             color: var(--text-dark);
             line-height: 1.7;
-            background-image: url('/image/TOm.png'); /* 你可以把它替换成你自己的背景图片URL */
+            background-image: url('../../image/TOm.png'); /* 你可以把它替换成你自己的背景图片URL */
             background-size: cover; /* 覆盖整个视口 */
             background-position: center; /* 居中显示 */
             background-attachment: fixed; /* 固定背景，滚动时不移动 */
@@ -209,7 +208,7 @@
 <body>
 
     <header class="header-bar">
-        <a href="/index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
+        <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
         <span>部门介绍页练兵场[期待你的创意]</span>
     </header>
 
@@ -218,7 +217,7 @@
         <!-- ======================= 你可以修改部门信息 ======================= -->
         <section class="department-hero">
             <div class="hero-visual">
-                <img src="/image/default.jpg">
+                <img src="../../image/default.jpg">
             </div>
             <div class="hero-text">
                 <h1>抽象部</h1>
@@ -232,7 +231,7 @@
                 <h2 class="section-title">成员</h2>
                 <!-- 负责人卡片 -->
                 <div class="leader-card">
-                    <img src="/image/default.jpg" alt="负责人头像">
+                    <img src="../../image/default.jpg" alt="负责人头像"> <!-- ../.. 代表上一级文件夹的上一级文件夹，它们下面才会有image这个保存图片的文件夹哦 -->
                     <div class="leader-info">
                         <h3>抽象</h3>
                         <p class="role">部门部长</p>

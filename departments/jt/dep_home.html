@@ -22,75 +22,79 @@
         <div class="page-wrapper">
             <!-- ======================= 你可以修改部门信息 ======================= -->
             <section class="department-hero">
-                <div class="hero-text">
-                    <h1>技术推广部</h1>
+                <!-- 左侧：部门信息 -->
+                <aside class="panel panel--left">
+                    <h1 class="dept-title">技术推广部</h1>
+
                     <h3>我们负责抽象</h3>
-                    <h3>部门名称：技术推广部(鸡腿🍗)</h3>
+                    <p>部门名称：技术推广部（鸡腿🍗）</p>
+
                     <h3>部门口号：</h3>
+                    <p>（可填写一句话口号）</p>
+
                     <h3>核心职责：</h3>
-                    <ul>
-                        <li>负责组织技术分享和培训</li>
-                        <li>开发和维护组织官方网站</li>
-                        <li>探索前沿技术并进行分享</li>
+                    <ul class="list">
+                    <li>负责组织技术分享和培训</li>
+                    <li>开发和维护组织官方网站</li>
+                    <li>探索前沿技术并进行分享</li>
                     </ul>
-                    <h3>联系方式：部门邮箱</h3>
+
+                    <h3>联系方式：</h3>
+                    <p>部门邮箱</p>
+
                     <h3>历届部门成员信息</h3>
-                    <ul>
+                    <ul class="year-list">
                         <li><a id="2025" class="nav-link">2025届</a></li>
                         <li><a id="2024" class="nav-link">2024届</a></li>
                         <li><a id="2023" class="nav-link">2023届</a></li>
                     </ul>
-                </div>
-                <div class="hero-member">
+                </aside>
+
+                <!-- 右侧：成员区 -->
+                <section class="panel panel--right">
                     <h2 class="section-title">成员</h2>
-                <p style="text-align:center; margin-bottom:30px;">
-                    <a href="member.html" style="color:var(--primary-color);text-decoration:underline;cursor:pointer;font-size:1.1rem;">
-                        更多成员信息请点击这里~
-                    </a>
-                </p>
+                    <p class="more">
+                    <a href="member.html">更多成员信息请点击这里~</a>
+                    </p>
+
                     <!-- 负责人卡片 -->
                     <div class="leader-card">
-                        <img src="../../image/default.jpg" alt="负责人头像"> <!-- ../.. 代表上一级文件夹的上一级文件夹，它们下面才会有image这个保存图片的文件夹哦 -->
-                        <div class="leader-info">
-                            <h3>抽象</h3>
-                            <p class="role">部门部长</p>
-                            <p class="bio">“这里是一句座右铭或简介。”</p>
-                        </div>
+                    <img src="../../image/default.jpg" alt="负责人头像">
+                    <div class="leader-info">
+                        <h3>抽象</h3>
+                        <p class="role">部门部长</p>
+                        <p class="bio">“这里是一句座右铭或简介。”</p>
                     </div>
-                </div>
-                <div class="member-grid">
-                </div>
-                    <!-- 副部长卡片 -->
+                    </div>
+
+                    <!-- 成员网格：把三张卡都放到同一个 grid 里 -->
                     <div class="member-grid">
-                        <div class="member-card">
-                            <img src="https://placehold.co/200x200/00aaff/FFFFFF?text=Avatar" alt="成员头像">
-                            <h3>副部长</h3>
-                            <p class="role">职位/角色</p>
-                            <p class="bio">一句简短的个人介绍或座右铭。</p>
-                        </div>
+                    <article class="member-card">
+                        <img src="https://placehold.co/200x200/00aaff/FFFFFF?text=Avatar" alt="成员头像">
+                        <h3>副部长</h3>
+                        <p class="role">职位/角色</p>
+                        <p class="bio">一句简短的个人介绍或座右铭。</p>
+                    </article>
+
+                    <article class="member-card">
+                        <img src="https://placehold.co/200x200/28A745/FFFFFF?text=Avatar" alt="成员头像">
+                        <h3>另一位副部长</h3>
+                        <p class="role">另一个职位</p>
+                        <p class="bio">这是另一位成员的简介。</p>
+                    </article>
+
+                    <article class="member-card">
+                        <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
+                        <h3>第三位副部长</h3>
+                        <p class="role">第三个职位</p>
+                        <p class="bio">这是第三位成员的简介。</p>
+                    </article>
                     </div>
-                    <div class="member-grid">
-                        <div class="member-card">
-                            <img src="https://placehold.co/200x200/28A745/FFFFFF?text=Avatar" alt="成员头像">
-                            <h3>另一位副部长</h3>
-                            <p class="role">另一个职位</p>
-                            <p class="bio">这是另一位成员的简介。</p>
-                        </div>
-                    </div>
-                    <div class="member-grid">
-                        <div class="member-card">
-                            <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
-                            <h3>第三位副部长</h3>
-                            <p class="role">第三个职位</p>
-                            <p class="bio">这是第三位成员的简介。</p>
-                        </div>
-                    </div>
+                </section>
+            </section>
+
         </div>
         </section>
-        <!-- ======================= 任务 #2: 添加负责人与核心成员 ======================= -->
-            <section class="content-section">
-                
-            </section>
 
             <!-- ====================================================================== -->
             <!-- ======================= 动手任务 #3: 添加核心项目 ======================= -->

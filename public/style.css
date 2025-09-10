@@ -1,0 +1,276 @@
+/* --- 全局与配色 --- */
+:root {
+    --primary-color: #003366; /* 商务蓝 */
+    --secondary-color: #f4f7f6; /* 浅灰背景 */
+    --accent-color: #007BFF;   /* 活力蓝 */
+    --text-color: #333;
+    --light-text-color: #fff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Onboarding 弹窗 --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none; /* JS控制显示 */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+.modal-content p {
+    margin-bottom: 20px;
+}
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+/* 【新增】textarea样式 */
+.modal-content input, .modal-content select, .modal-content button, .modal-content textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: inherit; /* 继承字体 */
+}
+.modal-content button {
+    background-color: var(--accent-color);
+    color: var(--light-text-color);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+/* --- 主体布局 --- */
+#main-container {
+    overflow: hidden; /* 这是实现滑动效果的关键 */
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* 在小屏幕上换行 */
+}
+
+header h1 {
+    margin: 0;
+}
+
+#user-profile-summary {
+    font-size: 14px;
+}
+
+#user-profile-summary button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#user-profile-summary button:hover {
+    opacity: 0.9;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.nav-btn {
+    padding: 15px 25px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+    color: var(--text-color);
+    transition: color 0.3s;
+}
+.nav-btn.active {
+    color: var(--accent-color);
+}
+.nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+/* --- 滑动交互 --- */
+#content-slider {
+    display: flex;
+    width: 300%; /* 3个section */
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.content-section {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- 各 Section 特有样式 --- */
+
+/* 计划 Section */
+.plan-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+#workout-calendar, #diet-recommendation {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+#workout-calendar ul {
+    list-style-type: none;
+    padding: 0;
+}
+#workout-calendar li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+#workout-calendar li:last-child {
+    border-bottom: none;
+}
+#workout-calendar small {
+    color: #666;
+}
+
+/* 路线 Section */
+#map {
+    height: 50vh; /* 调整高度以适应不同屏幕 */
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 20px; /* 【新增】与上方控件的间距 */
+}
+
+/* 【新增】路线生成控件样式 */
+.route-generation-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.route-generation-controls input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.route-generation-controls button {
+    padding: 0 20px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+.route-generation-controls button:hover {
+    background-color: #0056b3;
+}
+/* 【新增】路线描述区域样式 */
+#route-description {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    line-height: 1.6;
+}
+
+
+/* 医疗咨询 Section (新增和优化的聊天样式) */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+#chat-box {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chat-message {
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 80%;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: var(--accent-color);
+    color: white;
+    align-self: flex-end; /* 用户消息靠右 */
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message {
+    background-color: #e9e9eb;
+    color: var(--text-color);
+    align-self: flex-start; /* AI消息靠左 */
+    border-bottom-left-radius: 4px;
+}
+
+.input-area {
+    display: flex;
+    border-top: 1px solid #e0e0e0;
+}
+
+#chat-input {
+    flex-grow: 1;

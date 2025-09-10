@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #6a5af9; /* ����������ɫ */
+    --primary-color: #6a5af9; /* ����������ɫ */
     --secondary-color: #00aaff;
     --background-color: #f4f7fc;
     --surface-color: #ffffff;
@@ -15,9 +15,9 @@ body {
     background-color: var(--background-color);
     color: var(--text-dark);
     line-height: 1.7;
-    background-size: cover; /* ���������ӿ� */
-    background-position: center; /* ������ʾ */
-    background-attachment: fixed; /* �̶�����������ʱ���ƶ� */
+    background-size: cover; /* ���������ӿ� */
+    background-position: center; /* ������ʾ */
+    background-attachment: fixed; /* �̶�����������ʱ���ƶ� */
 }
 /*ҳü*/
 .header-bar {
@@ -84,6 +84,7 @@ body {
     color: var(--secondary-color);
     font-size: 2.2rem;
     font-weight: 600;
+    margin-top: 10px;  
     margin-bottom: 40px;
     text-align: center;
     position: relative;
@@ -151,7 +152,7 @@ body {
 .member-card .role { color: var(--primary-color); font-weight: 600; margin-bottom: 10px; }
 .member-card .bio { font-size: 0.9rem; color: var(--text-light); }
 
-/* ��Ŀ��Ƭ��ʽ */
+/* ��Ŀ��Ƭ��ʽ */
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -178,7 +179,7 @@ body {
 .project-info h3 { font-size: 1.3rem; margin-top: 0; }
 .project-info p { color: var(--text-light); }
 
-/* ��Ƭǽ��ʽ */
+/* ��Ƭǽ��ʽ */
 .photo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -196,7 +197,7 @@ body {
     transform: scale(1.05);
     box-shadow: var(--shadow);
 }
-/*��ɫǳɫģʽ�л�*/
+/*��ɫǳɫģʽ�л�*/
 body.dark-mode {
     --background-color: #23272f;
     --surface-color: #2c313a;
@@ -205,7 +206,7 @@ body.dark-mode {
     --primary-color: #ff9800;
     --secondary-color: #6a5af9;
 }
-/*ȫ���Ӿ���������*/
+/*ȫ���Ӿ���������*/
 body, html {
     height: 100%;
     margin: 0;
@@ -279,4 +280,121 @@ body, html {
 
 .nav-link.active {
     color: var(--primary-color);
+}
+
+/* 两列布局容器 */
+.department-hero{
+  display:grid;
+  grid-template-columns: 1.1fr 1.9fr;   /* 左右比例 */
+  gap: 28px;
+  align-items: start;
+  margin-bottom: 48px;
+}
+
+/* 左右面板通用外观 */
+.panel{
+  background: var(--surface-color, #fff);
+  border: 1px solid #e9edf3;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+  padding: 24px 24px 28px;
+}
+
+/* 左侧标题更显眼 */
+.dept-title{
+  font-size: 2.4rem;
+  margin: 0 0 10px;
+}
+
+/* 年份链接做成小胶囊，视觉更统一 */
+/* 容器横向排列 */
+.year-list {
+  display: flex;          /* 横向排列 */
+  gap: 12px;              /* 每个胶囊之间的间距 */
+  padding: 0;             /* 去掉 ul 默认内边距 */
+  list-style: none;       /* 去掉默认小圆点 */
+  margin: 10px 0;         /* 调整与上下内容的间距 */
+}
+
+/* 胶囊样式 */
+.year-list .nav-link {
+  display: inline-block;
+  padding: 8px 18px;
+  background: #e0e5ec;
+  border-radius: 20px;    /* 胶囊效果 */
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* 悬停时效果 */
+.year-list .nav-link:hover {
+  background: var(--primary-color, #6a5af9);
+  color: #fff;
+}
+
+
+/* 右侧“更多”链接 */
+.panel--right .more{
+  text-align: center;
+  margin: 10px 0 20px;
+}
+.panel--right .more a{
+  color: var(--primary-color, #6a5af9);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* 负责人卡片（你已有的风格，简单精炼） */
+.leader-card{
+  display:flex;
+  align-items:center;
+  gap: 22px;
+  padding: 18px;
+  margin-bottom: 22px;
+  color:#fff;
+  border-radius: 14px;
+  background: linear-gradient(45deg, var(--primary-color, #6a5af9), #00aaff);
+}
+.leader-card img{
+  width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+  border: 5px solid #fff;
+}
+.leader-info h3{ margin:0 0 4px; font-size:1.4rem; }
+.leader-info .role{ margin:0 0 6px; opacity:.9; }
+.leader-info .bio{ margin:0; }
+
+/* 成员网格 */
+.member-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+.member-card{
+  background: var(--background-color, #f5f7fb);
+  border-radius: 14px;
+  border: 1px solid #e9edf3;
+  padding: 18px;
+  text-align: center;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.member-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0,0,0,.08);
+}
+.member-card img{
+  width: 92px; height: 92px; border-radius: 50%; object-fit: cover;
+  border: 4px solid #fff; box-shadow: 0 0 0 4px var(--surface-color, #fff);
+  margin-bottom: 10px;
+}
+.member-card h3{ margin: 8px 0 4px; font-size: 1.1rem; }
+.member-card .role{ color: var(--primary-color, #6a5af9); font-weight: 600; margin-bottom: 6px; }
+.member-card .bio{ color: var(--text-light, #7f8c8d); font-size: .92rem; }
+
+/* 响应式：小屏改为单列上下叠放 */
+@media (max-width: 960px){
+  .department-hero{
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山羊の前端小窝</title>
+    <link rel="stylesheet" href="./font/iconfont.css">
+    <style>
+         body {
+            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            line-height: 1.7;
+            background-size: cover; /* 覆盖整个视口 */
+            background-position: center; /* 居中显示 */
+            background-attachment: fixed; /* 固定背景，滚动时不移动 */
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            /* box-sizing: border-box; */
+        }
+        .main {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            position: relative;
+            background-color: #5053fc;
+            overflow: hidden;
+        }
+
+        .iconfont {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            left: 27%;
+            z-index: 999;
+            font: 900 80px '';
+            color: #fff;
+        }
+
+        #up-btn {
+            top: 5%;
+        }
+
+        #down-btn {
+            bottom: 5%;
+        }
+
+        #content {
+            width: 30%;
+            height: 100%;
+            position: absolute;
+            left: 15%;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            transition: transform .8s ease-in-out;
+        }
+
+        .card-time {
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .card-title {
+            font-size: 50px;
+            font-weight: 500;
+            padding-bottom: 10px;
+            border-bottom: 1px solid white;
+            margin-bottom: 10px;
+        }
+
+        .card-passage {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        #clock {
+            height: 130%;
+            /* 纵横比为1:1 */
+            aspect-ratio: 1 / 1;
+            position: absolute;
+            right: -28%;
+            top: -15%;
+            border-radius: 50%;
+            background-color: white;
+            border: #ff9214 30px solid;
+        }
+
+        @media(max-width:1000px) {
+            #clock {
+                right: -90%;
+            }
+        }
+
+        #clock-table {
+            width: 96%;
+            height: 96%;
+            border-radius: 50%;
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            transition: transform .8s ease-in-out;
+        }
+
+        .invisible-table {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform-origin: 50% 50%;
+            position: absolute;
+        }
+
+        .clock-thick {
+            width: 6%;
+            height: 6px;
+            background-color: #5053fc;
+            position: absolute;
+            top: calc(50% - 3px);
+            left: 0px;
+        }
+
+        .clock-thick span {
+            font-size: 50px;
+            position: absolute;
+            left: 140%;
+            top: calc(50% - 30px);
+            color: #5053fc;
+        }
+
+        .clock-scale {
+            width: 4%;
+            height: 2px;
+            background-color: #5053fc;
+            position: absolute;
+            top: calc(50% - .5px);
+            left: 0px;
+        }
+        /*标题栏*/
+        .header-bar {
+            background-color: var(--surface-color);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-bar a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<header class="header-bar">
+        <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回部门主页</a>
+        <span>欢迎参加我们的活动！</span>
+    </header>
+<body>
+    <div class="main">
+        <i class="iconfont icon-arrow-up-bold" id="up-btn" onclick="slideToPrev()"></i>
+        <i class="iconfont icon-arrow-down-bold" id="down-btn" onclick="slideToNext()"></i>
+        <div id="content">
+            <div class="card">
+                <div class="card-time">
+                    2022
+                </div>
+                <div class="card-title">
+                    Latex数字文档大赛
+                </div>
+                <div class="card-passage">
+                    <br>
+                    如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。
+                    <br>
+                    <br>
+                    If you stop, it's rock bottom. If you're still going, it's uphill. That's the best statement I've
+                    ever heard
+                    about a rock bottom.
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-time">
+                    2023
+                </div>
+                <div class="card-title">
+                    数据可视化大赛
+                </div>
+                <div class="card-passage">
+                    <br>
+                    如果时光可以倒流，我还是会选择认识你，虽然会伤痕累累，但是心中的温暖记忆是谁都无法给予的。谢谢你来过我的世界。
+                    <br>
+                    <br>
+                    If time could be turned back, I would still choose to know you, although it will be scarred, but the
+                    warm
+                    memory in my heart is no one can give. Thank you for coming to my world.
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-time">
+                    2024
+                </div>
+                <div class="card-title">
+                    《平凡的世界》
+                </div>
+                <div class="card-passage">
+                    <br>
+                    人生啊，是这样不可预测，没有永恒的痛苦，也没有永恒的幸福，生活像流水一般，有时是那么平展，有时又是那么曲折。
+                    <br>
+                    <br>
+                    Life, ah, is so unpredictable, there is no eternal pain, there is no eternal happiness, life is like
+                    running
+                    water, sometimes it is so flat, sometimes it is so tortuous.
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-time">
+                    2025
+                </div>
+                <div class="card-title">
+                    《道林・格雷的画像》
+                </div>
+                <div class="card-passage">
+                    <br>
+                    不要虚掷你的黄金时代，不要去倾听枯燥乏味的东西，不要设法挽留无望的失败，不要把你的生命献给无知、平庸和低俗。
+                    <br>
+                    <br>
+                    Do not waste your golden years, do not listen to the boring, do not try to prevent hopeless failure,
+                    do not
+                    give your life to ignorance, mediocrity and vulgarity.
+                </div>
+            </div>
+        </div>
+
+        <div id="clock">
+            <div id="clock-center"></div>
+            <div id="clock-pointer"></div>
+            <div id="clock-table"></div>
+        </div>
+    </div>
+    <script>
+        // 定义变量
+        let offset = 0;
+        let maxOffset = 0;
+        let minOffset = -3;
+        // 获取所有卡片元素并存储在数组中
+        const slides = Array.from(document.querySelectorAll(".card"));
+        // 获取时钟表盘元素
+        const clock = document.querySelector("#clock-table");
+        // 设定起始年份为2021
+        let startYear = 2021;
+        for (let i = -60, year = startYear - 1; i < 300; i += 6) {
+            // 调用添加时钟刻度函数
+            addClockScale(i);
+            if (i % 60 === 0) {
+                // 如果为整点时，调用添加粗刻度函数
+                addThickClockScale(i, year);
+                year++;
+            }
+        }
+        // 添加时钟刻度
+        function addClockScale(degree) {
+            // 创建一个隐藏的表格元素
+            const invisibleClockTable = document.createElement("div");
+            // 添加类名
+            invisibleClockTable.className = "invisible-table";
+            // 设置旋转角度
+            invisibleClockTable.style.transform = `rotate(${degree}deg)`;
+            // 创建时钟刻度元素
+            const clockScale = document.createElement("div");
+            // 添加类名
+            clockScale.className = "clock-scale";
+            // 将时钟刻度元素添加到表格中
+            invisibleClockTable.appendChild(clockScale);
+            // 将表格添加到时钟表盘中
+            clock.appendChild(invisibleClockTable);
+        }
+        // 添加粗刻度
+        function addThickClockScale(degree, time) {
+            // 创建一个隐藏的表格元素
+            const invisibleClockTable = document.createElement("div");
+            invisibleClockTable.className = "invisible-table";
+            invisibleClockTable.style.transform = `rotate(${degree}deg)`;
+            const thickClockScale = document.createElement("div");
+            thickClockScale.className = "clock-thick";
+            const scaleContent = document.createElement("span");
+            scaleContent.textContent = `${time}`;
+            thickClockScale.appendChild(scaleContent);
+            invisibleClockTable.appendChild(thickClockScale);
+            clock.appendChild(invisibleClockTable);
+        }
+        // 向前切换卡片
+        function slideToPrev() {
+            // 更新偏移量，取最大值
+            offset = Math.min(maxOffset, offset + 1);
+            slides.forEach(slide => {
+                // 根据偏移量设置卡片垂直偏移效果
+                slide.style.transform = `translateY(${offset * 100}%)`;
+            });
+            // 调用旋转时钟表盘函数
+            clockRotate(offset * 60);
+        }
+        // 向后切换卡片
+        function slideToNext() {
+            offset = Math.max(minOffset, offset - 1);
+            slides.forEach(slide => {
+                slide.style.transform = `translateY(${offset * 100}%)`;
+            });
+            clockRotate(offset * 60);
+        }
+        // 旋转时钟表盘
+        function clockRotate(degree) {
+            // 根据角度旋转时钟表盘
+            clock.style.transform = `rotate(${degree}deg)`;
+        }
+    </script>
+</body>
+
+</html>

@@ -203,11 +203,111 @@
             transform: scale(1.05);
             box-shadow: var(--shadow);
         }
+        
+        /* 粒子背景效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(106, 90, 249, 0.7);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 渐变标题效果 */
+        .section-title {
+            background: linear-gradient(45deg, #6a5af9, #00aaff, #ff9800);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* 卡片3D翻转效果 */
+        .member-card {
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+            width: 100%;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #e0e5ec;
+            transition: all var(--transition-speed) ease-in-out;
+            perspective: 1000px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .member-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        /* 进度条 */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #6a5af9, #00aaff);
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
     </style>
 
 </head>
 <!-- 先从这里的html开始试一试吧！ -->
 <body>
+    <!-- 进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
 
     <header class="header-bar">
         <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回部门主页</a>
@@ -261,10 +361,7 @@
     <!-- ======================= 动手任务 #5: 激活交互 (可选) ======================= -->
     <!-- ====================================================================== -->
     <script>
-        // 提示：当你学到JavaScript后，可以尝试取消下面代码的注释，为卡片添加酷炫的3D悬停效果！
-        // 方法：删除 `/*` 和 `*/` 即可。
-
-        /*
+        // 为卡片添加酷炫的3D悬停效果！
         document.addEventListener('DOMContentLoaded', function() {
             const cardsToAnimate = document.querySelectorAll('.member-card, .leader-card, .project-card');
 
@@ -286,9 +383,42 @@
                     card.style.boxShadow = 'var(--shadow)';
                 });
             });
+            
+            // 创建粒子效果
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 30;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // 随机位置和动画延迟
+                    const size = Math.random() * 5 + 3;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 15}s`;
+                    particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                    particle.style.backgroundColor = `rgba(106, 90, 249, ${Math.random() * 0.5 + 0.3})`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            // 滚动进度条
+            function updateScrollProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
+            }
+            
+            // 初始化粒子效果和滚动监听
+            createParticles();
+            window.addEventListener('scroll', updateScrollProgress);
         });
-        */
-        
     </script>
 
 </body>

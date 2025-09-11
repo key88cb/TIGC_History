@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历届部门成员 - 技术推广部</title>
+    <link rel="icon" href="image/jt.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a5af9;
+            --secondary-color: #00aaff;
+            --background-color: #f4f7fc;
+            --surface-color: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.07);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        body.dark-mode {
+            --background-color: #23272f;
+            --surface-color: #2c313a;
+            --text-dark: #f4f7fc;
+            --text-light: #b0b8c1;
+            --primary-color: #ff9800;
+            --secondary-color: #6a5af9;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #1d4ed8;
+        }
+
+        .header-bar {
+            background-color: var(--surface-color);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            overflow: visible;
+        }
+
+        .header-bar a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .header-title {
+            font-weight: 700;
+            margin: 0 20px;
+        }
+
+        .header-nav { 
+            display: flex; 
+            gap: 22px; 
+            align-items: center; 
+            margin-left: auto; 
+            z-index: 1101; 
+        }
+
+        .header-nav a { 
+            color: var(--text-light); 
+            font-weight: 700; 
+        }
+
+        .header-nav a:hover { 
+            color: var(--primary-color); 
+        }
+
+        .mobile-menu-toggle{ 
+            display:none; 
+            font-size:1.5rem; 
+            background:none; 
+            border:none; 
+            cursor:pointer; 
+            color: var(--primary-color); 
+            z-index:1102; 
+        }
+
+        @media (max-width: 768px) {
+            .header-bar{ justify-content: space-between; }
+            .mobile-menu-toggle{ display:block; order: 4; }
+            .header-bar > a:first-child{ order: 1; }
+            .header-title{ order: 2; margin: 0 auto; }
+            #theme-toggle{ order: 3; }
+            .header-nav{ 
+                display:none; 
+                position:absolute; 
+                top:60px; 
+                right:16px; 
+                background: var(--surface-color); 
+                box-shadow: var(--shadow); 
+                border:1px solid #e9edf3; 
+                border-radius: 10px; 
+                padding:10px 14px; 
+                flex-direction: column; 
+                gap:12px; 
+                z-index: 1101; 
+                margin-left: 0; 
+            }
+            .header-nav.active{ display:flex !important; }
+        }
+
+        .page-wrapper {
+            max-width: 1400px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .breadcrumb {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+        }
+
+        .years-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .year-link {
+            padding: 12px 24px;
+            background: var(--surface-color);
+            border-radius: 30px;
+            color: var(--text-dark);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .year-link:hover, .year-link.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .year-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .year-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .year-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            position: relative;
+        }
+
+        .year-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            margin: 10px auto 0;
+        }
+
+        .members-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .member-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid #e9edf3;
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid var(--surface-color);
+            box-shadow: 0 0 0 3px var(--primary-color);
+        }
+
+        .member-name {
+            font-size: 1.4rem;
+            margin: 0 0 10px;
+            color: var(--text-dark);
+        }
+
+        .member-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0 0 15px;
+            font-size: 1.1rem;
+        }
+
+        .member-bio {
+            color: var(--text-light);
+            font-style: italic;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .no-members {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper {
+                margin-top: 80px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .members-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-bar">
+        <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回部门主页</a>
+        <span class="header-title">历届部门成员</span>
+        <nav class="header-nav">
+            <a href="#2025" class="year-nav-link" data-year="2025">2025届</a>
+            <a href="#2024" class="year-nav-link" data-year="2024">2024届</a>
+            <a href="#2023" class="year-nav-link" data-year="2023">2023届</a>
+        </nav>
+        <button class="mobile-menu-toggle" id="jt-mobile-menu" aria-label="打开菜单">
+            <i class="fas fa-bars"></i>
+        </button>
+        <i id="theme-toggle" class="fas fa-moon" title="切换浅/深色模式" style="font-size:1.5rem;cursor:pointer;margin-left:20px;color:var(--primary-color);"></i>
+    </header>
+
+    <div class="page-wrapper">
+        <h1 class="page-title">历届部门成员</h1>
+        <p class="breadcrumb">
+            <a href="dep_home.html">部门主页</a> > 历届部门成员
+        </p>
+
+        <div class="years-nav">
+            <a href="#2025" class="year-link active" data-year="2025">2025届</a>
+            <a href="#2024" class="year-link" data-year="2024">2024届</a>
+            <a href="#2023" class="year-link" data-year="2023">2023届</a>
+        </div>
+
+        <!-- 2025届成员 -->
+        <section id="2025" class="year-section active">
+            <h2 class="year-title">2025届</h2>
+            <div class="members-container">
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/6a5af9/ffffff?text=张部长" alt="张部长" class="member-avatar">
+                    <h3 class="member-name">张部长</h3>
+                    <p class="member-role">部门部长</p>
+                    <p class="member-bio">"技术改变世界，创新驱动未来。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=李副部长" alt="李副部长" class="member-avatar">
+                    <h3 class="member-name">李副部长</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"代码即艺术，简洁即美。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=王技术" alt="王技术" class="member-avatar">
+                    <h3 class="member-name">王技术</h3>
+                    <p class="member-role">技术骨干</p>
+                    <p class="member-bio">"专注前端开发，追求极致体验。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/ffc107/ffffff?text=赵设计" alt="赵设计" class="member-avatar">
+                    <h3 class="member-name">赵设计</h3>
+                    <p class="member-role">UI设计师</p>
+                    <p class="member-bio">"设计让技术更有温度。"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2024届成员 -->
+        <section id="2024" class="year-section">
+            <h2 class="year-title">2024届</h2>
+            <div class="members-container">
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/6a5af9/ffffff?text=陈部长" alt="陈部长" class="member-avatar">
+                    <h3 class="member-name">陈部长</h3>
+                    <p class="member-role">部门部长</p>
+                    <p class="member-bio">"团队协作，共创辉煌。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=刘副部长" alt="刘副部长" class="member-avatar">
+                    <h3 class="member-name">刘副部长</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"后端架构，稳定可靠。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=孙测试" alt="孙测试" class="member-avatar">
+                    <h3 class="member-name">孙测试</h3>
+                    <p class="member-role">测试工程师</p>
+                    <p class="member-bio">"质量是产品的生命线。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/ffc107/ffffff?text=周运维" alt="周运维" class="member-avatar">
+                    <h3 class="member-name">周运维</h3>
+                    <p class="member-role">运维工程师</p>
+                    <p class="member-bio">"保障系统稳定运行。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/dc3545/ffffff?text=吴产品" alt="吴产品" class="member-avatar">
+                    <h3 class="member-name">吴产品</h3>
+                    <p class="member-role">产品经理</p>
+                    <p class="member-bio">"用户需求是产品核心。"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2023届成员 -->
+        <section id="2023" class="year-section">
+            <h2 class="year-title">2023届</h2>
+            <div class="members-container">
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/6a5af9/ffffff?text=杨部长" alt="杨部长" class="member-avatar">
+                    <h3 class="member-name">杨部长</h3>
+                    <p class="member-role">部门部长</p>
+                    <p class="member-bio">"技术引领，创新发展。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=黄副部长" alt="黄副部长" class="member-avatar">
+                    <h3 class="member-name">黄副部长</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"算法优化，性能提升。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=徐前端" alt="徐前端" class="member-avatar">
+                    <h3 class="member-name">徐前端</h3>
+                    <p class="member-role">前端工程师</p>
+                    <p class="member-bio">"交互体验，用户至上。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/ffc107/ffffff?text=何后端" alt="何后端" class="member-avatar">
+                    <h3 class="member-name">何后端</h3>
+                    <p class="member-role">后端工程师</p>
+                    <p class="member-bio">"数据处理，安全可靠。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/dc3545/ffffff?text=林安全" alt="林安全" class="member-avatar">
+                    <h3 class="member-name">林安全</h3>
+                    <p class="member-role">安全工程师</p>
+                    <p class="member-bio">"安全无小事，防范于未然。"</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/6f42c1/ffffff?text=郑数据" alt="郑数据" class="member-avatar">
+                    <h3 class="member-name">郑数据</h3>
+                    <p class="member-role">数据分析师</p>
+                    <p class="member-bio">"数据驱动决策，洞察创造价值。"</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 主题切换功能
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            
+            // 检查本地存储中的主题设置
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggle.classList.remove('fa-moon');
+                themeToggle.classList.add('fa-sun');
+            }
+            
+            // 主题切换按钮点击事件
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    themeToggle.classList.remove('fa-moon');
+                    themeToggle.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeToggle.classList.remove('fa-sun');
+                    themeToggle.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            // 年份导航链接点击事件
+            const yearLinks = document.querySelectorAll('.year-link, .year-nav-link');
+            const yearSections = document.querySelectorAll('.year-section');
+            
+            yearLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const year = this.getAttribute('data-year');
+                    const targetSection = document.getElementById(year);
+                    
+                    // 更新活动状态
+                    yearLinks.forEach(l => l.classList.remove('active'));
+                    yearSections.forEach(s => s.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    targetSection.classList.add('active');
+                    
+                    // 滚动到目标区域
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // 移动端菜单切换
+            const mobileMenuToggle = document.getElementById('jt-mobile-menu');
+            const headerNav = document.querySelector('.header-nav');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                headerNav.classList.toggle('active');
+            });
+            
+            // 点击导航链接后关闭移动端菜单
+            document.querySelectorAll('.header-nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    headerNav.classList.remove('active');
+                });
+            });
+            
+            // 返回顶部按钮
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 处理URL中的hash
+            function handleHash() {
+                const hash = window.location.hash.substring(1);
+                if (hash && document.getElementById(hash)) {
+                    const targetSection = document.getElementById(hash);
+                    const year = hash;
+                    
+                    // 更新活动状态
+                    yearLinks.forEach(l => l.classList.remove('active'));
+                    yearSections.forEach(s => s.classList.remove('active'));
+                    
+                    document.querySelector(`[data-year="${year}"]`).classList.add('active');
+                    targetSection.classList.add('active');
+                }
+            }
+            
+            // 页面加载时处理hash
+            handleHash();
+            
+            // 监听hash变化
+            window.addEventListener('hashchange', handleHash);
+        });
+    </script>
+</body>
+</html>

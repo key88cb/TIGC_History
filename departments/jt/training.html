@@ -39,9 +39,111 @@
     .dot{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.35); cursor:pointer; }
     .dot.active{ background:var(--accent); }
     @media (max-width: 768px){ .caption{ left:12px; right:12px; max-width:unset; } .slide img{ height:calc(100svh - 56px); } }
+    
+    /* 粒子背景效果 */
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    .particle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: rgba(106, 90, 249, 0.7);
+        border-radius: 50%;
+        animation: float 15s infinite linear;
+    }
+    
+    @keyframes float {
+        0% {
+            transform: translateY(0) translateX(0) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100vh) translateX(100px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
+    /* 渐变背景动画 */
+    body {
+        font-family: 'Poppins', 'Noto Sans SC', sans-serif; 
+        color: var(--text); 
+        background: linear-gradient(180deg, #0b1220 0%, #0e1627 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    /* 幻灯片标题动画 */
+    .caption h3 {
+        margin: 0 0 6px 0; 
+        font-size: 1.1rem;
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+    
+    .caption p {
+        margin: 0; 
+        color: var(--muted);
+        animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        opacity: 0;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* 进度条 */
+    .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(90deg, #6a5af9, #00aaff);
+        z-index: 1001;
+        transition: width 0.3s ease;
+    }
     </style>
 </head>
 <body>
+    <!-- 进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+    
     <header class="header-bar">
         <a class="back" href="dep_home.html" aria-label="返回部门主页"><i class="fas fa-arrow-left"></i></a>
         <span class="title">部门内训</span>
@@ -98,6 +200,25 @@
         index = (i + slides.length) % slides.length;
         slides.forEach((s,idx)=> s.classList.toggle('active', idx===index));
         dots.forEach((d,idx)=> d.classList.toggle('active', idx===index));
+        
+        // 为新激活的幻灯片触发动画
+        const activeSlide = slides.find(s => s.classList.contains('active'));
+        if (activeSlide) {
+            const caption = activeSlide.querySelector('.caption');
+            if (caption) {
+                // 重置动画
+                const h3 = caption.querySelector('h3');
+                const p = caption.querySelector('p');
+                if (h3) h3.style.animation = 'none';
+                if (p) p.style.animation = 'none';
+                
+                // 触发动画
+                setTimeout(() => {
+                    if (h3) h3.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                    if (p) p.style.animation = 'fadeInUp 0.6s ease-out 0.2s forwards';
+                }, 10);
+            }
+        }
       }
       prev.addEventListener('click', ()=> show(index-1));
       next.addEventListener('click', ()=> show(index+1));
@@ -112,6 +233,43 @@
       // 明暗主题开关
       const themeToggle = document.getElementById('theme-toggle');
       if(themeToggle){ themeToggle.addEventListener('click', ()=> document.body.classList.toggle('dark-mode')); }
+      
+      // 创建粒子效果
+      function createParticles() {
+          const particlesContainer = document.getElementById('particles');
+          const particleCount = 30;
+          
+          for (let i = 0; i < particleCount; i++) {
+              const particle = document.createElement('div');
+              particle.classList.add('particle');
+              
+              // 随机位置和动画延迟
+              const size = Math.random() * 5 + 3;
+              particle.style.width = `${size}px`;
+              particle.style.height = `${size}px`;
+              particle.style.left = `${Math.random() * 100}%`;
+              particle.style.top = `${Math.random() * 100}%`;
+              particle.style.animationDelay = `${Math.random() * 15}s`;
+              particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+              particle.style.backgroundColor = `rgba(106, 90, 249, ${Math.random() * 0.5 + 0.3})`;
+              
+              particlesContainer.appendChild(particle);
+          }
+      }
+      
+      // 滚动进度条
+      function updateScrollProgress() {
+          const scrollTop = window.scrollY;
+          const docHeight = document.body.scrollHeight - window.innerHeight;
+          const scrollPercent = (scrollTop / docHeight) * 100;
+          document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
+      }
+      
+      // 初始化
+      document.addEventListener('DOMContentLoaded', function() {
+          createParticles();
+          window.addEventListener('scroll', updateScrollProgress);
+      });
     })();
     </script>
 </body>

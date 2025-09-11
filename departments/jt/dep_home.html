@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>技术推广部</title>
+    <link rel="icon" href="image\jt.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,8 +14,16 @@
 <body>
     <header class="header-bar">
         <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
-        <span>技术推广部</span>
+        <span class="header-title">技术推广部</span>
+        <nav class="header-nav">
+            <a href="#members">部门成员</a>
+            <a href="#core-activities">核心活动</a>
+            <a href="#photos">部门风采</a>
+        </nav>
         <!-- 鸡腿图标按钮 -->
+        <button class="mobile-menu-toggle" id="jt-mobile-menu" aria-label="打开菜单" style="margin-left:16px;">
+            <i class="fas fa-bars"></i>
+        </button>
         <i id="theme-toggle" class="fas fa-drumstick-bite" title="切换浅/深色模式" style="font-size:1.5rem;cursor:pointer;margin-left:20px;color:var(--primary-color);"></i>
     </header>
     <div class="page page-active" id="main-page">
@@ -47,15 +56,13 @@
                         <li><a id="2025" class="nav-link">2025届</a></li>
                         <li><a id="2024" class="nav-link">2024届</a></li>
                         <li><a id="2023" class="nav-link">2023届</a></li>
-                    </ul>
                 </aside>
 
                 <!-- 右侧：成员区 -->
-                <section class="panel panel--right">
-                    <h2 class="section-title">成员</h2>
-                    <p class="more">
-                    <a href="member.html">更多成员信息请点击这里~</a>
-                    </p>
+                <section class="panel panel--right scroll-target" id="members">
+                    <h2 class="section-title section-title--with-link">成员
+                        <a class="section-more-link section-more-link--right" href="member.html">Click For More <i class="fas fa-arrow-right"></i></a>
+                    </h2>
 
                     <!-- 负责人卡片 -->
                     <div class="leader-card">
@@ -69,26 +76,47 @@
 
                     <!-- 成员网格：把三张卡都放到同一个 grid 里 -->
                     <div class="member-grid">
-                    <article class="member-card">
-                        <img src="https://placehold.co/200x200/00aaff/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>副部长</h3>
-                        <p class="role">职位/角色</p>
-                        <p class="bio">一句简短的个人介绍或座右铭。</p>
-                    </article>
+                        <div class="member-card">
+                          <div class="card-inner">
+                            <div class="card-front">
+                              <img src="https://placehold.co/200x200/00aaff/FFFFFF?text=Avatar" alt="成员头像">
+                              <h3>副部长</h3>
+                              <p class="role">职位/角色</p>
+                              <p class="bio">一句简短的个人介绍或座右铭。</p>
+                            </div>
+                            <div class="card-back">
+                              <p class="motto">"喵喵喵"</p>
+                            </div>
+                          </div>
+                        </div>
 
-                    <article class="member-card">
-                        <img src="https://placehold.co/200x200/28A745/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>另一位副部长</h3>
-                        <p class="role">另一个职位</p>
-                        <p class="bio">这是另一位成员的简介。</p>
-                    </article>
+                    <div class="member-card">
+                      <div class="card-inner">
+                        <div class="card-front">
+                          <img src="https://placehold.co/200x200/28A745/FFFFFF?text=Avatar" alt="成员头像">
+                          <h3>另一位副部长</h3>
+                          <p class="role">另一个职位</p>
+                          <p class="bio">这是另一位成员的简介。</p>
+                        </div>
+                        <div class="card-back">
+                          <p class="motto">"喵喵喵"</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <article class="member-card">
-                        <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>第三位副部长</h3>
-                        <p class="role">第三个职位</p>
-                        <p class="bio">这是第三位成员的简介。</p>
-                    </article>
+                    <div class="member-card">
+                      <div class="card-inner">
+                        <div class="card-front">
+                          <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
+                          <h3>第三位副部长</h3>
+                          <p class="role">第三个职位</p>
+                          <p class="bio">这是第三位成员的简介。</p>
+                        </div>
+                        <div class="card-back">
+                          <p class="motto">"喵喵喵"</p>
+                        </div>
+                      </div>
+                    </div>
                     </div>
                 </section>
             </section>
@@ -99,7 +127,7 @@
             <!-- ====================================================================== -->
             <!-- ======================= 动手任务 #3: 添加核心项目 ======================= -->
             <!-- ====================================================================== -->
-            <section class="content-section">
+            <section class="content-section scroll-target" id="core-activities">
                     <h2 class="section-title">
                     <a href="project.html" style="color:inherit;text-decoration:none;cursor:pointer;">
                         核心活动
@@ -113,18 +141,18 @@
                     -->
                     <!-- 项目卡片模板开始 -->
                     <div class="project-card">
-                        <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
+                        <a href="training.html" class="project-link"><img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图"></a>
                         <div class="project-info">
-                            <h3>名称</h3>
-                            <p>这里是关于这个项目的一段简短介绍，说明它的目标和使用的技术。</p>
+                            <h3>部门内训</h3>
+                            <p>技能提升/知识分享/... <a class="section-more-link" href="training.html">Click For More <i class="fas fa-arrow-right"></i></a></p>
                         </div>
                     </div>
                     <!-- 项目卡片模板结束 -->
                     <div class="project-card">
-                        <img src="https://placehold.co/400x300/00aaff/ffffff?text=Picture" alt="项目截图">
+                        <a href="project.html" class="project-link"><img src="https://placehold.co/400x300/00aaff/ffffff?text=Picture" alt="项目截图"></a>
                         <div class="project-info">
-                            <h3>另一个很棒的活动</h3>
-                            <p>这是另一个项目的简介</p>
+                            <h3>承办活动</h3>
+                            <p>技能竞赛/技术公开课/... <a class="section-more-link" href="project.html">Click For More <i class="fas fa-arrow-right"></i></a></p>
                         </div>
                     </div>
                 </div>
@@ -133,11 +161,12 @@
             <!-- ====================================================================== -->
             <!-- ======================= 动手任务 #4: 搭建照片墙 ======================= -->
             <!-- ====================================================================== -->
-            <section class="content-section">
-                <h2 class="section-title">
+            <section class="content-section scroll-target" id="photos">
+                <h2 class="section-title section-title--with-link">
                     <a href="photo.html" style="color:inherit;text-decoration:none;cursor:pointer;">
                         部门风采
                     </a>
+                    <a class="section-more-link section-more-link--right" href="photo.html">Click For More <i class="fas fa-arrow-right"></i></a>
                 </h2>
                 <div class="photo-grid">
                     <!-- 
@@ -186,7 +215,7 @@
             <h3><a class="nav-link" id="main-page">返回主页</a></h3>
         </div>   
     </div>
-    <script src="script.js" refer></script>
+    <script src="script.js"></script>
 
 </body>
 </html>

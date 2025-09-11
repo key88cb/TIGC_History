@@ -28,8 +28,22 @@
             height: 100vh;
             display: flex;
             position: relative;
-            background-color: #5053fc;
+            background: linear-gradient(135deg, #5053fc, #6a5af9, #00aaff);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
             overflow: hidden;
+        }
+        
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .iconfont {
@@ -65,25 +79,122 @@
             flex-direction: column;
             justify-content: center;
             color: white;
-            transition: transform .8s ease-in-out;
+            transition: transform .8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            padding: 40px;
+            position: relative;
+            transform: translateY(0);
         }
-
+        
+        .card:hover {
+            transform: translateY(0) scale(1.02);
+        }
+        
         .card-time {
             font-size: 40px;
             font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            color: white;
         }
-
+        
         .card-title {
             font-size: 50px;
             font-weight: 500;
-            padding-bottom: 10px;
-            border-bottom: 1px solid white;
-            margin-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+            position: relative;
+            color: white;
         }
-
+        
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: #ff9800;
+            transition: width 0.5s ease;
+        }
+        
+        .card:hover .card-title::after {
+            width: 100%;
+        }
+        
         .card-passage {
             font-size: 24px;
             font-weight: 300;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: white; /* 确保文字颜色为白色以便在深色背景上可见 */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* 添加文字阴影提高可读性 */
+        }
+        
+        .card-passage p {
+            margin: 10px 0;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        
+        .card-passage p:first-child {
+            margin-top: 0;
+        }
+        
+        .card-passage p:last-child {
+            margin-bottom: 20px;
+        }
+        
+        .card img {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            margin-top: 20px;
+        }
+        
+        .card img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        /* 粒子效果 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         #clock {
@@ -174,7 +285,11 @@
         <span>欢迎参加我们的活动！</span>
     </header>
 <body>
+    <!-- 进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
     <div class="main">
+        <div class="particles" id="particles"></div>
         <i class="iconfont icon-arrowup" id="up-btn" onclick="slideToPrev()"></i>
         <i class="iconfont icon-arrowdown" id="down-btn" onclick="slideToNext()"></i>
         <div id="content">
@@ -186,10 +301,7 @@
                     Latex数字文档大赛
                 </div>
                 <div class="card-passage">
-                    <br>
-                    如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。
-                    <br>
-                    <br>
+                    <p>如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。</p>
                     <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
@@ -201,13 +313,9 @@
                     数据可视化大赛
                 </div>
                 <div class="card-passage">
-                    <br>
-                    如果时光可以倒流，我还是会选择认识你，虽然会伤痕累累，但是心中的温暖记忆是谁都无法给予的。谢谢你来过我的世界。
-                    <br>
-                    <br>
-                    If time could be turned back, I would still choose to know you, although it will be scarred, but the
-                    warm
-                    memory in my heart is no one can give. Thank you for coming to my world.
+                    <p>如果时光可以倒流，我还是会选择认识你，虽然会伤痕累累，但是心中的温暖记忆是谁都无法给予的。谢谢你来过我的世界。</p>
+                    <p>If time could be turned back, I would still choose to know you, although it will be scarred, but the warm memory in my heart is no one can give. Thank you for coming to my world.</p>
+                    <img src="https://placehold.co/400x300/00aaff/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
             <div class="card">
@@ -218,13 +326,9 @@
                     《平凡的世界》
                 </div>
                 <div class="card-passage">
-                    <br>
-                    人生啊，是这样不可预测，没有永恒的痛苦，也没有永恒的幸福，生活像流水一般，有时是那么平展，有时又是那么曲折。
-                    <br>
-                    <br>
-                    Life, ah, is so unpredictable, there is no eternal pain, there is no eternal happiness, life is like
-                    running
-                    water, sometimes it is so flat, sometimes it is so tortuous.
+                    <p>人生啊，是这样不可预测，没有永恒的痛苦，也没有永恒的幸福，生活像流水一般，有时是那么平展，有时又是那么曲折。</p>
+                    <p>Life, ah, is so unpredictable, there is no eternal pain, there is no eternal happiness, life is like running water, sometimes it is so flat, sometimes it is so tortuous.</p>
+                    <img src="https://placehold.co/400x300/ff9800/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
             <div class="card">
@@ -235,13 +339,9 @@
                     《道林・格雷的画像》
                 </div>
                 <div class="card-passage">
-                    <br>
-                    不要虚掷你的黄金时代，不要去倾听枯燥乏味的东西，不要设法挽留无望的失败，不要把你的生命献给无知、平庸和低俗。
-                    <br>
-                    <br>
-                    Do not waste your golden years, do not listen to the boring, do not try to prevent hopeless failure,
-                    do not
-                    give your life to ignorance, mediocrity and vulgarity.
+                    <p>不要虚掷你的黄金时代，不要去倾听枯燥乏味的东西，不要设法挽留无望的失败，不要把你的生命献给无知、平庸和低俗。</p>
+                    <p>Do not waste your golden years, do not listen to the boring, do not try to prevent hopeless failure, do not give your life to ignorance, mediocrity and vulgarity.</p>
+                    <img src="https://placehold.co/400x300/9c27b0/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
         </div>
@@ -262,7 +362,7 @@
         // 获取时钟表盘元素
         const clock = document.querySelector("#clock-table");
         // 设定起始年份为2021
-        let startYear = 2021;
+        let startYear = 2022;
         for (let i = -60, year = startYear - 1; i < 300; i += 6) {
             // 调用添加时钟刻度函数
             addClockScale(i);
@@ -327,6 +427,43 @@
             // 根据角度旋转时钟表盘
             clock.style.transform = `rotate(${degree}deg)`;
         }
+        
+        // 创建粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置和动画延迟
+                const size = Math.random() * 5 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particle.style.backgroundColor = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 滚动进度条
+        function updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
+        }
+        
+        // 初始化粒子效果和滚动监听
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            window.addEventListener('scroll', updateScrollProgress);
+        });
     </script>
 </body>
 

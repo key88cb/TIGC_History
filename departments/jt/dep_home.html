@@ -10,8 +10,105 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 粒子背景效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(106, 90, 249, 0.7);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 渐变标题效果 */
+        .dept-title {
+            background: linear-gradient(45deg, #6a5af9, #00aaff, #ff9800);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* 悬停放大效果 */
+        .project-card:hover img,
+        .photo-item img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* 卡片入场动画 */
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-section {
+            animation: cardEntrance 0.6s ease-out forwards;
+        }
+        
+        /* 进度指示器 */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #6a5af9, #00aaff);
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
+    </style>
 </head>
 <body>
+    <!-- 进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
     <header class="header-bar">
         <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
         <span class="header-title">技术推广部</span>
@@ -26,6 +123,9 @@
         </button>
         <i id="theme-toggle" class="fas fa-drumstick-bite" title="切换浅/深色模式" style="font-size:1.5rem;cursor:pointer;margin-left:20px;color:var(--primary-color);"></i>
     </header>
+    
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
     <div class="page page-active" id="main-page">
         <section>
         <div class="page-wrapper">
@@ -53,9 +153,9 @@
 
                     <h3>历届部门成员信息</h3>
                     <ul class="year-list">
-                        <li><a id="2025" class="nav-link">2025届</a></li>
-                        <li><a id="2024" class="nav-link">2024届</a></li>
-                        <li><a id="2023" class="nav-link">2023届</a></li>
+                        <li><a href="members.html#2025" class="nav-link">2025届</a></li>
+                        <li><a href="members.html#2024" class="nav-link">2024届</a></li>
+                        <li><a href="members.html#2023" class="nav-link">2023届</a></li>
                 </aside>
 
                 <!-- 右侧：成员区 -->
@@ -191,31 +291,46 @@
                 </div>
             </section>
     </div>
-    <div class="page page-hidden" id="project-page">
-        <div class="page-wrapper">
-            <h2>项目页</h2>
-            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
-        </div>   
-    </div>
-    <div class=" page page-hidden" id="2025">
-        <div class="page-wrapper">
-            <h2>2025届</h2>
-            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
-        </div>  
-    </div>
-    <div class="page page-hidden" id="2024">
-        <div class="page-wrapper">
-            <h2>2024届</h2>
-            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
-        </div>   
-    </div>
-    <div class="page page-hidden" id="2023">
-        <div class="page-wrapper">
-            <h2>2023届</h2>
-            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
-        </div>   
-    </div>
-    <script src="script.js"></script>
+        <script src="script.js"></script>
+    
+    <script>
+        // 创建粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置和动画延迟
+                const size = Math.random() * 5 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particle.style.backgroundColor = `rgba(106, 90, 249, ${Math.random() * 0.5 + 0.3})`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 滚动进度条
+        function updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            window.addEventListener('scroll', updateScrollProgress);
+        });
+    </script>
 
 </body>
 </html>

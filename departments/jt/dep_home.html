@@ -3,310 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>部门介绍页练兵场[请改掉我]</title>
+    <title>技术推广部</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- 练兵场样式 这部分的样式表等到你看明白了javascript就可以来研究一下啦  --- */
-        :root {
-            --primary-color: #6a5af9; /* 更鲜明的紫色 */
-            --secondary-color: #00aaff;
-            --background-color: #f4f7fc;
-            --surface-color: #ffffff;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
-            --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.07);
-            --transition-speed: 0.3s;
-        }
-        body {
-            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
-            margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-dark);
-            line-height: 1.7;
-            background-image: url('../../image/TOm.png'); /* 你可以把它替换成你自己的背景图片URL */
-            background-size: cover; /* 覆盖整个视口 */
-            background-position: center; /* 居中显示 */
-            background-attachment: fixed; /* 固定背景，滚动时不移动 */
-        }
-        .header-bar {
-            background-color: var(--surface-color);
-            backdrop-filter: blur(10px);
-            padding: 15px 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .header-bar a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .page-wrapper {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .department-hero {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 80px;
-        }
-        .hero-visual {
-            font-size: 12rem;
-            color: var(--primary-color);
-            opacity: 0.1;
-            text-align: center;
-        }
-        .hero-text h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1.2;
-        }
-        .hero-text p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-top: 15px;
-        }
-        .content-section {
-            background: var(--surface-color);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 50px;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
-            margin: 10px auto 0;
-        }
-
-        .leader-card {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            margin-bottom: 50px;
-        }
-        .leader-card img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
-        }
-        .leader-info h3 { font-size: 1.8rem; margin: 0; }
-        .leader-info .role { font-size: 1.1rem; opacity: 0.8; margin-bottom: 15px; }
-        .leader-info .bio { font-style: italic; }
-
-        .member-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 30px;
-            justify-items: center;
-        }
-        .member-card {
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-            width: 100%;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid #e0e5ec;
-            transition: all var(--transition-speed) ease-in-out;
-        }
-        .member-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
-        }
-        .member-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 4px solid var(--surface-color);
-            box-shadow: 0 0 0 4px var(--primary-color);
-        }
-        .member-card h3 { margin: 10px 0 5px; font-size: 1.2rem; }
-        .member-card .role { color: var(--primary-color); font-weight: 600; margin-bottom: 10px; }
-        .member-card .bio { font-size: 0.9rem; color: var(--text-light); }
-
-        /* 项目卡片样式 */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .project-card {
-            background: var(--background-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: all var(--transition-speed) ease-in-out;
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
-        }
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .project-info {
-            padding: 20px;
-        }
-        .project-info h3 { font-size: 1.3rem; margin-top: 0; }
-        .project-info p { color: var(--text-light); }
-
-        /* 照片墙样式 */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .photo-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            transition: all var(--transition-speed);
-            cursor: pointer;
-        }
-        .photo-item img:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow);
-        }
-        /*深色浅色模式切换*/
-        body.dark-mode {
-            --background-color: #23272f;
-            --surface-color: #2c313a;
-            --text-dark: #f4f7fc;
-            --text-light: #b0b8c1;
-            --primary-color: #ff9800;
-            --secondary-color: #6a5af9;
-        }
-        /*全屏视觉滚动叙事*/
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        .main-scroll-container {
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-        }
-        .fullscreen-section {
-            height: 100vh;
-            scroll-snap-align: start;
-            position: sticky;
-        }
-    </style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
-<!-- 先从这里的html开始试一试吧！ -->
 <body>
-
     <header class="header-bar">
         <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
-        <span>部门介绍页练兵场[期待你的创意]</span>
+        <span>技术推广部</span>
         <!-- 鸡腿图标按钮 -->
         <i id="theme-toggle" class="fas fa-drumstick-bite" title="切换浅/深色模式" style="font-size:1.5rem;cursor:pointer;margin-left:20px;color:var(--primary-color);"></i>
     </header>
+    <div class="page page-active" id="main-page">
+        <section>
+        <div class="page-wrapper">
+            <!-- ======================= 你可以修改部门信息 ======================= -->
+            <section class="department-hero">
+                <!-- 左侧：部门信息 -->
+                <aside class="panel panel--left">
+                    <h1 class="dept-title">技术推广部</h1>
 
-    <div class="page-wrapper">
-        <!-- ======================= 你可以修改部门信息 ======================= -->
-        <section class="department-hero">
-            <div class="hero-visual">
-                <img src="../../image/default.jpg">
-            </div>
-            <div class="hero-text">
-                <h1>技术推广部</h1>
-                <h3>我们负责抽象</h3>
-                <h3>部门名称：技术推广部(鸡腿🍗)</h3>
-                <h3>部门口号：</h3>
-                <h3>核心职责：</h3>
-                <ul>
+                    <h3>我们负责抽象</h3>
+                    <p>部门名称：技术推广部（鸡腿🍗）</p>
+
+                    <h3>部门口号：</h3>
+                    <p>（可填写一句话口号）</p>
+
+                    <h3>核心职责：</h3>
+                    <ul class="list">
                     <li>负责组织技术分享和培训</li>
                     <li>开发和维护组织官方网站</li>
                     <li>探索前沿技术并进行分享</li>
-                </ul>
-                <h3>联系方式：部门邮箱</h3>
-            </div>
-        </section>
-        <!-- ======================= 任务 #2: 添加负责人与核心成员 ======================= -->
-            <section class="content-section">
-                <h2 class="section-title">成员</h2>
-             <p style="text-align:center; margin-bottom:30px;">
-                 <a href="member.html" style="color:var(--primary-color);text-decoration:underline;cursor:pointer;font-size:1.1rem;">
-                    更多成员信息请点击这里~
-                 </a>
-            </p>
-                <!-- 负责人卡片 -->
-                <div class="leader-card">
-                    <img src="../../image/default.jpg" alt="负责人头像"> <!-- ../.. 代表上一级文件夹的上一级文件夹，它们下面才会有image这个保存图片的文件夹哦 -->
+                    </ul>
+
+                    <h3>联系方式：</h3>
+                    <p>部门邮箱</p>
+
+                    <h3>历届部门成员信息</h3>
+                    <ul class="year-list">
+                        <li><a id="2025" class="nav-link">2025届</a></li>
+                        <li><a id="2024" class="nav-link">2024届</a></li>
+                        <li><a id="2023" class="nav-link">2023届</a></li>
+                    </ul>
+                </aside>
+
+                <!-- 右侧：成员区 -->
+                <section class="panel panel--right">
+                    <h2 class="section-title">成员</h2>
+                    <p class="more">
+                    <a href="member.html">更多成员信息请点击这里~</a>
+                    </p>
+
+                    <!-- 负责人卡片 -->
+                    <div class="leader-card">
+                    <img src="../../image/default.jpg" alt="负责人头像">
                     <div class="leader-info">
                         <h3>抽象</h3>
                         <p class="role">部门部长</p>
                         <p class="bio">“这里是一句座右铭或简介。”</p>
                     </div>
-                </div>
-                </div>
-                <!-- 副部长卡片 -->
-                <div class="member-grid">
-                    <div class="member-card">
+                    </div>
+
+                    <!-- 成员网格：把三张卡都放到同一个 grid 里 -->
+                    <div class="member-grid">
+                    <article class="member-card">
                         <img src="https://placehold.co/200x200/00aaff/FFFFFF?text=Avatar" alt="成员头像">
                         <h3>副部长</h3>
                         <p class="role">职位/角色</p>
                         <p class="bio">一句简短的个人介绍或座右铭。</p>
-                    </div>
-                    <div class="member-card">
+                    </article>
+
+                    <article class="member-card">
                         <img src="https://placehold.co/200x200/28A745/FFFFFF?text=Avatar" alt="成员头像">
                         <h3>另一位副部长</h3>
                         <p class="role">另一个职位</p>
                         <p class="bio">这是另一位成员的简介。</p>
-                    </div>
-                    <div class="member-card">
+                    </article>
+
+                    <article class="member-card">
                         <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
                         <h3>第三位副部长</h3>
                         <p class="role">第三个职位</p>
                         <p class="bio">这是第三位成员的简介。</p>
+                    </article>
                     </div>
-                </div>
+                </section>
             </section>
+
+        </div>
+        </section>
 
             <!-- ====================================================================== -->
             <!-- ======================= 动手任务 #3: 添加核心项目 ======================= -->
             <!-- ====================================================================== -->
             <section class="content-section">
-                 <h2 class="section-title">
+                    <h2 class="section-title">
                     <a href="project.html" style="color:inherit;text-decoration:none;cursor:pointer;">
-                     核心活动
+                        核心活动
                     </a>
                 </h2>
                 <div class="project-grid">
@@ -340,7 +136,7 @@
             <section class="content-section">
                 <h2 class="section-title">
                     <a href="photo.html" style="color:inherit;text-decoration:none;cursor:pointer;">
-                     部门风采
+                        部门风采
                     </a>
                 </h2>
                 <div class="photo-grid">
@@ -366,40 +162,31 @@
                 </div>
             </section>
     </div>
-    <!-- 提示：将 src 指向你自己的音乐文件地址。由于浏览器安全策略，本地文件可能无法播放，建议使用在线URL或将音乐文件与HTML放在同一服务器。 -->
-    <audio id="bg-music" src="YOUR_MUSIC_FILE.mp3" loop></audio>
-    <!-- ====================================================================== -->
-    <!-- ======================= 动手任务 #5: 激活交互 (可选) ======================= -->
-    <!-- ====================================================================== -->
-    <script>
-        /*为卡片添加酷炫的3D悬停效果！*/
-        document.addEventListener('DOMContentLoaded', function() {
-            const cardsToAnimate = document.querySelectorAll('.member-card, .leader-card, .project-card');
-
-            cardsToAnimate.forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-
-                    const rotateX = -y / 25; // 旋转强度
-                    const rotateY = x / 25;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
-                    card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
-                });
-
-                card.addEventListener('mouseleave', function() {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                    card.style.boxShadow = 'var(--shadow)';
-                });
-            });
-        });
-        /*深色浅色模式切换*/
-        document.getElementById('theme-toggle').onclick = function() {
-            document.body.classList.toggle('dark-mode');
-        };
-    </script>
+    <div class="page page-hidden" id="project-page">
+        <div class="page-wrapper">
+            <h2>项目页</h2>
+            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
+        </div>   
+    </div>
+    <div class=" page page-hidden" id="2025">
+        <div class="page-wrapper">
+            <h2>2025届</h2>
+            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
+        </div>  
+    </div>
+    <div class="page page-hidden" id="2024">
+        <div class="page-wrapper">
+            <h2>2024届</h2>
+            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
+        </div>   
+    </div>
+    <div class="page page-hidden" id="2023">
+        <div class="page-wrapper">
+            <h2>2023届</h2>
+            <h3><a class="nav-link" id="main-page">返回主页</a></h3>
+        </div>   
+    </div>
+    <script src="script.js" refer></script>
 
 </body>
 </html>

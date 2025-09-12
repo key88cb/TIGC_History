@@ -1,27 +1,66 @@
-# TIGC-HISTORY 前端
-本项目是科创中心的组织展示页面
+# TIGC History - 科创中心前端项目
 
-<!-- [![Build Status](https://img.shields.io/travis/user/repo/master.svg?style=flat-square)](https://travis-ci.org/user/repo)
-[![Code Coverage](https://codecov.io/gh/user/repo/branch/master/graph/badge.svg?token=YOUR_TOKEN)](https://codecov.io/gh/user/repo) -->
+本项目是**科创中心**的官方历史与成员展示网站。它不仅是一个组织风采的展示平台，更是一个为新成员准备的前端入门实战项目，旨在通过实践学习HTML, CSS, 和 JavaScript。
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-项目结构
+## ✨ 项目特色
+
+- **主页概览**: 动态加载并展示所有部门的核心成员。
+- **详细的部门单页**: 每个部门都有自己独立的页面，用于展示部门成员、核心活动、项目和部门风采。
+- **丰富的交互效果**: 网站包含了多种通过原生CSS和JavaScript实现的交互动画，如：
+    - 卡片悬停3D效果
+    - 响应式导航栏
+    - 照片轮播 (Carousel)
+    - 动态粒子背景
+    - 主题切换 (浅色/深色模式)
+- **新手友好**: 项目中包含了大量注释，特别是 `departments/example.html` 文件，它是一个手把手的教学示例，旨在引导新成员快速上手。
+- **数据驱动**: 主页的成员列表由 `script.js` 文件中的JavaScript数组动态生成，实现了内容与结构的初步分离。
+
+## 🛠️ 技术栈
+
+- **HTML5**: 采用语义化标签构建页面结构。
+- **CSS3**: 使用了Flexbox、Grid布局，并包含CSS变量（Custom Properties）和动画（Animations/Transitions）。
+- **JavaScript (ES6+)**: 用于DOM操作、事件处理和动态内容生成。
+- **Font Awesome**: 用于页面中的各种图标。
+- **Google Fonts**: 提供web字体支持。
+
+## 📂 项目结构
+
 ```
-C:.
-│  index.html # 主页骨架
-│  package-lock.json
-│  readme.md 
-│  script.js # 主页样式 
-│  style.css # 主页风格
+/
+├── index.html              # 网站主页，展示所有部门的核心成员
+├── script.js               # 主页的核心脚本，包含成员数据和动态生成逻辑
+├── style.css               # 主页的全局样式表
+├── readme.md               # 项目说明文件
 │
-├─departments # 部门单页(请在此添加文件)
-│      example.html # 示例 
+├── departments/            # 存放所有部门的独立页面
+│   ├── example.html        # 一个带有详细注释的教学示例页面，新成员可以此为模板
+│   ├── cj/                 # 创新实践部
+│   ├── jt/                 # 技术推广部 (一个功能较完善的示例)
+│   ├── qy/                 # 前研探索部
+│   └── wx/                 # 文宣部
 │
-└─image # 部门头像(添加图片注意大小)
-        2_cj.jpg
-        2_fzr.jpg
-        2_jt.jpg
-        2_qy.jpg
-        2_wx.jpg
-        2_zdls.jpg
+└── image/                  # 存放所有需要的图片资源，如成员头像、Logo等
 ```
+
+## 🚀 如何开始与贡献
+
+欢迎新成员为这个项目贡献内容！以下是为你的部门添加或更新信息的步骤：
+
+1.  **克隆仓库**: 首先，将本项目克隆到你的本地。
+2.  **添加/修改部门页面**:
+    - 在 `departments/` 文件夹下，找到你的部门对应的文件夹（如 `jt`）。
+    - 如果你的部门还没有页面，可以复制 `departments/cj/dep_home.html` 或 `departments/qy/dep_home.html` 文件作为模板，并根据其中的注释和任务提示进行修改。
+    - `departments/example.html` 是一个功能更丰富、注释更详细的教学页面，强烈建议初学者阅读学习。
+3.  **更新主页信息**:
+    - 打开根目录下的 `script.js` 文件。
+    - 在 `departments` 数组中，你可以更新你所在部门的描述、图标等信息。
+    - 在 `members` 数组中，添加或修改你的个人信息（姓名, 角色, 简介, 头像链接等）。确保 `departmentId` 与你的部门ID匹配，这样你的信息才能正确显示在主页上。
+4.  **添加图片**:
+    - 将你的头像或其他部门活动照片放入 `image/` 文件夹。
+    - 在代码中引用图片时，请使用相对路径（例如 `../image/your-photo.jpg`）。
+5.  **提交你的更改**: 完成修改后，提交你的代码。
+
+---
+> “如果你停止，就是谷底。如果你还在继续，就是上坡。” 欢迎来到科创中心，在这里开始你的探索之旅！

@@ -1,360 +1,338 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>部门介绍页练兵场[请改掉我]</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- 练兵场样式 这部分的样式表等到你看明白了javascript就可以来研究一下啦  --- */
-        :root {
-            --primary-color: #6a5af9; /* 更鲜明的紫色 */
-            --secondary-color: #00aaff;
-            --background-color: #f4f7fc;
-            --surface-color: #ffffff;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
-            --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.07);
-            --transition-speed: 0.3s;
-        }
-        body {
-            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
-            margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-dark);
-            line-height: 1.7;
-            background-image: url('../../image/TOm.png'); /* 你可以把它替换成你自己的背景图片URL */
-            background-size: cover; /* 覆盖整个视口 */
-            background-position: center; /* 居中显示 */
-            background-attachment: fixed; /* 固定背景，滚动时不移动 */
-        }
-        .header-bar {
-            background-color: var(--surface-color);
-            backdrop-filter: blur(10px);
-            padding: 15px 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .header-bar a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .page-wrapper {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .department-hero {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 80px;
-        }
-        .hero-visual {
-            font-size: 12rem;
-            color: var(--primary-color);
-            opacity: 0.1;
-            text-align: center;
-        }
-        .hero-text h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1.2;
-        }
-        .hero-text p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-top: 15px;
-        }
-        .content-section {
-            background: var(--surface-color);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 50px;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
-            margin: 10px auto 0;
-        }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>主体</title>
+  <link rel="stylesheet" href="buttons-and-popups.css" />
+  <style>
+    /* 渐变+图片背景 */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image:
+         url('草地.png'), 
+         linear-gradient(to bottom, #ffc3a5a9, #f8d5a0b1, #f8eab0ab, #fdf7c0ab);
+      background-size: cover, cover;     
+      background-position: center, center; 
+      background-repeat: no-repeat, no-repeat; 
+    }
 
-        .leader-card {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            margin-bottom: 50px;
-        }
-        .leader-card img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
-        }
-        .leader-info h3 { font-size: 1.8rem; margin: 0; }
-        .leader-info .role { font-size: 1.1rem; opacity: 0.8; margin-bottom: 15px; }
-        .leader-info .bio { font-style: italic; }
+    /* 画架 */
+    #huajia {
+      width: 250px;
+      height: auto;
+      position: absolute;
+      left: 70px;
+      top: 375px;
+      z-index: 2;
+    }
+    
+    /* 调色盘 */
+    #tiaosepan {
+      width: 300px;
+      height: auto;
+      position: absolute;
+      right: 375px;
+      top: 420px;
+      z-index: 7;
+    }
+    
+    /* 画具 */
+    #huaju {
+      width: 200px;
+      height: auto;
+      position: absolute;
+      left: 245px;
+      top: 720px;
+      z-index: 3;
+      transform: rotate(-4deg);
+    }
 
-        .member-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 30px;
-            justify-items: center;
-        }
-        .member-card {
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-            width: 100%;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid #e0e5ec;
-            transition: all var(--transition-speed) ease-in-out;
-        }
-        .member-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
-        }
-        .member-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 4px solid var(--surface-color);
-            box-shadow: 0 0 0 4px var(--primary-color);
-        }
-        .member-card h3 { margin: 10px 0 5px; font-size: 1.2rem; }
-        .member-card .role { color: var(--primary-color); font-weight: 600; margin-bottom: 10px; }
-        .member-card .bio { font-size: 0.9rem; color: var(--text-light); }
+    /* 画板 */
+    #huaban {
+      width: 800px;
+      height: 650px;
+      position: absolute;
+      left: 430px;
+      top: 50px;
+      z-index: 2;
+    }
 
-        /* 项目卡片样式 */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .project-card {
-            background: var(--background-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: all var(--transition-speed) ease-in-out;
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
-        }
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .project-info {
-            padding: 20px;
-        }
-        .project-info h3 { font-size: 1.3rem; margin-top: 0; }
-        .project-info p { color: var(--text-light); }
+    /* 小人 */
+    #ren {
+      width: 300px;
+      height: auto;
+      position: absolute;
+      right: 50px;
+      top: 550px;
+      z-index: 2;
+    }
 
-        /* 照片墙样式 */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .photo-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            transition: all var(--transition-speed);
-            cursor: pointer;
-        }
-        .photo-item img:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow);
-        }
-    </style>
-
+    #logo {
+      position: fixed; 
+      top: 468px;
+      left: 104px;
+      transform: rotate(-4deg); 
+      width: 200px; 
+      height: auto;
+      z-index: 4;
+      border-radius: 10px;
+    }
+  </style>
+  <script src="樱花.js"></script>
 </head>
-<!-- 先从这里的html开始试一试吧！ -->
 <body>
+  <div class="image-container">
+    <img id="huajia" src="画架.png" alt="画架">
+    <img id="tiaosepan" src="调色盘.png" alt="调色盘">
+    <img id="huaju" src="画具.png" alt="画具">
+    <img id="huaban" src="画板.png" alt="画板">
+    <img id="ren" src="人.png" alt="人">
+    <img id="logo" src="科创logo.png" alt="科创logo">
+  </div>
 
-    <header class="header-bar">
-        <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
-        <span>部门介绍页练兵场[期待你的创意]</span>
-    </header>
+  <!-- 圆形按钮 → 打开普通弹窗 -->
+  <button class="circle-button" id="openModal"></button>
 
-    <div class="page-wrapper">
-        
-        <!-- ======================= 你可以修改部门信息 ======================= -->
-        <section class="department-hero">
-            <div class="hero-visual">
-                <img src="../../image/default.jpg">
-            </div>
-            <div class="hero-text">
-                <h1>抽象部</h1>
-                <p>我们负责抽象</p>
-            </div>
-        </section>
+  <!-- 方形按钮 → 打开 PPT 弹窗 -->
+  <div class="transparent-button" id="transparentBtn"></div>
 
-        <main>
-            <!-- ======================= 任务 #2: 添加负责人与核心成员 ======================= -->
-            <section class="content-section">
-                <h2 class="section-title">成员</h2>
-                <!-- 负责人卡片 -->
-                <div class="leader-card">
-                    <img src="../../image/default.jpg" alt="负责人头像"> <!-- ../.. 代表上一级文件夹的上一级文件夹，它们下面才会有image这个保存图片的文件夹哦 -->
-                    <div class="leader-info">
-                        <h3>抽象</h3>
-                        <p class="role">部门部长</p>
-                        <p class="bio">“这里是一句座右铭或简介。”</p>
-                    </div>
-                </div>
-                <!-- 核心成员网格 -->
-                <div class="member-grid">
-                    <div class="member-card">
-                        <img src="https://placehold.co/200x200/00aaff/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>成员姓名</h3>
-                        <p class="role">职位/角色</p>
-                        <p class="bio">一句简短的个人介绍或座右铭。</p>
-                    </div>
-                    <div class="member-card">
-                        <img src="https://placehold.co/200x200/28A745/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>另一位成员</h3>
-                        <p class="role">另一个职位</p>
-                        <p class="bio">这是另一位成员的简介。</p>
-                    </div>
-                    <div class="member-card">
-                        <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>第三位成员</h3>
-                        <p class="role">第三个职位</p>
-                        <p class="bio">这是第三位成员的简介。</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ====================================================================== -->
-            <!-- ======================= 动手任务 #3: 添加核心项目 ======================= -->
-            <!-- ====================================================================== -->
-            <section class="content-section">
-                <h2 class="section-title">核心活动</h2>
-                <div class="project-grid">
-                    <!-- 
-                        提示：下方是一个项目卡片的HTML模板。
-                        1. **复制** 并 **粘贴** 这个模板来添加更多项目。
-                        2. **修改** 图片地址(src)、项目名称(h3)和项目简介(p)。
-                    -->
-                    <!-- 项目卡片模板开始 -->
-                    <div class="project-card">
-                        <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
-                        <div class="project-info">
-                            <h3>名称</h3>
-                            <p>这里是关于这个项目的一段简短介绍，说明它的目标和使用的技术。</p>
-                        </div>
-                    </div>
-                    <!-- 项目卡片模板结束 -->
-                    <div class="project-card">
-                        <img src="https://placehold.co/400x300/00aaff/ffffff?text=Picture" alt="项目截图">
-                        <div class="project-info">
-                            <h3>另一个很棒的活动</h3>
-                            <p>这是另一个项目的简介</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ====================================================================== -->
-            <!-- ======================= 动手任务 #4: 搭建照片墙 ======================= -->
-            <!-- ====================================================================== -->
-            <section class="content-section">
-                <h2 class="section-title">部门风采</h2>
-                <div class="photo-grid">
-                    <!-- 
-                        提示：下方是一个照片墙项目的HTML模板。
-                        1. **复制** 并 **粘贴** 这个模板来添加更多照片。
-                        2. **修改** 图片地址(src)，展示你们的团队活动，地址可以是网络地址，也可以是文件地址，注意，你在填写地址的时候不要写绝对地址哦！要写相对地址！也就是/ XXX /XXX 而不要带盘号
-                    -->
-                    <!-- 照片项模板开始 -->
-                    <div class="photo-item">
-                        <img src="https://placehold.co/300x300/28a745/ffffff?text=Team Building" alt="部门活动照片">
-                    </div>
-                    <!-- 照片项模板结束 -->
-                    <div class="photo-item">
-                        <img src="https://placehold.co/300x300/ffc107/ffffff?text=Be Abstract" alt="部门活动照片">
-                    </div>
-                    <div class="photo-item">
-                        <img src="https://placehold.co/300x300/dc3545/ffffff?text=Go out to play" alt="部门活动照片">
-                    </div>
-                    <div class="photo-item">
-                        <img src="https://placehold.co/300x300/6f42c1/ffffff?text=Daily Work" alt="部门活动照片">
-                    </div>
-                </div>
-            </section>
-        </main>
+  <!-- 普通弹窗 -->
+  <div class="normal-modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>部门介绍</h2>
+        <button class="close-btn" id="closeNormalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p><b>部门名称：</b>文宣部</p>
+        <p><b>部门口号：</b>周五是文宣的！</p>
+        <p><b>核心职责：</b>1.负责部门之间的协调联系</p>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;2.策划主持全员大会与总结大会</p>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;3.进行推文产出、活动摄影等</p>
+      </div>
     </div>
-    <!-- 提示：将 src 指向你自己的音乐文件地址。由于浏览器安全策略，本地文件可能无法播放，建议使用在线URL或将音乐文件与HTML放在同一服务器。 -->
-    <audio id="bg-music" src="YOUR_MUSIC_FILE.mp3" loop></audio>
-    <!-- ====================================================================== -->
-    <!-- ======================= 动手任务 #5: 激活交互 (可选) ======================= -->
-    <!-- ====================================================================== -->
-    <script>
-        // 提示：当你学到JavaScript后，可以尝试取消下面代码的注释，为卡片添加酷炫的3D悬停效果！
-        // 方法：删除 `/*` 和 `*/` 即可。
+  </div>
 
-        /*
-        document.addEventListener('DOMContentLoaded', function() {
-            const cardsToAnimate = document.querySelectorAll('.member-card, .leader-card, .project-card');
-
-            cardsToAnimate.forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    
-                    const rotateX = -y / 25; // 旋转强度
-                    const rotateY = x / 25;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
-                    card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
-                });
-
-                card.addEventListener('mouseleave', function() {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                    card.style.boxShadow = 'var(--shadow)';
-                });
-            });
-        });
-        */
+  <!-- 方形按钮对应的PPT弹窗 -->
+  <div class="ppt-modal-overlay" id="modalOverlay1">
+    <div class="ppt-modal">
+      <button class="close-button" id="closePPTBtn">&times;</button>
+      <div class="ppt-content">
+        <!-- 第1页 -->
+        <div class="slide active">
+          <div class="content-columns">
+            <div class="left-column">
+              <img src="火柴人2.png" alt="火柴人" style="width: 100%; height: 400px; object-fit: cover; border-radius: 4px;"/>
+            </div>
+            <div class="right-column">
+              <h2><b>人物资料卡</b></h2>
+              <hr width="100%" color="#333333" size="2">
+              
+              <h3><b>昵称：</b>了了</h3>
+             
+              <h3><b>职务：</b>文宣部副部长</h3>
+              
+              <h3><b>MBTI：</b>enfp</h3>
+              
+              <h3><b>兴趣爱好：</b>手工（积木、拼图、手绳等）</h3>
+              <h3>&emsp;&emsp;&emsp;&emsp;&emsp;画画（彩铅、素描）、染卡</h3>
+              <h3>&emsp;&emsp;&emsp;&emsp;&emsp;吃各种好吃的（但是香菜达咩）</h3>
+              <h3>&emsp;&emsp;&emsp;&emsp;&emsp;农批，看kpl（但其实打的很菜）</h3>
+              
+              <h3><b>签名：</b>活着</h3>
+            </div>
+          </div>
+        </div>
         
-    </script>
+        <!-- 第2页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width: 100%; height: 400px; background: #e9ecef; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #666;">
+                图片区域 (30%)
+              </div>
+            </div>
+            <div class="right-column">
+              <h2>第2页标题</h2>
+              <p>第2页详细内容，可补充部门职责或活动介绍</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 第3页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width: 100%; height: 400px; background: #e9ecef; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #666;">
+                图片区域 (30%)
+              </div>
+            </div>
+            <div class="right-column">
+              <h2>第3页标题</h2>
+              <p>第3页详细内容，可补充部门职责或活动介绍</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 第4页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width: 100%; height: 400px; background: #e9ecef; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #666;">
+                图片区域 (30%)
+              </div>
+            </div>
+            <div class="right-column">
+              <h2>第4页标题</h2>
+              <p>第4页详细内容，可补充部门职责或活动介绍</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 第5页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width: 100%; height: 400px; background: #e9ecef; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #666;">
+                图片区域 (30%)
+              </div>
+            </div>
+            <div class="right-column">
+              <h2>第5页标题</h2>
+              <p>第5页详细内容，可补充部门职责或活动介绍</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="nav-button prev-btn" id="prevBtn">‹</button>
+      <button class="nav-button next-btn" id="nextBtn">›</button>
+      <div class="pagination">
+        <div class="dot active" data-slide="0"></div>
+        <div class="dot" data-slide="1"></div>
+        <div class="dot" data-slide="2"></div>
+        <div class="dot" data-slide="3"></div>
+        <div class="dot" data-slide="4"></div>
+      </div>
+    </div>
+  </div>
 
+  <!-- 5个椭圆形按钮 -->
+  <!-- 椭圆按钮 1 -->
+<div class="ellipse-button" id="ellipseBtn1" 
+     style="background: #ffffff00; position: absolute; top: 505px; right: 420px; transform: rotate(-3deg); z-index: 50;">
+  1
+</div>
+
+<!-- 椭圆按钮 2 -->
+<div class="ellipse-button" id="ellipseBtn2" 
+     style="background: #ffffff00; position: absolute; top: 548px; right: 406px; transform: rotate(-50deg); z-index: 50;">
+  2
+</div>
+
+<!-- 椭圆按钮 3 -->
+<div class="ellipse-button" id="ellipseBtn3" 
+     style="background: #ffffff00; position: absolute; top: 590px; right: 448px; transform: rotate(-20deg); z-index: 50;">
+  3
+</div>
+
+<!-- 椭圆按钮 4 -->
+<div class="ellipse-button" id="ellipseBtn4" 
+     style="background: #ffffff00; position: absolute; top: 620px; right: 500px; transform: rotate(5deg); z-index: 50;">
+  4
+</div>
+
+<!-- 椭圆按钮 5 -->
+<div class="ellipse-button" id="ellipseBtn5" 
+     style="background: #ffffff00; color: #000000; position: absolute; top: 618px; right: 553px; transform: rotate(10deg); z-index: 50;">
+  5
+</div>
+
+  <!-- 椭圆形按钮对应的PPT弹窗 -->
+  <div class="ppt-modal-overlay" id="ellipsePPTModal">
+    <div class="ppt-modal">
+      <div class="ppt-content">
+        <!-- 第1页 -->
+        <div class="slide active">
+          <div class="content-columns">
+            <div class="left-column">
+              <img src="火柴人2.png" alt="火柴人" style="width:100%; height:400px; object-fit:cover; border-radius:4px;" />
+            </div>
+            <div class="right-column">
+              <h2><b>第1页内容</b></h2>
+              <p>这是椭圆按钮1控制的第1页</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第2页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width:100%; height:400px; background:#ddd; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#666;">
+                第2页图片区域
+              </div>
+            </div>
+            <div class="right-column">
+              <h2><b>第2页内容</b></h2>
+              <p>这是椭圆按钮2控制的第2页</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第3页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width:100%; height:400px; background:#ccc; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#666;">
+                第3页图片区域
+              </div>
+            </div>
+            <div class="right-column">
+              <h2><b>第3页内容</b></h2>
+              <p>这是椭圆按钮3控制的第3页</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第4页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width:100%; height:400px; background:#bbb; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#666;">
+                第4页图片区域
+              </div>
+            </div>
+            <div class="right-column">
+              <h2><b>第4页内容</b></h2>
+              <p>这是椭圆按钮4控制的第4页</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第5页 -->
+        <div class="slide">
+          <div class="content-columns">
+            <div class="left-column">
+              <div style="width:100%; height:400px; background:#aaa; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#666;">
+                第5页图片区域
+              </div>
+            </div>
+            <div class="right-column">
+              <h2><b>第5页内容</b></h2>
+              <p>这是椭圆按钮5控制的第5页</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="popups.js"></script>
 </body>
 </html>

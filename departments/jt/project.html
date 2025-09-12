@@ -293,57 +293,67 @@
         <i class="iconfont icon-arrowup" id="up-btn" onclick="slideToPrev()"></i>
         <i class="iconfont icon-arrowdown" id="down-btn" onclick="slideToNext()"></i>
         <div id="content">
+            <!-- 时间需要精确到月，根据月份来控制时钟旋转的比例 -->
             <div class="card">
                 <div class="card-time">
-                    2022
+                    <span class="card-time-year">2022</span>
+                    <span>.</span>
+                    <span class="card-time-month">1</span> 
                 </div>
                 <div class="card-title">
-                    Latex数字文档大赛
+                    梦开始的地方
                 </div>
                 <div class="card-passage">
-                    <p>如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。</p>
+                    <p>心中那自由的世界</p>
                     <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-time">
-                    2023
+                    <span class="card-time-year">2022</span>
+                    <span>.</span>
+                    <span class="card-time-month">5</span> 
                 </div>
                 <div class="card-title">
-                    数据可视化大赛
+                    活动AAA
                 </div>
                 <div class="card-passage">
-                    <p>如果时光可以倒流，我还是会选择认识你，虽然会伤痕累累，但是心中的温暖记忆是谁都无法给予的。谢谢你来过我的世界。</p>
-                    <p>If time could be turned back, I would still choose to know you, although it will be scarred, but the warm memory in my heart is no one can give. Thank you for coming to my world.</p>
-                    <img src="https://placehold.co/400x300/00aaff/ffffff?text=Picture" alt="项目截图">
+                    <p>如此的清澈高远</p>
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-time">
-                    2024
+                    <span class="card-time-year">2024</span>
+                    <span>.</span>
+                    <span class="card-time-month">2</span> 
                 </div>
                 <div class="card-title">
-                    《平凡的世界》
+                    活动BBB
                 </div>
                 <div class="card-passage">
-                    <p>人生啊，是这样不可预测，没有永恒的痛苦，也没有永恒的幸福，生活像流水一般，有时是那么平展，有时又是那么曲折。</p>
-                    <p>Life, ah, is so unpredictable, there is no eternal pain, there is no eternal happiness, life is like running water, sometimes it is so flat, sometimes it is so tortuous.</p>
-                    <img src="https://placehold.co/400x300/ff9800/ffffff?text=Picture" alt="项目截图">
+                    <p>盛开着永不凋零</p>
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-time">
-                    2025
+                    <span class="card-time-year">2025</span>
+                    <span>.</span>
+                    <span class="card-time-month">6</span> 
                 </div>
                 <div class="card-title">
-                    《道林・格雷的画像》
+                    活动CCC
                 </div>
                 <div class="card-passage">
-                    <p>不要虚掷你的黄金时代，不要去倾听枯燥乏味的东西，不要设法挽留无望的失败，不要把你的生命献给无知、平庸和低俗。</p>
-                    <p>Do not waste your golden years, do not listen to the boring, do not try to prevent hopeless failure, do not give your life to ignorance, mediocrity and vulgarity.</p>
-                    <img src="https://placehold.co/400x300/9c27b0/ffffff?text=Picture" alt="项目截图">
+                    <p>蓝莲花~</p>
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
                 </div>
             </div>
+
         </div>
 
         <div id="clock">
@@ -353,25 +363,29 @@
         </div>
     </div>
     <script>
-        // 定义变量
-        let offset = 0;
-        let maxOffset = 0;
-        let minOffset = -3;
+        
         // 获取所有卡片元素并存储在数组中
         const slides = Array.from(document.querySelectorAll(".card"));
-        // 获取时钟表盘元素
         const clock = document.querySelector("#clock-table");
-        // 设定起始年份为2021
-        let startYear = 2022;
-        for (let i = -60, year = startYear - 1; i < 300; i += 6) {
-            // 调用添加时钟刻度函数
+        let yearcontent = [2021,2022,2023,2024,2025,'未完待续'];
+        //============这里需要调整格式！！！！！！！！！！！！！！！
+        let year = 0;
+        for (let i = -60; i < 300; i += 5) {
             addClockScale(i);
             if (i % 60 === 0) {
-                // 如果为整点时，调用添加粗刻度函数
-                addThickClockScale(i, year);
-                year++;
+                if (year < yearcontent.length) {
+                    addThickClockScale(i, yearcontent[year]);
+                    year++;
+                }
+                // 否则，不再添加粗刻度
             }
         }
+        
+        // 定义偏移量和偏移边界
+        let offset = 0;
+        let maxOffset = 0; // 第一张卡片
+        let minOffset = -(slides.length-1); // 最后一张卡片
+
         // 添加时钟刻度
         function addClockScale(degree) {
             // 创建一个隐藏的表格元素
@@ -403,31 +417,63 @@
             invisibleClockTable.appendChild(thickClockScale);
             clock.appendChild(invisibleClockTable);
         }
-        // 向前切换卡片
+
+        const absoluteMonths = slides.map(slide => {
+        const yearElement = slide.querySelector('.card-time-year');
+        const monthElement = slide.querySelector('.card-time-month');
+        const year = yearElement ? parseInt(yearElement.textContent) : 0;
+        const month = monthElement ? parseInt(monthElement.textContent) : 0;
+        return year * 12 + month;
+        });
+
+        // 计算每张卡片相对于第一张卡片的月份差，并转换为角度
+        const baseMonths = absoluteMonths[0]; // 第一张卡片的绝对月份
+        const rotationAngles = absoluteMonths.map(months => {
+            const diff = months - baseMonths;
+            return -(diff / 12) * 60; // 每差12个月旋转60度
+        });
+
+        let currentIndex = 0; // 当前卡片索引
+        let maxIndex = slides.length - 1; // 最大索引
+        let minIndex = 0; // 最小索引
+
+        // 向前切换卡片（上一张）
         function slideToPrev() {
-            // 更新偏移量，取最大值
-            offset = Math.min(maxOffset, offset + 1);
-            slides.forEach(slide => {
-                // 根据偏移量设置卡片垂直偏移效果
-                slide.style.transform = `translateY(${offset * 100}%)`;
-            });
-            // 调用旋转时钟表盘函数
-            clockRotate(offset * 60);
+        if (currentIndex <= minIndex) return; // 已经是第一张
+
+        currentIndex--;
+        // 移动卡片：这里偏移量是currentIndex的负值乘以100%
+        offset = -currentIndex; //offset可能不再需要？
+
+        slides.forEach(slide => {
+            slide.style.transform = `translateY(${offset * 100}%)`;
+        });
+
+        // 旋转时钟到当前卡片对应的角度
+        clockRotate(rotationAngles[currentIndex]);
         }
-        // 向后切换卡片
+
+        // 向后切换卡片（下一张）
         function slideToNext() {
-            offset = Math.max(minOffset, offset - 1);
+            if (currentIndex >= maxIndex) return; // 已经是最后一张
+
+            currentIndex++;
+            offset = -currentIndex;
+
             slides.forEach(slide => {
-                slide.style.transform = `translateY(${offset * 100}%)`;
+            slide.style.transform = `translateY(${offset * 100}%)`;
             });
-            clockRotate(offset * 60);
+
+            clockRotate(rotationAngles[currentIndex]);
         }
+
         // 旋转时钟表盘
         function clockRotate(degree) {
             // 根据角度旋转时钟表盘
             clock.style.transform = `rotate(${degree}deg)`;
         }
         
+
         // 创建粒子效果
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
@@ -464,6 +510,21 @@
             createParticles();
             window.addEventListener('scroll', updateScrollProgress);
         });
+
+        // 添加鼠标滚轮事件监听
+        document.addEventListener('wheel', function(event) {
+        if (event.deltaY > 0) {
+        // 向下滚动 - 切换到下一项
+        slideToNext();
+        } else {
+        // 向上滚动 - 切换到上一项
+        slideToPrev();
+        }
+    
+        // 阻止默认滚动行为
+        event.preventDefault();
+        }, { passive: false });
+
     </script>
 </body>
 

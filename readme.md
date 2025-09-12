@@ -1,6 +1,6 @@
 # TIGC History - 科创中心前端项目
 
-本项目是**科创中心**的官方历史与成员展示网站。它不仅是一个组织风采的展示平台，更是一个为新成员准备的前端入门实战项目，旨在通过实践学习HTML, CSS, 和 JavaScript。
+本项目是**科创中心**的官方历史与成员展示网站。它不仅是一个组织风采的展示平台，更是一个前端入门实战项目，旨在通过实践学习HTML, CSS, 和 JavaScript。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 

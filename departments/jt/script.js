@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
 
-            const rotateX = -y / 25; // ��??��
+            const rotateX = -y / 25; // 旋转强度
             const rotateY = x / 25;
 
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-/*��?????�?�*/
-// ?????? + ??????
+/*主题切换功能*/
+// 鸡腿图标 + 主题切换
 (function(){
   const themeBtn = document.getElementById('theme-toggle');
   if(!themeBtn) return;
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.toggle('dark-mode');
     toggleCount++;
     if(resetTimer) clearTimeout(resetTimer);
-    resetTimer = setTimeout(()=>{ toggleCount = 0; }, 2000); // 2???????
+    resetTimer = setTimeout(()=>{ toggleCount = 0; }, 2000); // 2秒内连续点击7次触发彩蛋
     if(toggleCount >= 7){
-      alert('???????????????(?�?�??? ????');
+      alert('恭喜你发现了彩蛋!!!');
       toggleCount = 0;
     }
   };
 })();
-/*?���?�*/
+/*页面切换功能*/
 const pages = document.querySelectorAll('.page');
 const links = document.querySelectorAll('.nav-link');
 links.forEach(link => {
@@ -51,11 +51,11 @@ function changePage(link){
     });
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // ??????
+      behavior: 'smooth' // 平滑滚动
     });
 }
 
-// ?????????
+// 移动端菜单切换
 document.addEventListener('DOMContentLoaded', function(){
   const toggleBtn = document.getElementById('jt-mobile-menu');
   const headerNav = document.querySelector('.header-nav');
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function(){
 document.addEventListener('selectstart', function(e) {
     e.preventDefault();
   });
-// ??????
+// 成员卡片翻转功能
 document.addEventListener('DOMContentLoaded', function() {
   const memberCards = document.querySelectorAll('.member-card');
   

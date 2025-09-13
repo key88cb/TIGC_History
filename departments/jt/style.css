@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #6a5af9; /* ����������ɫ */
+    --primary-color: #6a5af9; /* 主题色 */
     --secondary-color: #00aaff;
     --background-color: #f4f7fc;
     --surface-color: #ffffff;
@@ -15,11 +15,11 @@ body {
     background-color: var(--background-color);
     color: var(--text-dark);
     line-height: 1.7;
-    background-size: cover; /* ���������ӿ� */
-    background-position: center; /* ������ʾ */
-    background-attachment: fixed; /* �̶�����������ʱ���ƶ� */
+    background-size: cover; /* 覆盖整个视口 */
+    background-position: center; /* 居中显示 */
+    background-attachment: fixed; /* 固定背景，滚动时不移动 */
 }
-/*ҳü*/
+/* 链接样式 */
 a {
     color: var(--primary-color);
     text-decoration: none; /* 去掉下划线 */
@@ -134,7 +134,7 @@ header .container {
     margin: 10px auto 0;
 }
 
-/* 成员标题右侧“更多”链接，视觉与头部链接一致 */
+/* 成员标题右侧"更多"链接，视觉与头部链接一致 */
 .section-more-link{
     font-size: 1rem;
     margin-left: 12px;
@@ -169,7 +169,7 @@ header .container {
 .leader-info .bio { font-style: italic; }
 
 
-/* ��Ŀ��Ƭ��ʽ */
+/* 项目卡片样式 */
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -197,7 +197,7 @@ header .container {
 .project-info h3 { font-size: 1.3rem; margin-top: 0; }
 .project-info p { color: var(--text-light); }
 
-/* ��Ƭǽ��ʽ */
+/* 照片墙样式 */
 .photo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -215,7 +215,7 @@ header .container {
     transform: scale(1.05);
     box-shadow: var(--shadow);
 }
-/*��ɫǳɫģʽ�л�*/
+/*深色模式切换*/
 body.dark-mode {
     --background-color: #23272f;
     --surface-color: #2c313a;
@@ -224,7 +224,7 @@ body.dark-mode {
     --primary-color: #ff9800;
     --secondary-color: #6a5af9;
 }
-/*ȫ���Ӿ���������*/
+/*全局滚动条样式*/
 body, html {
     height: 100%;
     margin: 0;
@@ -384,7 +384,7 @@ html {
 }
 
 
-/* 右侧“更多”链接 */
+/* 右侧"更多"链接 */
 .panel--right .more{
   text-align: center;
   margin: 10px 0 20px;
@@ -450,8 +450,8 @@ html {
   text-align: center;
   transition: transform .2s ease, box-shadow .2s ease;
   perspective: 1000px;
-  height: 280px;
-  margin-bottom: 120px;
+  height: 400px;
+  margin-bottom: 60px;
 }
 .member-card:hover{
   transform: translateY(-6px);

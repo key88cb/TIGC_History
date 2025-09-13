@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 数据定义区 ---
 
     const departments = [
-        { id: 'lead', name: '指导老师 & 负责人', icon: 'fas fa-star', description: '指导和管理中心的核心团队。', pageUrl: 'departments/example.html' },
+        { id: 'lead', name: '指导老师 & 负责人', icon: 'fas fa-star', description: '指导和管理中心的核心团队。', pageUrl: 'index4cov.html' },
         { id: 'wx', name: '文宣部', icon: 'fas fa-bullhorn', description: 'TBD。', pageUrl: 'departments/wx/dep_home.html' },
         { id: 'qy', name: '前研探索部', icon: 'fas fa-flask', description: 'TBD。', pageUrl: 'departments/qy/dep_home.html' },
         { id: 'jt', name: '技术推广部', icon: 'fas fa-code', description: 'TBD。', pageUrl: 'departments/jt/dep_home.html' },
@@ -233,7 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 功能函数区 ---
 
-    // [REWRITTEN] 功能重写: 按年份分组动态创建所有成员的卡片
     function displayMembersByYear() {
         const container = document.getElementById('member-groups-container');
         if (!container) return;

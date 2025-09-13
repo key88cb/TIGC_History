@@ -3,17 +3,17 @@
 /* 引入谷歌字体 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
 
-/* 使用CSS变量来定义一套深色主题 */
+/* 【已修改】使用CSS变量来定义一套深色主题 */
 :root {
-    --primary-color: #4f8ff7;
-    --secondary-color: #ffffff;
-    --background-color: #121212ec;
-    /* 我们不再直接使用 --light-background，而是通过 rgba 定义半透明背景 */
-    --text-color: #e0e0e0;
-    --text-light: #a0a0a0;
-    --border-color: #333333;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --container-width: 1100px;
+    --primary-color: #4f8ff7; /* 主题色：调整为更亮的蓝色以在深色背景上突出 */
+    --secondary-color: #10b981; /* 辅色：绿色可以保持不变或稍微调亮 */
+    --background-color: #121212; /* 页面背景色：非常深的灰色 */
+    --light-background: #1e1e1e; /* 浅色背景：用于卡片的深灰色，比背景稍亮 */
+    --text-color: #e0e0e0; /* 主要文字颜色：调整为浅灰色 */
+    --text-light: #a0a0a0; /* 次要文字颜色：调整为更暗的灰色 */
+    --border-color: #333333; /* 边框颜色：调整为深色模式下的边框色 */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* 卡片阴影：在深色模式下可以稍微加重 */
+    --container-width: 1100px; /* 内容区域最大宽度 */
 }
 
 
@@ -21,65 +21,40 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* 让盒子的宽高计算更直观 */
 }
 
-/* 【新增】创建背景颜色流动的动画 */
-@keyframes animate-gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
+/* 【已修改】将背景改为带有斜向流线的深色背景 */
 body {
     font-family: 'Inter', 'Noto Sans SC', sans-serif;
     line-height: 1.7;
     color: var(--text-color);
-    background-color: var(--background-color);
-
-    /* 关键修改：使用两个背景图像叠加 */
-    background-image: 
-        /* 顶层：斜向流线 (让线条更明显一点) */
-        repeating-linear-gradient(
-            -45deg,
-            rgba(47, 79, 193, 0.422),
-            rgba(189, 37, 37, 0.03) 1px,
-            transparent 1px,
-            transparent 30px
-        ),
-        /* 底层：缤纷的、会动的颜色渐变 */
-        linear-gradient(
-            -45deg, 
-            #101a2e, /* 深蓝 */
-            var(--background-color),
-            #112921 /* 深绿 */
-        );
-    
-    background-size: auto, 400% 400%; /* 第一个背景(线条)尺寸自动，第二个(颜色)放大4倍 */
-    animation: animate-gradient 20s ease infinite; /* 应用动画 */
+    /* 设置一个深色底色作为回退 */
+    background-color: var(--background-color); 
+    /* 使用渐变创建斜向纹理 */
+    background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 20px
+    );
 }
 
 /* ======================= 通用样式类 ======================= */
 
 .container {
     max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 20px;
+    margin: 0 auto; /* 水平居中 */
+    padding: 0 20px; /* 两侧留出边距 */
 }
 
 .section-padding {
-    padding: 60px 0;
+    padding: 60px 0; /* 上下内边距 */
 }
 
 .bg-light {
-    background-color: rgba(28, 28, 28, 0.386); /* 从 0.9 改为 0.6，透明度更高 */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* 加一个淡淡的亮色边框增加轮廓感 */
+    background-color: var(--light-background);
 }
 
 h2 {
@@ -91,17 +66,20 @@ h2 {
 
 a {
     color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
+    text-decoration: none; /* 去掉下划线 */
+    transition: color 0.3s ease; /* 颜色变化动画 */
 }
 
+/* 【已修改】调整链接悬停颜色以适应深色主题 */
 a:hover {
-    color: #87b1f9;
+    color: #87b1f9; /* 鼠标悬停时使用更亮的蓝色 */
 }
 
 /* ======================= 页眉和导航栏 ======================= */
+
+/* 【已修改】调整页眉背景为深色半透明 */
 header {
-    background-color: rgba(25, 25, 25, 0.8);
+    background-color: rgba(25, 25, 25, 0.8); /* 深色毛玻璃效果 */
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
@@ -124,12 +102,12 @@ header .container {
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text-color);
+    color: var(--text-color); /* Logo文字颜色也应变浅 */
 }
 
 .logo i {
     margin-right: 8px;
-    color: var(--primary-color);
+    color: var(--primary-color); /* 让Logo图标保持主题色 */
 }
 
 .nav-menu {
@@ -171,7 +149,7 @@ header .container {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--text-color);
+    color: var(--text-color); /* 汉堡按钮颜色 */
 }
 
 /* ======================= 成员列表 ======================= */
@@ -183,13 +161,13 @@ header .container {
 }
 
 .member-card {
-    background-color: rgba(40, 40, 40, 0.3); /* 从纯色改为 70% 不透明度 */
+    background-color: var(--light-background);
     border-radius: 10px;
     padding: 30px;
     text-align: center;
     box-shadow: var(--shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1); /* 同样加上亮色边框 */
+    border: 1px solid var(--border-color); /* 在深色模式下加一个边框会更有层次感 */
 }
 
 .member-card:hover {
@@ -225,6 +203,22 @@ header .container {
 
 /* ======================= 其他区域 ======================= */
 
+.event-list {
+    list-style: none;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.event-list li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.event-list i {
+    margin-right: 15px;
+    color: var(--secondary-color);
+}
+
 .contact-info {
     text-align: center;
     max-width: 600px;
@@ -240,8 +234,9 @@ header .container {
 }
 
 /* ======================= 页脚 ======================= */
+/* 页脚样式已很适合深色模式，无需大改 */
 footer {
-    background-color: #111;
+    background-color: #111; /* 可以调得比页面背景更深一点 */
     color: #eee;
     text-align: center;
     padding: 20px 0;
@@ -249,23 +244,22 @@ footer {
 }
 
 /* ======================= 响应式设计 ======================= */
+
 @media (max-width: 768px) {
-    /* 【已修改】调整移动端菜单背景为半透明 */
-/* style.css Line 233 */
-.nav-menu {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background-color: rgba(28, 28, 28, 0); /* 移动端菜单可以稍微不透明一些，保证文字清晰 */
-    backdrop-filter: blur(8px);
-    flex-direction: column;
-    text-align: center;
-    padding: 20px 0;
-    box-shadow: var(--shadow);
-    border-bottom: 1px solid var(--border-color);
-}
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--light-background); /* 移动端菜单背景 */
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 0;
+        box-shadow: var(--shadow);
+        border-bottom: 1px solid var(--border-color);
+    }
+
     .nav-menu.active {
         display: flex;
     }
@@ -281,35 +275,4 @@ footer {
     h2 {
         font-size: 2rem;
     }
-}
-/* style.css 新增样式 */
-
-.year-group {
-    margin-bottom: 60px; /* 增加不同年份之间的垂直间距 */
-}
-
-.year-group:last-child {
-    margin-bottom: 0; /* 最后一个年份组不需要下边距 */
-}
-
-.year-title {
-    font-size: 1.8rem;
-    color: var(--text-light);
-    text-align: center;
-    margin-bottom: 30px;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-/* 为年份标题下方添加一条装饰性的线条 */
-.year-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 2px;
-    background-color: var(--primary-color);
-    opacity: 0.5;
 }

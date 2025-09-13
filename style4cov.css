@@ -4,79 +4,51 @@ body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidde
 /* --- 父容器 --- */
 .parent { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); gap: 0; }
 
-/* --- 动画 Keyframes (用于渐变) --- */
-@keyframes gradient-animation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+/* --- 【已移除】 不再需要动画 Keyframes --- */
 
-/* --- 所有区块的通用样式 (终极版) --- */
+/* ========================================================= */
+/*  【核心精简区】                                           */
+/* ========================================================= */
+
+/* --- 所有区块的通用样式 --- */
 .tile {
     position: relative;
     cursor: pointer;
-    transition: all 0.6s ease-in-out;
-    overflow: hidden; /* 隐藏溢出的伪元素 */
-    /* 效果3: 默认辉光 */
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
-    /* 效果1: 动态渐变背景 (最底层) */
-    background: linear-gradient(-45deg, #2a2a2a, #4a4a4a, #2a2a2a, #000);
-    background-size: 400% 400%;
-    animation: gradient-animation 20s ease infinite;
+    background: #8f8d8d;
+    /* 核心修复：将 transition 的目标改为 'all' */
+    transition: all 1s ease-in-out;
+    /* 效果1: 默认状态下的外部辉光 (不受边界限制) */
+    filter: drop-shadow(0 0 8px rgba(174, 171, 171, 0.8));
 }
 .tile:hover { 
     transform: scale(1.03); 
     z-index: 100; 
-    /* 效果3: 悬停时辉光变强变色 */
+    /* 效果1: 悬停时更强的外部辉光 */
     filter: drop-shadow(0 0 25px var(--glow-color, cyan));
 }
 
-/* --- 伪元素图层 --- */
-.tile::before, .tile::after {
+/* --- 【已简化】只保留一个伪元素用于显示LOGO --- */
+.tile::before {
     content: '';
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    clip-path: inherit; /* 继承父元素的形状 */
-    pointer-events: none; /* 让鼠标事件穿透伪元素 */
+    pointer-events: none; /* 确保不影响点击 */
 }
 
-/* 效果2: 图片层 (中间层) */
-.tile::before {
-    background-size: cover;
-    background-position: center;
-    opacity: 0.6; /* 初始半透明，让渐变透出来 */
-    transition: transform 0.8s ease, opacity 0.6s ease;
-}
-.tile:hover::before {
-    transform: scale(1.1); /* 悬停时图片放大 */
-    opacity: 0.85; /* 图片变得更清晰 */
-}
-
-/* 额外花样: 扫描线纹理层 */
-.tile::after {
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
-    background-size: 100% 4px;
-    opacity: 0.2;
-    transition: opacity 0.6s ease;
-}
-.tile:hover::after {
-    opacity: 0.05; /* 悬停时减弱纹理，让图片更突出 */
-}
 
 /* --- 内容样式 --- */
 .content { 
-    position: relative; /* 确保 z-index 生效 */
-    z-index: 2; /* 置于所有伪元素之上 */
+    position: relative;
+    z-index: 3; /* 内容在最顶层 */
     width: 100%; height: 100%; 
     display: flex; flex-direction: column; 
     justify-content: center; align-items: center; 
     color: white; text-align: center; 
     padding: 20px; box-sizing: border-box; 
-    background-color: transparent; /* 内容层不再需要背景 */
 }
-.content h2 { font-size: 2vw; margin-bottom: 10px; text-shadow: 0 3px 6px rgba(0,0,0,0.8); }
-.content p { font-size: 1.1vw; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+.content h2 { font-size: 2vw; margin-bottom: 10px; text-shadow: 0 3px 6px rgba(143, 138, 138, 0.8); }
+.content p { font-size: 1.1vw; margin: 0; text-shadow: 0 2px 4px rgba(135, 128, 128, 0.8); }
 
 /* --- 定义放大后的 fullscreen 状态 (保持不变) --- */
 .tile.fullscreen {
@@ -92,40 +64,52 @@ body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidde
 }
 
 /* ========================================================= */
-/*  为每个区块定义具体样式 (形状、图片、辉光颜色)            */
+/*  为每个区块定义具体样式 (更简洁)                          */
 /* ========================================================= */
 
-.div1 { 
-    grid-area: 3 / 3 / 7 / 7; 
-    clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
-    --glow-color: #ffc44d; 
+.div1 {
+grid-area: 3 / 3 / 7 / 7;
+clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
+--glow-color: #e69901;
 }
-.div1::before { background-image: url('path/to/image1.jpg'); } /* 替换为你的图片! */
-
-.div2 { 
-    grid-area: 1 / 5 / 5 / 9; 
-    clip-path: polygon(0 50%, 50% 100%, 100% 100%, 100% 0, 0 0); 
-    --glow-color: #8f82c4;
+/* 中心块的::before用于显示LOGO */
+.div1::before {
+background: url('image/TIGC_transparent.png') no-repeat center / 50%;
+z-index: 2;
 }
-.div2::before { background-image: url('path/to/image2.jpg'); }
-
-.div3 { 
-    grid-area: 5 / 5 / 9 / 9; 
-    clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%, 0 50%); 
-    --glow-color: #e06fad;
+.div2 {
+grid-area: 1 / 5 / 5 / 9;
+clip-path: polygon(0 50%, 50% 100%, 100% 100%, 100% 0, 0 0);
+--glow-color: #8f82c4;
 }
-.div3::before { background-image: url('path/to/image3.jpg'); }
-
-.div4 { 
-    grid-area: 1 / 1 / 5 / 5; 
-    clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 100%, 0 100%); 
-    --glow-color: #23a6d5;
+.div2::before {
+background: linear-gradient(135deg, rgba(75, 63, 114, 0.4), rgba(35, 166, 213, 0.1));
+clip-path: inherit; 
 }
-.div4::before { background-image: url(''); }
-
-.div5 { 
-    grid-area: 5 / 1 / 9 / 5; 
-    clip-path: polygon(0 0, 50% 0, 100% 50%, 100% 100%, 0 100%); 
-    --glow-color: #ff8a88;
+.div3 {
+grid-area: 5 / 5 / 9 / 9;
+clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%, 0 50%);
+--glow-color: #e51f8c;
 }
-.div5::before { background-image: url('path/to/image5.jpg'); }
+.div3::before {
+background: linear-gradient(135deg, rgba(188, 80, 144, 0.4), rgba(255, 99, 97, 0.1));
+clip-path: inherit;
+}
+.div4 {
+grid-area: 1 / 1 / 5 / 5;
+clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 100%, 0 100%);
+--glow-color: #04bcff;
+}
+.div4::before {
+background: linear-gradient(135deg, rgba(12, 112, 159, 0.4), rgba(188, 80, 144, 0.1));
+clip-path: inherit;
+}
+.div5 {
+grid-area: 5 / 1 / 9 / 5;
+clip-path: polygon(0 0, 50% 0, 100% 50%, 100% 100%, 0 100%);
+--glow-color: #ff8a88;
+}
+.div5::before {
+background: linear-gradient(135deg, rgba(255, 99, 97, 0.4), rgba(255, 166, 0, 0.1));
+clip-path: inherit;
+}

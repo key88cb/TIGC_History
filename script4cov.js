@@ -16,30 +16,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // --- FLIP 动画技术核心 ---
-
-            // 1. First: 获取元素的初始状态 (位置和大小)
+            // --- FLIP 动画技术核心 (保持不变) ---
             const rect = clickedTile.getBoundingClientRect();
-
-            // 2. Last: 在添加fullscreen类之前，先用内联样式将元素固定在初始位置
-            //    并将其 position 切换为 fixed，脱离网格布局
             clickedTile.style.position = 'fixed';
             clickedTile.style.top = `${rect.top}px`;
             clickedTile.style.left = `${rect.left}px`;
             clickedTile.style.width = `${rect.width}px`;
             clickedTile.style.height = `${rect.height}px`;
 
-            // 3. Invert & Play: 立即添加 fullscreen 类，触发CSS transition
-            //    浏览器会自动计算初始状态和最终状态之间的差异，并播放动画
             requestAnimationFrame(() => {
                 clickedTile.classList.add('fullscreen');
             });
 
-            // 4. 监听动画结束事件
-            clickedTile.addEventListener('transitionend', () => {
-                // 动画播放完毕后，跳转到目标链接
+
+            // =========================================================
+            //  【核心修复区】
+            //  我们不再使用不稳定的 'transitionend' 事件监听。
+            //  而是使用一个与 CSS 动画时长完全匹配的 setTimeout。
+            // =========================================================
+            
+            setTimeout(() => {
+                // 这个函数会在 600 毫秒后执行，确保动画有足够的时间播放完毕
                 window.location.href = link;
-            }, { once: true }); // { once: true } 确保事件只触发一次
+            }, 1000); 
         });
     });
 });

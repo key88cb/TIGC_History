@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const departments = [
         { id: 'lead', name: '指导老师 & 负责人', icon: 'fas fa-star', description: '指导和管理中心的核心团队。', pageUrl: 'index4cov.html' },
         { id: 'wx', name: '文宣部', icon: 'fas fa-bullhorn', description: 'TBD。', pageUrl: 'departments/wx/dep_home.html' },
-        { id: 'qy', name: '前研探索部', icon: 'fas fa-flask', description: 'TBD。', pageUrl: 'departments/qy/dep_home.html' },
+        { id: 'qy', name: '前研探索部', icon: 'fas fa-flask', description: 'TBD。', pageUrl: 'departments/qy/department_intro.html' },
         { id: 'jt', name: '技术推广部', icon: 'fas fa-code', description: 'TBD。', pageUrl: 'departments/jt/dep_home.html' },
         { id: 'cj', name: '创新实践部', icon: 'fas fa-lightbulb', description: 'TBD。', pageUrl: 'departments/cj/dep_home.html' }
     ];

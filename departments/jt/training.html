@@ -53,11 +53,9 @@
     
     .particle {
         position: absolute;
-        width: 8px;
-        height: 8px;
-        background: rgba(106, 90, 249, 0.7);
         border-radius: 50%;
         animation: float 15s infinite linear;
+        pointer-events: auto; /* 允许交互 */
     }
     
     @keyframes float {
@@ -237,21 +235,39 @@
       // 创建粒子效果
       function createParticles() {
           const particlesContainer = document.getElementById('particles');
-          const particleCount = 30;
+          const particleCount = 50; // 增加粒子数量
           
           for (let i = 0; i < particleCount; i++) {
               const particle = document.createElement('div');
               particle.classList.add('particle');
               
               // 随机位置和动画延迟
-              const size = Math.random() * 5 + 3;
+              const size = Math.random() * 10 + 5; // 增大粒子尺寸
               particle.style.width = `${size}px`;
               particle.style.height = `${size}px`;
               particle.style.left = `${Math.random() * 100}%`;
               particle.style.top = `${Math.random() * 100}%`;
               particle.style.animationDelay = `${Math.random() * 15}s`;
-              particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-              particle.style.backgroundColor = `rgba(106, 90, 249, ${Math.random() * 0.5 + 0.3})`;
+              particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+              
+              // 使用多种颜色
+              const colors = [
+                  `rgba(106, 90, 249, ${Math.random() * 0.7 + 0.3})`,  // 紫色
+                  `rgba(0, 170, 255, ${Math.random() * 0.7 + 0.3})`,    // 蓝色
+                  `rgba(255, 152, 0, ${Math.random() * 0.7 + 0.3})`,    // 橙色
+                  `rgba(124, 77, 255, ${Math.random() * 0.7 + 0.3})`    // 深紫
+              ];
+              particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+              
+              // 添加交互效果
+              particle.addEventListener('mouseover', function() {
+                  this.style.transform = 'scale(2)';
+                  this.style.transition = 'transform 0.3s ease';
+              });
+              
+              particle.addEventListener('mouseout', function() {
+                  this.style.transform = 'scale(1)';
+              });
               
               particlesContainer.appendChild(particle);
           }
@@ -265,10 +281,26 @@
           document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
       }
       
+      // 鼠标移动视差效果
+      function parallaxParticles(e) {
+          const particles = document.querySelectorAll('.particle');
+          const x = e.clientX / window.innerWidth;
+          const y = e.clientY / window.innerHeight;
+          
+          particles.forEach(particle => {
+              const speed = parseFloat(particle.style.animationDuration) / 20;
+              const xPos = (x - 0.5) * speed;
+              const yPos = (y - 0.5) * speed;
+              
+              particle.style.transform = `translate(${xPos}px, ${yPos}px)`;
+          });
+      }
+      
       // 初始化
       document.addEventListener('DOMContentLoaded', function() {
           createParticles();
           window.addEventListener('scroll', updateScrollProgress);
+          document.addEventListener('mousemove', parallaxParticles);
       });
     })();
     </script>

@@ -351,7 +351,7 @@ html {
 
 /* 左侧标题更显眼 */
 .dept-title{
-  font-size: 2.4rem;
+  font-size: 3rem;
   margin: 0 0 10px;
 }
 
@@ -387,7 +387,7 @@ html {
 /* 右侧"更多"链接 */
 .panel--right .more{
   text-align: center;
-  margin: 10px 0 20px;
+  margin: 10px 0 10px;
 }
 .panel--right .more a{
   color: var(--primary-color, #6a5af9);
@@ -400,6 +400,8 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 0 0 20%;
+  
 }
 
 /* 右侧面板特定样式 */
@@ -407,7 +409,10 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  gap: 1px;
+  flex: 0 0 80%;   /* 占总宽度的 70% */
+  max-width: 1000px; /* 可再加上一个最大宽度 */
 }
 
 .panel--right .section-title {
@@ -419,11 +424,12 @@ html {
 
 /* 负责人卡片（你已有的风格，简单精炼） */
 .leader-card{
+  height: auto; 
   display:flex;
   align-items:center;
   gap: 22px;
-  padding: 100px;
-  margin-bottom: 100px;
+  padding: 50px;
+  margin-bottom: 50px;
   color:#fff;
   border-radius: 14px;
   background: linear-gradient(45deg, var(--primary-color, #6a5af9), #00aaff);
@@ -436,35 +442,6 @@ html {
 .leader-info .role{ margin:0 0 6px; opacity:.9; }
 .leader-info .bio{ margin:0; }
 
-/* 成员网格 */
-.member-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
-}
-.member-card{
-  background: var(--background-color, #f5f7fb);
-  border-radius: 14px;
-  border: 1px solid #e9edf3;
-  padding: 18px;
-  text-align: center;
-  transition: transform .2s ease, box-shadow .2s ease;
-  perspective: 1000px;
-  height: 400px;
-  margin-bottom: 60px;
-}
-.member-card:hover{
-  transform: translateY(-6px);
-  box-shadow: 0 14px 32px rgba(0,0,0,.08);
-}
-.member-card img{
-  width: 92px; height: 92px; border-radius: 50%; object-fit: cover;
-  border: 4px solid #fff; box-shadow: 0 0 0 4px var(--surface-color, #fff);
-  margin-bottom: 10px;
-}
-.member-card h3{ margin: 8px 0 4px; font-size: 1.1rem; }
-.member-card .role{ color: var(--primary-color, #6a5af9); font-weight: 600; margin-bottom: 6px; }
-.member-card .bio{ color: var(--text-light, #7f8c8d); font-size: .92rem; }
 
 /* 响应式：小屏改为单列上下叠放 */
 @media (max-width: 960px){
@@ -484,47 +461,6 @@ html {
   .header-nav{ display:none; position:absolute; top:60px; right:16px; background: var(--surface-color); box-shadow: var(--shadow); border:1px solid #e9edf3; border-radius: 10px; padding:10px 14px; flex-direction: column; gap:12px; z-index: 1101; margin-left: 0; }
   .header-nav.active{ display:flex !important; }
 }
-/* 卡片翻转效果 */
-.member-card {
-  perspective: 1000px;
-  cursor: pointer;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  border-radius: 14px;
-}
-
-.member-card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  border-radius: 5px;
-  padding: 18px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-back {
-  background: linear-gradient(45deg, var(--primary-color, #6a5af9), #00aaff);
-  color: white;
-  transform: rotateY(180deg);
-}
 
 .motto {
   font-style: italic;
@@ -532,3 +468,94 @@ html {
   text-align: center;
   padding: 0 10px;
 }
+
+/* 仅副部长区域这样用：<div class="member-grid deputy"> */
+.member-grid.deputy{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr)); /* 两列 */
+  gap: 20px;
+}
+@media (max-width: 820px){
+  .member-grid.deputy{ grid-template-columns: 1fr; }
+}
+
+.member-card{
+  position: relative;
+  background: var(--background-color, #f5f7fb);
+  border-radius: 14px;
+  border: 1px solid #e9edf3;
+  /* 3D 透视 & 统一由 card-face 内部控制 padding */
+  perspective: 1000px;
+  height: 180px;                 /* 横向卡片高度 */
+  margin: 0;                     /* 交给 grid 的 gap 控制间距 */
+  overflow: hidden;
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.member-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0,0,0,.08);
+}
+
+/* 翻转核心 */
+.card-inner{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .5s ease;
+  border-radius: inherit;
+}
+.member-card:hover .card-inner,
+.member-card.flipped .card-inner{         /* 支持通过脚本加 .flipped 翻面 */
+  transform: rotateY(180deg);
+}
+
+/* 两个面：横向排版（头像在左，信息在右） */
+.card-front,
+.card-back{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: row;            /* 横向 */
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: inherit;
+  box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* 正面：浅底 */
+.card-front{
+  background: var(--background-color, #f5f7fb);
+  color: inherit;
+}
+
+/* 背面：渐变底 */
+.card-back{
+  background: linear-gradient(45deg, var(--primary-color, #6a5af9), #00aaff);
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+/* 头像与文案 */
+.member-card img{
+  width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+  border: 4px solid #fff; box-shadow: 0 0 0 4px var(--surface-color, #fff);
+  flex-shrink: 0;
+}
+.member-info{ text-align: left; }
+.member-info h3{ margin: 0 0 4px; font-size: 1.05rem; }
+.member-info .role{ color: var(--primary-color, #6a5af9); font-weight: 600; margin: 0 0 6px;}
+.member-info .bio{ color: var(--text-light, #7f8c8d); font-size: .92rem; line-height: 1.5; }
+
+.typewriter{
+  display:inline-block;
+  overflow:hidden;
+  white-space:nowrap;
+  border-right:2px solid var(--primary-color, #6a5af9);
+  animation: twTyping 2.2s steps(var(--chars)) 1 both, twBlink 1s step-end infinite;
+}
+@keyframes twTyping { from { width:0 } to { width: calc(var(--chars) * 1ch); } }
+@keyframes twBlink  { 50% { border-color: transparent; } }

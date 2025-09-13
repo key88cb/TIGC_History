@@ -413,3 +413,23 @@ body {
   height: 30px;
   transform: rotate(15deg);
 }
+
+/* ===== 防止椭圆形弹窗受到普通双列PPT弹窗的 .left-column 和 .right-column 样式影响 ===== */
+#ellipsePPTModal .slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fffafa;
+}
+
+#ellipsePPTModal .slide .left-column,
+#ellipsePPTModal .slide .right-column {
+  display: none !important;
+}
+
+#ellipsePPTModal .slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}

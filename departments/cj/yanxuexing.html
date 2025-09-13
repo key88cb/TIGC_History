@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>求是·研学行</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a5af9;
+            --background-color: #f4f7fc;
+            --surface-color: #ffffff;
+            --text-dark: #133f6b;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.07);
+        }
+        body {
+            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+        .header-bar {
+            background-color: var(--surface-color);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-bar a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .content-section {
+            background: var(--surface-color);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            margin: 10px auto 0;
+        }
+        .content-section p {
+            text-indent: 2em; /* 首行缩进两个字符 */
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+        .content-section figure {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .content-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .content-section figcaption {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-bar">
+        <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回</a>
+        <span>求是·研学行</span>
+    </header>
+
+    <div class="page-wrapper">
+        <section class="content-section">
+            <h2 class="section-title">求是·研学行</h2>
+            <p>“求是・研学行” 是浙江大学云峰学园科技与创新指导中心为求是学院学子打造的连接校园与产业的实践平台，旨在通过组织学子走进企业，深化校企协同育人，助力学子在科技强国征程中找准人生坐标。</p>
+            <p>活动通过深度参访、技术交流、职业对话等形式，让学子开阔视野，感受企业创新脉搏，收获颇丰。</p>
+            <p>该活动已举办多期，如 2023 年 10 月 20 日的第四期，40 余位学子走进每日互动（个推）股份有限公司，参观展厅了解企业成长历程、文化及管理方法，近距离接触大数据在智能工具、救灾、抗疫等领域的应用，还与浙大校友 CTO 叶新江及在职校友交流，获学习建议与赠书，体验企业食堂。</p>
+            
+            
+            
+            <figure>
+                <img src="..\cj\photo\640.jpg" alt="求是研学行活动合影">
+                <img src="..\cj\photo\meiri.jpg" alt="求是研学行活动合影">
+                <figcaption>活动掠影</figcaption>
+            </figure>
+
+            <p>2025 年 5 月 12 日的第七期，学子走进华为杭州研究所，观看宣传视频后，听人力资源总监周尚介绍企业情况，另有负责人解析技术产品线，双方热烈互动后，学子在周尚带领下参观园区，感受现代化设施与环境。</p>
+
+            <figure>
+                <img src="..\cj\photo\hyy1.jpg" alt="求是研学行活动合影">
+                <img src="..\cj\photo\hyy2.jpg" alt="求是研学行活动合影">
+                <figcaption>活动掠影</figcaption>
+            </figure>
+
+        </section>
+    </div>
+</body>
+</html>

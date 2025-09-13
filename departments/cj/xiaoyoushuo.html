@@ -1,118 +1,138 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>求是·校友说</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --primary-color: #6a5af9;
-            --background-color: #f4f7fc;
-            --surface-color: #ffffff;
-            --text-dark: #133f6b;
-            --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.07);
-        }
-        body {
-            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
-            margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-dark);
-            line-height: 1.7;
-        }
-        .header-bar {
-            background-color: var(--surface-color);
-            backdrop-filter: blur(10px);
-            padding: 15px 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .header-bar a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .page-wrapper {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .content-section {
-            background: var(--surface-color);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
-            margin: 10px auto 0;
-        }
-        .text-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            text-align: justify;
-        }
-        .image-container {
-            text-align: center;
-            margin-top: 40px;
-        }
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-        .image-caption {
-            font-size: 0.9rem;
-            color: #777;
-            margin-top: 10px;
-        }
+      :root {
+        --primary-color: #6a5af9;
+        --background-color: #f4f7fc;
+        --surface-color: #ffffff;
+        --text-dark: #133f6b;
+        --border-radius: 12px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      }
+      body {
+        font-family: "Poppins", "Noto Sans SC", sans-serif;
+        margin: 0;
+        background-color: var(--background-color);
+        color: var(--text-dark);
+        line-height: 1.7;
+      }
+      .header-bar {
+        background-color: var(--surface-color);
+        backdrop-filter: blur(10px);
+        padding: 15px 40px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .header-bar a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      .page-wrapper {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+      .content-section {
+        background: var(--surface-color);
+        padding: 40px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+      .section-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+      }
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
+        margin: 10px auto 0;
+      }
+      .text-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 30px;
+        text-align: justify;
+      }
+      .image-container {
+        text-align: center;
+        margin-top: 40px;
+      }
+      .image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+      .image-caption {
+        font-size: 0.9rem;
+        color: #777;
+        margin-top: 10px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header class="header-bar">
-        <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span>求是·校友说</span>
+      <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回</a>
+      <span>求是·校友说</span>
     </header>
 
     <div class="page-wrapper">
-        <section class="content-section">
-            <h2 class="section-title">求是·校友说</h2>
-            <div class="text-content">
-                <p>“求是・校友说” 是创新实践部举办的系列主题论坛活动，旨在搭建卓越校友与求是学子零距离交流的平台，助力学子开拓视野、获取真知，在成长与发展中获得启示。</p>
-                <p>活动已举办多期，如第 12 期于 2024 年 4 月 11 日在紫金港校区碧峰水墨云峰咖啡吧举行，邀请英国伦敦大学学院计算机系网络科学教授、浙大 95 级工业自动化硕士周实校友，围绕 “生涯发展与成长” 分享理念，包括大学中应发现长短处、培养综合素质，还解答了同学们关于学业、未来规划等问题，引发强烈共鸣。</p>
-                <p>第 13 期为紫金创享（创业大讲堂）第 15 季第 6 讲，于 2024 年 6 月 7 日晚举行，由衣邦人创始人、董事长兼 CEO 方琴主讲，分享其从学霸到 “霸道女总裁” 的创新创业故事。方琴是浙大 1999 级计算机科学与技术专业学士、2003 级管理科学与工程专业硕士，获多项荣誉。</p>
-            </div>
-            <div class="image-container">
-                <img src="..\cj\images\xiaoyou12.jpg" alt="活动掠影">
-                <img src="..\cj\images\xaioyou122.png" alt="活动掠影">
-                <img src="..\cj\images\xiaoyou13.png" alt="活动掠影">
-                <p class="image-caption">活动掠影</p>
-            </div>
-        </section>
+      <section class="content-section">
+        <h2 class="section-title">求是·校友说</h2>
+        <div class="text-content">
+          <p>
+            “求是・校友说”
+            是创新实践部举办的系列主题论坛活动，旨在搭建卓越校友与求是学子零距离交流的平台，助力学子开拓视野、获取真知，在成长与发展中获得启示。
+          </p>
+          <p>
+            活动已举办多期，如第 12 期于 2024 年 4 月 11
+            日在紫金港校区碧峰水墨云峰咖啡吧举行，邀请英国伦敦大学学院计算机系网络科学教授、浙大
+            95 级工业自动化硕士周实校友，围绕 “生涯发展与成长”
+            分享理念，包括大学中应发现长短处、培养综合素质，还解答了同学们关于学业、未来规划等问题，引发强烈共鸣。
+          </p>
+          <p>
+            第 13 期为紫金创享（创业大讲堂）第 15 季第 6 讲，于 2024 年 6 月 7
+            日晚举行，由衣邦人创始人、董事长兼 CEO 方琴主讲，分享其从学霸到
+            “霸道女总裁” 的创新创业故事。方琴是浙大 1999
+            级计算机科学与技术专业学士、2003
+            级管理科学与工程专业硕士，获多项荣誉。
+          </p>
+        </div>
+        <div class="image-container">
+          <img src="..\cj\images\xiaoyou12.jpg" alt="活动掠影" />
+          <img src="..\cj\images\xaioyou122.png" alt="活动掠影" />
+          <img src="..\cj\images\xiaoyou13.png" alt="活动掠影" />
+          <p class="image-caption">活动掠影</p>
+        </div>
+      </section>
     </div>
-</body>
+  </body>
 </html>

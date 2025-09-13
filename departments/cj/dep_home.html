@@ -1,242 +1,266 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>创新实践部</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* --- 练兵场样式 这部分的样式表等到你看明白了javascript就可以来研究一下啦  --- */
-        :root {
-            --primary-color: #6a5af9; /* 更鲜明的紫色 */
-            --secondary-color: #00aaff;
-            --background-color: #f4f7fc;
-            --surface-color: #ffffff;
-            --text-dark: #133f6b;
-            --text-light: #1159ab;
-            --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.07);
-            --transition-speed: 0.3s;
-        }
-        body {
-            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
-            margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-dark);
-            line-height: 1.7;
-            background-image: url('../cj/photo/hehejingjing.jpg'); /* 你可以把它替换成你自己的背景图片URL */
-            background-size: cover; /* 覆盖整个视口 */
-            background-position: center; /* 居中显示 */
-            background-attachment: fixed; /* 固定背景，滚动时不移动 */
-        }
-        .header-bar {
-            background-color: var(--surface-color);
-            backdrop-filter: blur(10px);
-            padding: 15px 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .header-bar a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .page-wrapper {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .department-hero {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 80px;
-        }
-        .hero-visual {
-            font-size: 12rem;
-            color: var(--primary-color);
-            opacity: 1.0;
-            text-align: center;
-        }
-        .hero-text h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1.2;
-        }
-        .hero-text p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-top: 15px;
-        }
-        .content-section {
-            background: var(--surface-color);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 50px;
-            overflow: visible;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
-            margin: 10px auto 0;
-        }
-        .timeline {
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:60px;
-      margin-bottom:30px;
-      position:relative;
-    }
-    .timeline::before {
-      content:"";
-      position:absolute;
-      top:50%;
-      left:10%;
-      right:10%;
-      height:3px;
-      background:linear-gradient(to right, transparent, var(--primary-color), transparent);
-      z-index:0;
-    }
-    .time-button {
-      background:transparent;
-      border:none;
-      font-size:1.1rem;
-      font-weight:600;
-      color:var(--primary-color);
-      cursor:pointer;
-      position:relative;
-      z-index:1;
-      transition: all 0.4s ease;
-      opacity:0.5;
-      transform:scale(0.9);
-    }
-    .time-button::after {
-      content:"";
-      position:absolute;
-      bottom:-12px;
-      left:50%;
-      transform:translateX(-50%);
-      width:14px;
-      height:14px;
-      border-radius:50%;
-      background:var(--primary-color);
-      transition: all 0.4s ease;
-      opacity:0.4;
-    }
-    .time-button.active {
-      color:white;
-      background:var(--primary-color);
-      padding:6px 14px;
-      border-radius:20px;
-      opacity:1;
-      transform:scale(1.1);
-      box-shadow:var(--shadow);
-    }
-    .time-button.active::after {
-      background:var(--secondary-color);
-      opacity:1;
-      width:18px;
-      height:18px;
-    }
+      /* --- 练兵场样式 这部分的样式表等到你看明白了javascript就可以来研究一下啦  --- */
+      :root {
+        --primary-color: #6a5af9; /* 更鲜明的紫色 */
+        --secondary-color: #00aaff;
+        --background-color: #f4f7fc;
+        --surface-color: #ffffff;
+        --text-dark: #133f6b;
+        --text-light: #1159ab;
+        --border-radius: 12px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+        --transition-speed: 0.3s;
+      }
+      body {
+        font-family: "Poppins", "Noto Sans SC", sans-serif;
+        margin: 0;
+        background-color: var(--background-color);
+        color: var(--text-dark);
+        line-height: 1.7;
+        background-image: url("../cj/photo/hehejingjing.jpg"); /* 你可以把它替换成你自己的背景图片URL */
+        background-size: cover; /* 覆盖整个视口 */
+        background-position: center; /* 居中显示 */
+        background-attachment: fixed; /* 固定背景，滚动时不移动 */
+      }
+      .header-bar {
+        background-color: var(--surface-color);
+        backdrop-filter: blur(10px);
+        padding: 15px 40px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .header-bar a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      .page-wrapper {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+      .department-hero {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        align-items: center;
+        gap: 50px;
+        margin-bottom: 80px;
+      }
+      .hero-visual {
+        font-size: 12rem;
+        color: var(--primary-color);
+        opacity: 1;
+        text-align: center;
+      }
+      .hero-text h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.2;
+      }
+      .hero-text p {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-top: 15px;
+      }
+      .content-section {
+        background: var(--surface-color);
+        padding: 40px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 50px;
+        overflow: visible;
+      }
+      .section-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+      }
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
+        margin: 10px auto 0;
+      }
+      .timeline {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 60px;
+        margin-bottom: 30px;
+        position: relative;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        right: 10%;
+        height: 3px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--primary-color),
+          transparent
+        );
+        z-index: 0;
+      }
+      .time-button {
+        background: transparent;
+        border: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s ease;
+        opacity: 0.5;
+        transform: scale(0.9);
+      }
+      .time-button::after {
+        content: "";
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        transition: all 0.4s ease;
+        opacity: 0.4;
+      }
+      .time-button.active {
+        color: white;
+        background: var(--primary-color);
+        padding: 6px 14px;
+        border-radius: 20px;
+        opacity: 1;
+        transform: scale(1.1);
+        box-shadow: var(--shadow);
+      }
+      .time-button.active::after {
+        background: var(--secondary-color);
+        opacity: 1;
+        width: 18px;
+        height: 18px;
+      }
 
-    .member-section {
-      display:none;
-      opacity:0;
-      transform:translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .member-section.active {
-      display:block;
-      opacity:1;
-      transform:translateY(0);
-    }
+      .member-section {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .member-section.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-        .leader-card {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            margin-bottom: 50px;
-        }
-        .leader-card img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
-        }
-        .leader-info h3 { font-size: 1.8rem; margin: 0; }
-        .leader-info .role { font-size: 1.1rem; opacity: 0.8; margin-bottom: 15px; }
-        .leader-info .bio { font-style: italic; }
+      .leader-card {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 30px;
+        border-radius: var(--border-radius);
+        margin-bottom: 50px;
+      }
+      .leader-card img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+      }
+      .leader-info h3 {
+        font-size: 1.8rem;
+        margin: 0;
+      }
+      .leader-info .role {
+        font-size: 1.1rem;
+        opacity: 0.8;
+        margin-bottom: 15px;
+      }
+      .leader-info .bio {
+        font-style: italic;
+      }
 
-        .member-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 30px;
-            justify-items: center;
-            align-items: start;
-        }
-        .member-card {
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-            width: 100%;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid #e0e5ec;
-            transition: all var(--transition-speed) ease-in-out;
-            position: relative;
-            overflow: visible;
-            z-index: 0;
-        }
-        .member-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
-            z-index: 20;
-        }
-        .avatar-container {
+      .member-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 30px;
+        justify-items: center;
+        align-items: start;
+      }
+      .member-card {
+        background-color: var(--background-color);
+        border-radius: var(--border-radius);
+        width: 100%;
+        padding: 25px;
+        text-align: center;
+        border: 1px solid #e0e5ec;
+        transition: all var(--transition-speed) ease-in-out;
+        position: relative;
+        overflow: visible;
+        z-index: 0;
+      }
+      .member-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow);
+        z-index: 20;
+      }
+      .avatar-container {
         position: relative;
         display: inline-block;
         margin-bottom: 20px;
-    }
-        .member-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--surface-color);
-            box-shadow: 0 0 0 4px var(--primary-color);
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
-        }
-        .avatar-border {
+      }
+      .member-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--surface-color);
+        box-shadow: 0 0 0 4px var(--primary-color);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+      }
+      .avatar-border {
         position: absolute;
         bottom: -5px;
         left: 0;
@@ -247,534 +271,570 @@
         transition: all 0.4s ease;
         z-index: 1;
         border-radius: 2px;
-    }
-    .avatar-container:hover .avatar-border {
-            height: 70px;
-            border-radius: 10px;
-            bottom: -65px;
-            transform: scaleX(1);
-        }
-        .hidden-content {
-            position: absolute; /* 让其浮在卡片上，而不是占据布局 */
-            top: 100%;          /* 默认贴在头像下方 */
-            left: 50%;
-            transform: translateX(-50%); 
-            width: 90%;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            background: var(--surface-color);
-            border-radius: 10px;
-            padding: 0 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        .avatar-container:hover ~ .hidden-content {
-            max-height: 300px;
-            opacity: 1;
-            padding: 15px;
-        }
-        .member-card h3 { margin: 10px 0 5px; font-size: 1.2rem; }
-        .member-card .role { color: var(--primary-color); font-weight: 600; margin-bottom: 10px; }
-        .member-card .bio { font-size: 0.9rem; color: var(--text-light); }
+      }
+      .avatar-container:hover .avatar-border {
+        height: 70px;
+        border-radius: 10px;
+        bottom: -65px;
+        transform: scaleX(1);
+      }
+      .hidden-content {
+        position: absolute; /* 让其浮在卡片上，而不是占据布局 */
+        top: 100%; /* 默认贴在头像下方 */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        background: var(--surface-color);
+        border-radius: 10px;
+        padding: 0 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+      .avatar-container:hover ~ .hidden-content {
+        max-height: 300px;
+        opacity: 1;
+        padding: 15px;
+      }
+      .member-card h3 {
+        margin: 10px 0 5px;
+        font-size: 1.2rem;
+      }
+      .member-card .role {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .member-card .bio {
+        font-size: 0.9rem;
+        color: var(--text-light);
+      }
 
-        /* 项目卡片样式 */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .project-card {
-            background: var(--background-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: all var(--transition-speed) ease-in-out;
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
-        }
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .project-info {
-            padding: 20px;
-        }
-        .project-info h3 { font-size: 1.3rem; margin-top: 0; }
-        .project-info p { color: var(--text-light); }
+      /* 项目卡片样式 */
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      .project-card {
+        background: var(--background-color);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        transition: all var(--transition-speed) ease-in-out;
+      }
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow);
+      }
+      .project-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .project-info {
+        padding: 20px;
+      }
+      .project-info h3 {
+        font-size: 1.3rem;
+        margin-top: 0;
+      }
+      .project-info p {
+        color: var(--text-light);
+      }
 
-        /* 照片墙样式 */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .photo-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            transition: all var(--transition-speed);
-            cursor: pointer;
-        }
-        .photo-item img:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow);
-        }
+      /* 照片墙样式 */
+      .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+      .photo-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: var(--border-radius);
+        transition: all var(--transition-speed);
+        cursor: pointer;
+      }
+      .photo-item img:hover {
+        transform: scale(1.05);
+        box-shadow: var(--shadow);
+      }
     </style>
-
-</head>
-<!-- 先从这里的html开始试一试吧！ -->
-<body>
-
+  </head>
+  <!-- 先从这里的html开始试一试吧！ -->
+  <body>
     <header class="header-bar">
-        <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
-        <span>创新实践部</span>
+      <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
+      <span>创新实践部</span>
     </header>
 
     <div class="page-wrapper">
-        
-        <section class="department-hero">
-            <div class="hero-visual">
-                <img src="../cj/photo/logologo.png" style="width: 400px; height: 400px;">
+      <section class="department-hero">
+        <div class="hero-visual">
+          <img
+            src="../cj/photo/logologo.png"
+            style="width: 400px; height: 400px"
+          />
+        </div>
+        <div class="hero-text">
+          <h1>TIGC创新实践部</h1>
+          <p>碰撞创新的火花，点燃实践的火把</p>
+        </div>
+      </section>
+      <!-- ======================= 你可以修改部门信息 ======================= -->
+      <section class="content-section">
+        <h2 class="section-title">历年的足迹</h2>
+
+        <!-- 时间轴按钮 -->
+        <div class="timeline">
+          <button class="time-button active" data-target="group1">
+            2023-2024
+          </button>
+          <button class="time-button" data-target="group2">2024-2025</button>
+          <button class="time-button" data-target="group3">2025-2026</button>
+        </div>
+
+        <!-- 内容区 -->
+        <div class="member-section active" id="group1">
+          <div class="leader-card">
+            <img src="..\cj\photo\KSH.jpg" alt="负责人" />
+            <div class="leader-info">
+              <h3>SH</h3>
+              <p>部门部长（2023-2024）</p>
             </div>
-            <div class="hero-text">
-                <h1>TIGC创新实践部</h1>
-                <p>碰撞创新的火花，点燃实践的火把</p>
+          </div>
+          <div class="member-grid">
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\pxy.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>XY</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>天哪，选择了科创就别想逃走了～</p>
+              </div>
             </div>
-        </section><!-- ======================= 你可以修改部门信息 ======================= -->
-        <section class="content-section">
-      <h2 class="section-title">历年的足迹</h2>
-
-      <!-- 时间轴按钮 -->
-      <div class="timeline">
-        <button class="time-button active" data-target="group1">2023-2024</button>
-        <button class="time-button" data-target="group2">2024-2025</button>
-        <button class="time-button" data-target="group3">2025-2026</button>
-      </div>
-
-      <!-- 内容区 -->
-      <div class="member-section active" id="group1">
-        <div class="leader-card">
-          <img src="..\cj\photo\KSH.jpg" alt="负责人">
-          <div class="leader-info">
-            <h3>KSH</h3>
-            <p>部门部长（2023-2024）</p>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\waz.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>AZ</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>做你所想，爱你所爱～</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\qjz.png" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>Q.</h3>
+              <p class="role">副部长</p>
+              <div class="hidden-content">
+                <p>科创是包容有趣的大家庭，能收获友谊成长！</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="../cj/photo/lsy.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>SY</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>珍惜和大家一起的日子</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\zyh.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>YH</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>一个氛围超级好的学生组织</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\lhb.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>Crazy_Bear</h3>
+              <p class="role">干事</p>
+              <div class="hidden-content">
+                <p>创剑我们走，去追寻所爱！</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\zyr.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>YY</h3>
+              <p class="role">干事</p>
+              <div class="hidden-content">
+                <p>于北纬千度，透视大地</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="member-grid">
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\庞笑义.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>庞笑义</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>天哪，选择了科创就别想逃走了～</p>
-                        </div>
-                    </div>
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\王傲哲.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>王傲哲</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>做你所想，爱你所爱～</p>
-                        </div>
-                    </div>
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\秦际州.png" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>秦际州</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio">代号：Q.</p>
-                        <div class="hidden-content">
-                            <p>科创是包容有趣的大家庭，能收获友谊成长！</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-                        <div class="avatar-container">
-                            <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=LSY" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>李思怡</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>珍惜和大家一起的日子</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-                        <div class="avatar-container">
-                            <img src="..\cj\photo\曾宇和.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>曾宇和</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>一个氛围超级好的学生组织</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\李浩博.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>李浩博</h3>
-                        <p class="role">干事</p>
-                        <p class="bio">代号：Crazy_Bear</p>
-                        <div class="hidden-content">
-                            <p>创剑我们走，去追寻所爱！</p>
-                        </div>
-                    </div>
-        </div>
-      </div>
 
-      <div class="member-section" id="group2">
-        <div class="leader-card">
-          <img src="..\cj\photo\李浩博.jpg" alt="负责人">
-          <div class="leader-info">
-            <h3>李浩博</h3>
-            <p class="bio">代号：Crazy_Bear</p>
-            <p>部门部长（2024-2025）</p>
-            <p>创剑我们走，去追寻所爱！</p>
+        <div class="member-section" id="group2">
+          <div class="leader-card">
+            <img src="..\cj\photo\lhb.jpg" alt="负责人" />
+            <div class="leader-info">
+              <h3>Crazy_Bear</h3>
+              <p>部门部长（2024-2025）</p>
+              <p>创剑我们走，去追寻所爱！</p>
+            </div>
+          </div>
+          <div class="member-grid">
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\zyh.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>YH</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>一个氛围超级好的学生组织</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\zyk.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>玖佰</h3>
+              <p class="role">干事</p>
+              <div class="hidden-content">
+                <p>我必须爱上什么，来证明我活着</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\hjh.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>JH</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>不期待结果，先享受过程</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\wzh.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>ZH</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>哥只是个传说</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\lz.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>LZ</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>世界那么大，我想去看看</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\jzc.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>ZC</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>
+                  每一个在科创留下足迹的大朋友小朋友都是幸运的，希望多年以后我们还能看得到科创中心的发展，看见更多人的记忆！
+                </p>
+                <p>“我忘却了所有悲剧，所见皆是奇迹！”</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\ysz.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>SZ</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>谢谢科创，祝本来就好的科创越来越好</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\cy.png" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>CY</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>
+                  珍惜自己在科创这个大家庭和大家相处的时光，这是大学生活中为数不多的和各个学科的同学相处交流的机会。
+                </p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\yzz.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>ZZ</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>炒鸡炒鸡好的组织！！</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\hhs.png" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>HS</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>氛围好收获多，冲就对了</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\gy.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>泠皙</h3>
+              <p class="role">干事</p>
+              <div class="hidden-content">
+                <p>一起向前看！</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\wys.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>sugar</h3>
+              <p class="role">干事</p>
+              <div class="hidden-content">
+                <p>欢迎来到科创大家庭(*^@^*)</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\xjj.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>JJ</h3>
+              <p class="role">干事</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>明天一定会是更好的一天，不论对你，对我们，对科创大家庭</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="member-grid">
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\曾宇和.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>曾宇和</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>一个氛围超级好的学生组织</p>
-                        </div>
-                    </div>
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\周裕凯.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>周裕凯</h3>
-                        <p class="role">干事</p>
-                        <p class="bio">代号：玖佰</p>
-                        <div class="hidden-content">
-                            <p>我必须爱上什么，来证明我活着</p>
-                        </div>
-                    </div>
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\胡剑昊.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>胡剑昊</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>不期待结果，先享受过程</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\王之涵.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>王之涵</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>哥只是个传说</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\林卓.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>林卓</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>世界那么大，我想去看看</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\姜政呈.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>姜政呈</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>每一个在科创留下足迹的大朋友小朋友都是幸运的，希望多年以后我们还能看得到科创中心的发展，看见更多人的记忆！</p>
-                            <p>“我忘却了所有悲剧，所见皆是奇迹！”</p>
-                        </div>
-                    </div>
-                  <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\叶首状.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>叶首状</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>谢谢科创，祝本来就好的科创越来越好</p>
-                        </div>
-                    </div>
-                  <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\陈煜.png" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>陈煜</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>珍惜自己在科创这个大家庭和大家相处的时光，这是大学生活中为数不多的和各个学科的同学相处交流的机会。</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\杨紫竹.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>杨紫竹</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>炒鸡炒鸡好的组织！！</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\胡慧杉.png" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>胡慧杉</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>氛围好收获多，冲就对了</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\龚玉.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>龚玉</h3>
-                        <p class="role">干事</p>
-                        <p class="bio">代号：泠皙</p>
-                        <div class="hidden-content">
-                            <p>一起向前看！</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\王韵淑.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>王韵淑</h3>
-                        <p class="role">干事</p>
-                        <p class="bio">代号：sugar</p>
-                        <div class="hidden-content">
-                            <p>欢迎来到科创大家庭(*^@^*)</p>
-                        </div>
-                    </div>
-                    <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\夏俊劼.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>夏俊劼</h3>
-                        <p class="role">干事</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>明天一定会是更好的一天，不论对你，对我们，对科创大家庭</p>
-                        </div>
-                    </div>
-        </div>
-      </div>
 
-      <div class="member-section" id="group3">
-        <div class="leader-card">
-          <img src="..\cj\photo\夏俊劼.jpg" alt="负责人">
-          <div class="leader-info">
-            <h3>夏俊劼</h3>
-            <p>部门部长（2025-2026）</p>
-            <p>明天一定会是更好的一天，不论对你，对我们，对科创大家庭</p>
+        <div class="member-section" id="group3">
+          <div class="leader-card">
+            <img src="..\cj\photo\xjj.jpg" alt="负责人" />
+            <div class="leader-info">
+              <h3>JJ</h3>
+              <p>部门部长（2025-2026）</p>
+              <p>明天一定会是更好的一天，不论对你，对我们，对科创大家庭</p>
+            </div>
+          </div>
+          <div class="member-grid">
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\hjh.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>JH</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>不期待结果，先享受过程</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\wys.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>sugar</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>欢迎来到科创大家庭(*^@^*)</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img src="..\cj\photo\gy.jpg" alt="成员头像" />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>泠皙</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p>一起向前看！</p>
+              </div>
+            </div>
+            <div class="member-card">
+              <div class="avatar-container">
+                <img
+                  src="https://placehold.co/200x200/ffc107/FFFFFF?text=CSH"
+                  alt="成员头像"
+                />
+                <div class="avatar-border"></div>
+              </div>
+              <h3>SH</h3>
+              <p class="role">副部长</p>
+              <p class="bio"></p>
+              <div class="hidden-content">
+                <p></p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="member-grid">
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\胡剑昊.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>胡剑昊</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>不期待结果，先享受过程</p>
-                        </div>
-                      </div>
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\王韵淑.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>王韵淑</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>欢迎来到科创大家庭(*^@^*)</p>
-                        </div>
-                      </div>
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="..\cj\photo\龚玉.jpg" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>龚玉</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p>一起向前看！</p>
-                        </div>
-                      </div>
-          <div class="member-card">
-            <div class="avatar-container">
-                            <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=CSH" alt="成员头像">
-                            <div class="avatar-border"></div>
-                        </div>
-                        <h3>陈思瀚</h3>
-                        <p class="role">副部长</p>
-                        <p class="bio"></p>
-                        <div class="hidden-content">
-                            <p></p>
-                        </div>
-                      </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-            <!-- ====================================================================== -->
-            <!-- ======================= 动手任务 #3: 添加核心项目 ======================= -->
-            <!-- ====================================================================== -->
-            <section class="content-section">
-                <h2 class="section-title">核心活动</h2>
-                <div class="member-grid">
-                     <p>点击卡片查看详情哦~</p>
-                </div>
-                <div class="project-grid">
-                    <!-- 
+      <!-- ====================================================================== -->
+      <!-- ======================= 动手任务 #3: 添加核心项目 ======================= -->
+      <!-- ====================================================================== -->
+      <section class="content-section">
+        <h2 class="section-title">核心活动</h2>
+        <div class="member-grid">
+          <p>点击卡片查看详情哦~</p>
+        </div>
+        <div class="project-grid">
+          <!-- 
                         提示：下方是一个项目卡片的HTML模板。
                         1. **复制** 并 **粘贴** 这个模板来添加更多项目。
                         2. **修改** 图片地址(src)、项目名称(h3)和项目简介(p)。
                     -->
-                    <!-- 项目卡片模板开始 -->
-                    <a href="..\cj\yanxuexing.html" style="text-decoration: none; color: inherit;">
-                        <div class="project-card">
-                            <img src="..\cj\photo\图片设计.png" alt="项目截图">
-                            <div class="project-info">
-                                <h3>求是·研学行</h3>
-                                <p>走进知名企业感受牛企氛围与成功秘诀</p>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- 项目卡片模板结束 -->
-                    <a href="..\cj\xiaoyoushuo.html" style="text-decoration: none; color: inherit;">
-                        <div class="project-card">
-                            <img src="..\cj\photo\图片设计3.png" alt="项目截图">
-                            <div class="project-info">
-                                <h3>求是·校友说</h3>
-                                <p>优秀学长姐面对面答疑解惑&交流经验</p>
-                            </div>
-                        </div>
-                    </a>    
-                    <a href="..\cj\chuangkeshuo.html" style="text-decoration: none; color: inherit;">
-                        <div class="project-card">
-                            <img src="..\cj\photo\图片设计2.png" alt="项目截图">
-                            <div class="project-info">
-                                <h3>求是·创客说</h3>
-                                <p>倾听创业达人们筚路蓝缕的奋斗征程</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
+          <!-- 项目卡片模板开始 -->
+          <a
+            href="..\cj\yanxuexing.html"
+            style="text-decoration: none; color: inherit"
+          >
+            <div class="project-card">
+              <img src="..\cj\photo\图片设计.png" alt="项目截图" />
+              <div class="project-info">
+                <h3>求是·研学行</h3>
+                <p>走进知名企业感受牛企氛围与成功秘诀</p>
+              </div>
+            </div>
+          </a>
+          <!-- 项目卡片模板结束 -->
+          <a
+            href="..\cj\xiaoyoushuo.html"
+            style="text-decoration: none; color: inherit"
+          >
+            <div class="project-card">
+              <img src="..\cj\photo\图片设计3.png" alt="项目截图" />
+              <div class="project-info">
+                <h3>求是·校友说</h3>
+                <p>优秀学长姐面对面答疑解惑&交流经验</p>
+              </div>
+            </div>
+          </a>
+          <a
+            href="..\cj\chuangkeshuo.html"
+            style="text-decoration: none; color: inherit"
+          >
+            <div class="project-card">
+              <img src="..\cj\photo\图片设计2.png" alt="项目截图" />
+              <div class="project-info">
+                <h3>求是·创客说</h3>
+                <p>倾听创业达人们筚路蓝缕的奋斗征程</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
 
-            <section class="content-section">
-                <h2 class="section-title">部门风采</h2>
-                <div class="photo-grid">
-                    <!-- 
+      <section class="content-section">
+        <h2 class="section-title">部门风采</h2>
+        <div class="photo-grid">
+          <!-- 
                         提示：下方是一个照片墙项目的HTML模板。
                         1. **复制** 并 **粘贴** 这个模板来添加更多照片。
                         2. **修改** 图片地址(src)，展示你们的团队活动，地址可以是网络地址，也可以是文件地址，注意，你在填写地址的时候不要写绝对地址哦！要写相对地址！也就是/ XXX /XXX 而不要带盘号
                     -->
-                    <!-- 照片项模板开始 -->
-                    <div class="photo-item">
-                        <img src="..\cj\photo\部门1.jpg" alt="部门活动照片">
-                    </div>
-                    <!-- 照片项模板结束 -->
-                    <div class="photo-item">
-                        <img src="..\cj\photo\部门2.jpg" alt="部门活动照片">
-                    </div>
-                    <div class="photo-item">
-                        <img src="..\cj\photo\部门3.jpg" alt="部门活动照片">
-                    </div>
-                    <div class="photo-item">
-                        <img src="..\cj\photo\部门4.jpg" alt="部门活动照片">
-                    </div>
-                </div>
-            </section>
-        </main>
+          <!-- 照片项模板开始 -->
+          <div class="photo-item">
+            <img src="..\cj\photo\部门1.jpg" alt="部门活动照片" />
+          </div>
+          <!-- 照片项模板结束 -->
+          <div class="photo-item">
+            <img src="..\cj\photo\部门2.jpg" alt="部门活动照片" />
+          </div>
+          <div class="photo-item">
+            <img src="..\cj\photo\部门3.jpg" alt="部门活动照片" />
+          </div>
+          <div class="photo-item">
+            <img src="..\cj\photo\部门4.jpg" alt="部门活动照片" />
+          </div>
+        </div>
+      </section>
     </div>
-    <!-- 提示：将 src 指向你自己的音乐文件地址。由于浏览器安全策略，本地文件可能无法播放，建议使用在线URL或将音乐文件与HTML放在同一服务器。 -->
     <audio id="bg-music" src="YOUR_MUSIC_FILE.mp3" loop></audio>
     <!-- ====================================================================== -->
     <!-- ======================= 动手任务 #5: 激活交互 (可选) ======================= -->
     <!-- ====================================================================== -->
     <script>
-    const timeButtons = document.querySelectorAll('.time-button');
-    const sections = document.querySelectorAll('.member-section');
+      const timeButtons = document.querySelectorAll(".time-button");
+      const sections = document.querySelectorAll(".member-section");
 
-    timeButtons.forEach((button, index) => {
-      button.addEventListener('click', () => {
-        timeButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+      timeButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+          timeButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
 
-        sections.forEach(sec => sec.classList.remove('active'));
-        const targetId = button.getAttribute('data-target');
-        document.getElementById(targetId).classList.add('active');
+          sections.forEach((sec) => sec.classList.remove("active"));
+          const targetId = button.getAttribute("data-target");
+          document.getElementById(targetId).classList.add("active");
 
-        // 透明度随距离衰减
-        timeButtons.forEach((btn, i) => {
-          const dist = Math.abs(i - index);
-          btn.style.opacity = 1 - dist * 0.3;
-          btn.style.transform = dist === 0 ? 'scale(1.1)' : 'scale(0.9)';
+          // 透明度随距离衰减
+          timeButtons.forEach((btn, i) => {
+            const dist = Math.abs(i - index);
+            btn.style.opacity = 1 - dist * 0.3;
+            btn.style.transform = dist === 0 ? "scale(1.1)" : "scale(0.9)";
+          });
         });
       });
-    });
 
-    // 初始化
-    timeButtons[0].click();
-  </script>
-
-</body>
+      // 初始化
+      timeButtons[0].click();
+    </script>
+  </body>
 </html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>卡牌扇面切换 Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1 class="title">前研人物集</h1>
+
+  <div class="carousel" id="carousel" tabindex="0" aria-label="卡牌扇面" aria-live="polite"><!-- 卡牌容器 --></div>
+
+    <div class="controls">
+      <button id="prev" aria-label="上一张" aria-controls="carousel">◀</button>
+      <button id="next" aria-label="下一张" aria-controls="carousel">▶</button>
+    </div>
+  </main>
+
+  <!-- 详情页模态框 -->
+  <div id="detailModal" class="detail-modal">
+    <div class="detail-card">
+      <!-- 原卡牌背景层 -->
+      <div class="detail-background"></div>
+      
+      <!-- 详细信息层 -->
+      <div class="detail-overlay">
+        <button class="close-btn" id="closeDetail" aria-label="关闭详情">&times;</button>
+        <div class="detail-content">
+          <div class="detail-avatar">
+            <img id="detailAvatar" src="" alt="头像" />
+          </div>
+          <div class="detail-info">
+            <h2 id="detailName" class="detail-name">姓名</h2>
+            <p id="detailPosition" class="detail-position">职位</p>
+            <p id="detailTenure" class="detail-tenure">任期</p>
+            <div class="detail-contact">
+              <strong>联系方式</strong><br>
+              <span id="detailConnect">联系方式</span>
+            </div>
+            <div class="detail-message">
+              <h3>留言</h3>
+              <p id="detailMessage" class="detail-message-text">留言内容</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

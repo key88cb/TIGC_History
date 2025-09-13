@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无名部门展示页</title>
+    <!-- 引入Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 引入Google字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Poppins:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;700&family=VT323&display=swap" rel="stylesheet">
+
+    <!-- ======================= CSS 样式区 ======================= -->
+    <style>
+        /* --- 1. 默认主题 (赛博朋克) --- */
+        :root {
+            --primary-color: #00f6ff;
+            --secondary-color: #ff00f6;
+            --bg-color: #0a0a1a;
+            --surface-color: rgba(10, 10, 30, 0.5);
+            --text-color: #e0e0e0;
+            --glow-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+            --transition-speed: 0.5s;
+            --main-font: 'Poppins', 'Noto Sans SC', sans-serif;
+            --title-font: 'Orbitron', sans-serif;
+        }
+
+        /* --- 2. 柔光白主题 --- */
+        body.light-theme {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --bg-color: #f4f7f9;
+            --surface-color: #ffffff;
+            --text-color: #333;
+            --glow-shadow: none;
+        }
+        
+        /* --- 3. 复古终端主题 --- */
+        body.retro-theme {
+            --primary-color: #00ff41;
+            --secondary-color: #00ff41;
+            --bg-color: #000;
+            --surface-color: rgba(0, 255, 65, 0.05);
+            --text-color: #00ff41;
+            --glow-shadow: 0 0 3px var(--primary-color);
+            --main-font: 'VT323', monospace;
+            --title-font: 'VT323', monospace;
+        }
+
+        /* --- **改动**: 全局样式 - 适配横向全屏滚动 --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* 禁用默认的垂直滚动条 */
+            font-family: var(--main-font);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* --- 粒子与背景特效 --- */
+        #particle-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: 0;
+        }
+        
+        .retro-theme::after {
+            content: ""; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 1px, transparent 1px, transparent 2px);
+            z-index: -1; pointer-events: none; animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.2; } 50% { opacity: 0.5; } 100% { opacity: 0.2; }
+        }
+
+        /* --- **新增**: 主容器与全屏板块 --- */
+        .main-container {
+            width: 100%;
+            height: 100%;
+            display: flex; /* 关键：让所有板块横向排列 */
+            overflow-x: scroll; /* 允许横向滚动 */
+            scroll-snap-type: x mandatory; /* 关键：强制滚动到每个板块的起点 */
+            -webkit-overflow-scrolling: touch; /* 移动端平滑滚动 */
+        }
+
+        .fullpage-section {
+            width: 100vw; /* 每个板块占据整个视口宽度 */
+            height: 100vh; /* 每个板块占据整个视口高度 */
+            flex-shrink: 0; /* 防止板块被压缩 */
+            scroll-snap-align: start; /* 关键：将板块的起始边缘作为滚动捕捉点 */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        /* --- **新增**: 侧边导航圆点 --- */
+        .side-nav {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+        .side-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-dot {
+            margin: 20px 0;
+        }
+        .nav-dot a {
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .nav-dot a.active, .nav-dot a:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.5);
+            box-shadow: var(--glow-shadow);
+        }
+
+        /* --- 容器与布局 --- */
+        .section-content { /* 替代原来的 section-container */
+            max-width: 1200px;
+            width: 90%;
+            padding: 40px;
+            position: relative;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: var(--title-font);
+            font-size: 3rem; text-align: center;
+            margin-bottom: 60px; text-shadow: var(--glow-shadow);
+            transition: text-shadow var(--transition-speed);
+        }
+
+        /* --- **改动**: 入场动画 --- */
+        .animated-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fullpage-section.active .animated-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* 为不同的元素设置延迟，创造层次感 */
+        .fullpage-section.active .animated-item:nth-child(2) { transition-delay: 0.2s; }
+        .fullpage-section.active .animated-item:nth-child(3) { transition-delay: 0.4s; }
+        .fullpage-section.active .team-grid,
+        .fullpage-section.active .project-gallery,
+        .fullpage-section.active .photo-wall { transition-delay: 0.6s; }
+
+
+        /* --- 主题切换器 --- */
+        .theme-switcher {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background-color: var(--surface-color);
+            border-radius: 50px; padding: 5px;
+            display: flex; gap: 5px;
+            border: 1px solid var(--primary-color);
+            backdrop-filter: blur(5px);
+        }
+        .theme-btn {
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 2px solid transparent; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-btn:hover, .theme-btn.active {
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+        #theme-cyberpunk { background: linear-gradient(45deg, #0a0a1a, #00f6ff); }
+        #theme-light { background: linear-gradient(45deg, #f4f7f9, #007bff); }
+        #theme-retro { background: linear-gradient(45deg, #000, #00ff41); }
+
+        /* --- 英雄区域 --- */
+        .hero-icon {
+            font-size: 6rem; color: var(--primary-color);
+            text-shadow: var(--glow-shadow); animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .hero-title {
+            font-family: var(--title-font); font-size: 5rem;
+            margin: 20px 0; color: #fff; position: relative;
+        }
+        .light-theme .hero-title { color: #333; }
+        .retro-theme .hero-title { color: var(--primary-color); }
+        
+        .hero-title .glitch-text {
+            position: relative; text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75);
+            animation: glitch 500ms infinite;
+        }
+        .light-theme .glitch-text, .retro-theme .glitch-text { animation: none; text-shadow: none; }
+        
+        @keyframes glitch { 0% { text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.05em -0.025em 0 rgba(0,255,0,.75), -0.025em 0.05em 0 rgba(0,0,255,.75); } 14% { text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.05em -0.025em 0 rgba(0,255,0,.75), -0.025em 0.05em 0 rgba(0,0,255,.75); } 15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75); } 49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75); } 50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75); } 99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75); } 100% { text-shadow: -0.025em 0 0 rgba(255,0,0,.75), -0.025em -0.025em 0 rgba(0,255,0,.75), -0.025em -0.05em 0 rgba(0,0,255,.75); } }
+        .hero-subtitle { font-size: 1.5rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- 团队成员 (3D翻转卡片) --- */
+        .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; }
+        .flip-card { background-color: transparent; width: 300px; height: 400px; perspective: 1000px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 15px; background-color: var(--surface-color); border: 2px solid var(--primary-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: all var(--transition-speed);
+        }
+        .light-theme .flip-card-front, .light-theme .flip-card-back { box-shadow: 0 8px 24px rgba(0,0,0,0.1); backdrop-filter: none; }
+        .retro-theme .flip-card-front, .retro-theme .flip-card-back { border-radius: 0; box-shadow: none; backdrop-filter: none; }
+
+        .flip-card-front { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .flip-card-front img {
+            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+            border: 4px solid var(--primary-color); margin-bottom: 20px;
+        }
+        .flip-card-front h3 { margin: 10px 0 5px; font-size: 1.5rem; color: var(--text-color); }
+        .light-theme .flip-card-front h3 { color: #333; }
+        .flip-card-front p { margin: 0; color: var(--primary-color); }
+        
+        .flip-card-back {
+            transform: rotateY(180deg); padding: 20px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .flip-card-back h3 { color: var(--secondary-color); }
+
+        /* --- 项目画廊 --- */
+        .project-gallery { display: flex; overflow-x: auto; padding: 20px; gap: 30px; scrollbar-width: thin; scrollbar-color: var(--primary-color) var(--bg-color); max-width: 90%; }
+        .project-card {
+            flex: 0 0 350px; height: 450px; border-radius: 15px;
+            overflow: hidden; position: relative; cursor: pointer;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            border: 2px solid var(--primary-color);
+        }
+        .light-theme .project-card { border: 1px solid #ddd; }
+        .retro-theme .project-card { border-radius: 0; }
+        .project-card:hover { 
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; }
+        .project-card-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(10, 10, 30, 0.9), transparent);
+            padding: 20px; color: #fff;
+        }
+        .light-theme .project-card-overlay { background: linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent); color: #333; }
+        .retro-theme .project-card-overlay { background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent); }
+
+        /* --- 照片墙 --- */
+        .photo-wall { column-count: 4; column-gap: 15px; height: 70vh; overflow-y: auto; padding: 10px; }
+        .photo-item {
+            margin-bottom: 15px; display: inline-block; width: 100%;
+            position: relative; overflow: hidden; border-radius: 10px;
+        }
+        .photo-item img { width: 100%; display: block; transition: transform var(--transition-speed); }
+        .photo-item:hover img { transform: scale(1.1); }
+        @media (max-width: 992px) { .photo-wall { column-count: 3; } }
+        @media (max-width: 768px) { .photo-wall { column-count: 2; } }
+
+        /* --- 项目模态框样式 --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8); z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity var(--transition-speed), visibility var(--transition-speed);
+        }
+        .modal-overlay.visible {
+            opacity: 1; visibility: visible;
+        }
+        .modal-content {
+            background-color: var(--surface-color);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 2px solid var(--primary-color);
+            border-radius: 15px; padding: 20px;
+            width: 90%; max-width: 900px;
+            display: flex; gap: 30px;
+            transform: scale(0.9); transition: transform var(--transition-speed);
+        }
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+        .light-theme .modal-content { backdrop-filter: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .retro-theme .modal-content { border-radius: 0; backdrop-filter: none; }
+        
+        .modal-image { flex: 1; }
+        .modal-image img { width: 100%; height: auto; border-radius: 10px; }
+        .retro-theme .modal-image img { border-radius: 0; }
+        
+        .modal-details { flex: 1; color: var(--text-color); }
+        .modal-details h3 { font-family: var(--title-font); font-size: 2rem; color: var(--primary-color); margin-top: 0; }
+        .modal-details .tech-stack span {
+            background-color: var(--primary-color); color: var(--bg-color);
+            padding: 5px 10px; border-radius: 5px; margin-right: 5px;
+            font-size: 0.9rem; font-weight: bold;
+        }
+        .light-theme .modal-details .tech-stack span { color: #fff; }
+        .retro-theme .modal-details .tech-stack span { border-radius: 0; background-color: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
+        
+        .modal-buttons { margin-top: 20px; }
+        .modal-buttons a {
+            display: inline-block; padding: 10px 20px; background-color: var(--primary-color);
+            color: var(--bg-color) !important; text-decoration: none; border-radius: 5px;
+            margin-right: 10px; transition: all 0.3s;
+        }
+        .light-theme .modal-buttons a { color: #fff !important; }
+        .retro-theme .modal-buttons a { border-radius: 0; }
+        .modal-buttons a:hover { transform: translateY(-3px); box-shadow: 0 0 15px var(--primary-color); }
+
+        .modal-close-btn {
+            position: absolute; top: 15px; right: 15px;
+            background: none; border: none; font-size: 2rem;
+            color: var(--text-color); cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content { flex-direction: column; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 交互式粒子背景 -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- 主题切换器 -->
+    <div class="theme-switcher">
+        <button id="theme-cyberpunk" class="theme-btn" title="赛博朋克主题"></button>
+        <button id="theme-light" class="theme-btn" title="柔光白主题"></button>
+        <button id="theme-retro" class="theme-btn" title="复古终端主题"></button>
+    </div>
+
+    <!-- **新增**: 侧边导航 -->
+    <nav class="side-nav">
+        <ul>
+            <li class="nav-dot"><a href="#hero" title="首页"></a></li>
+            <li class="nav-dot"><a href="#team" title="核心成员"></a></li>
+            <li class="nav-dot"><a href="#projects" title="项目成果"></a></li>
+            <li class="nav-dot"><a href="#culture" title="部门风采"></a></li>
+        </ul>
+    </nav>
+    
+    <!-- **改动**: 主容器 -->
+    <main class="main-container">
+        <!-- 板块1: 英雄区域 -->
+        <section id="hero" class="fullpage-section">
+            <div class="section-content">
+                <div class="hero-icon animated-item"><i class="fas fa-satellite-dish"></i></div>
+                <h1 class="hero-title animated-item"><span class="glitch-text">无名部</span></h1>
+                <p class="hero-subtitle animated-item">我们是未来的探险家，致力于探索未知领域，将创意转化为驱动组织前进的动力。</p>
+            </div>
+        </section>
+
+        <!-- 板块2: 团队成员 -->
+        <section id="team" class="fullpage-section">
+            <div class="section-content">
+                <h2 class="section-title animated-item">核心成员</h2>
+                <div class="team-grid animated-item">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://placehold.co/200x200/00f6ff/0a0a1a?text=wang!" alt="负责人头像">
+                                <h3>小狗</h3>
+                                <p>部长</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>小狗</h3>
+                                <p>"好奇心是我们的第一生产力。"</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://placehold.co/200x200/ff00f6/0a0a1a?text=miao!" alt="成员头像">
+                                <h3>小猫</h3>
+                                <p>副部</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>小猫</h3>
+                                <p>"寻找智能的火花。"</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://placehold.co/200x200/00ff9d/0a0a1a?text=giao!" alt="成员头像">
+                                <h3>小鸭</h3>
+                                <p>干事</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>小鸭</h3>
+                                <p>"设计更在于体验。"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 板块3: 项目成果 -->
+        <section id="projects" class="fullpage-section">
+            <div class="section-content">
+                <h2 class="section-title animated-item">活动</h2>
+                <div class="project-gallery animated-item">
+                    <div class="project-card" 
+                         data-title="Alpha" data-image="https://placehold.co/600x400/00f6ff/0a0a1a?text=Alpha"
+                         data-description="描述"
+                         data-tech="待定" data-demo-link="#" data-source-link="#">
+                        <img src="https://placehold.co/400x500/00f6ff/0a0a1a?text=Alpha" alt="项目截图">
+                        <div class="project-card-overlay"><h3>Alpha</h3><p>描述</p></div>
+                    </div>
+                    <div class="project-card"
+                         data-title="Beta" data-image="https://placehold.co/600x400/ff00f6/0a0a1a?text=Beta"
+                         data-description="描述"
+                         data-tech="待定" data-demo-link="#" data-source-link="#">
+                        <img src="https://placehold.co/400x500/ff00f6/0a0a1a?text=Beta" alt="项目截图">
+                        <div class="project-card-overlay"><h3>Beta</h3><p>描述</p></div>
+                    </div>
+                    <div class="project-card"
+                         data-title="Gamma" data-image="https://placehold.co/600x400/00ff9d/0a0a1a?text=Gamma"
+                         data-description="描述"
+                         data-tech="待定" data-demo-link="#" data-source-link="#">
+                        <img src="https://placehold.co/400x500/00ff9d/0a0a1a?text=Gamma" alt="项目截图">
+                        <div class="project-card-overlay"><h3>Gamma</h3><p>描述</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 板块4: 部门文化 -->
+        <section id="culture" class="fullpage-section">
+            <div class="section-content">
+                <h2 class="section-title animated-item">部门风采</h2>
+                <div class="photo-wall animated-item">
+                    <div class="photo-item"><img src="https://placehold.co/400x600/28a745/ffffff?text=Hackathon" alt="部门活动照片"></div>
+                    <div class="photo-item"><img src="https://placehold.co/400x400/ffc107/ffffff?text=头脑风暴" alt="部门活动照片"></div>
+                    <div class="photo-item"><img src="https://placehold.co/400x500/dc3545/ffffff?text=团建活动" alt="部门活动照片"></div>
+                    <div class="photo-item"><img src="https://placehold.co/400x300/6f42c1/ffffff?text=日常工作" alt="部门活动照片"></div>
+                    <div class="photo-item"><img src="https://placehold.co/400x550/fd7e14/ffffff?text=生日会" alt="部门活动照片"></div>
+                    <div class="photo-item"><img src="https://placehold.co/400x450/20c997/ffffff?text=技术分享" alt="部门活动照片"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 项目模态框的HTML结构 (默认隐藏) -->
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close-btn"><i class="fas fa-times"></i></button>
+            <div class="modal-image">
+                <img id="modal-img" src="" alt="项目大图">
+            </div>
+            <div class="modal-details">
+                <h3 id="modal-title"></h3>
+                <p id="modal-description"></p>
+                <div class="tech-stack" id="modal-tech"></div>
+                <div class="modal-buttons">
+                    <a id="modal-demo-link" href="#" target="_blank">线上演示</a>
+                    <a id="modal-source-link" href="#" target="_blank">源代码</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ======================= JavaScript 脚本区 ======================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 交互式粒子背景 ---
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            let particles = [];
+            const mouse = { x: null, y: null, radius: 150 };
+            window.addEventListener('mousemove', (event) => { mouse.x = event.x; mouse.y = event.y; });
+            class Particle {
+                constructor(x, y, dX, dY, s, c) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=s; this.color=c; }
+                draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fillStyle = this.color; ctx.fill(); }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                    if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                    let dx = mouse.x - this.x, dy = mouse.y - this.y;
+                    if (Math.sqrt(dx*dx + dy*dy) < mouse.radius) {
+                        if (mouse.x < this.x && this.x < canvas.width - this.size*10) this.x+=5;
+                        if (mouse.x > this.x && this.x > this.size*10) this.x-=5;
+                        if (mouse.y < this.y && this.y < canvas.height-this.size*10) this.y+=5;
+                        if (mouse.y > this.y && this.y > this.size*10) this.y-=5;
+                    }
+                    this.x += this.directionX; this.y += this.directionY; this.draw();
+                }
+            }
+            function initParticles() {
+                const pColor = getComputedStyle(document.body).getPropertyValue('--primary-color').trim() + '80';
+                particles = [];
+                let num = (canvas.height * canvas.width) / 9000;
+                for (let i = 0; i < num; i++) {
+                    let s = (Math.random()*2)+1, x = (Math.random()*((innerWidth-s*2)-(s*2))+s*2), y = (Math.random()*((innerHeight-s*2)-(s*2))+s*2);
+                    let dX = (Math.random()*.4)-.2, dY = (Math.random()*.4)-.2;
+                    particles.push(new Particle(x, y, dX, dY, s, pColor));
+                }
+            }
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+                particles.forEach(p => p.update());
+            }
+            
+            // --- 主题切换逻辑 ---
+            const themeButtons = document.querySelectorAll('.theme-btn');
+            const body = document.body;
+            function applyTheme(theme) {
+                body.className = '';
+                if (theme !== 'cyberpunk') body.classList.add(`${theme}-theme`);
+                localStorage.setItem('selectedTheme', theme);
+                themeButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.id === `theme-${theme}`);
+                });
+                initParticles();
+            }
+            themeButtons.forEach(button => {
+                button.addEventListener('click', () => applyTheme(button.id.replace('theme-', '')));
+            });
+            const savedTheme = localStorage.getItem('selectedTheme') || 'cyberpunk';
+            applyTheme(savedTheme);
+            animateParticles();
+            window.addEventListener('resize', () => { canvas.width=innerWidth; canvas.height=innerHeight; initParticles(); });
+
+            // --- **改动**: 全屏滚动与侧边导航逻辑 ---
+            const mainContainer = document.querySelector('.main-container');
+            const sections = document.querySelectorAll('.fullpage-section');
+            const navDots = document.querySelectorAll('.side-nav a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        // 激活侧边导航圆点
+                        navDots.forEach(dot => {
+                            dot.classList.toggle('active', dot.getAttribute('href') === `#${id}`);
+                        });
+                        // 激活当前板块的入场动画
+                        entry.target.classList.add('active');
+                    } else {
+                        // 离开视野时移除动画类，以便下次进入时可以再次触发
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, { 
+                root: mainContainer, // 在主容器内观察
+                threshold: 0.7 // 板块占据70%视野时触发
+            });
+
+            sections.forEach(section => observer.observe(section));
+
+            // 点击圆点平滑滚动到对应板块
+            navDots.forEach(dot => {
+                dot.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // --- 项目模态框交互逻辑 ---
+            const projectModal = document.getElementById('project-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalTech = document.getElementById('modal-tech');
+            const modalDemoLink = document.getElementById('modal-demo-link');
+            const modalSourceLink = document.getElementById('modal-source-link');
+            const closeModalBtn = document.getElementById('modal-close-btn');
+            
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    modalTitle.textContent = card.dataset.title;
+                    modalImg.src = card.dataset.image;
+                    modalDescription.textContent = card.dataset.description;
+                    modalDemoLink.href = card.dataset.demoLink;
+                    modalSourceLink.href = card.dataset.sourceLink;
+                    
+                    modalTech.innerHTML = '';
+                    const techs = card.dataset.tech.split(',');
+                    techs.forEach(tech => {
+                        const techTag = document.createElement('span');
+                        techTag.textContent = tech;
+                        modalTech.appendChild(techTag);
+                    });
+
+                    projectModal.classList.add('visible');
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => projectModal.classList.remove('visible'));
+            projectModal.addEventListener('click', (event) => {
+                if (event.target === projectModal) {
+                    projectModal.classList.remove('visible');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
+

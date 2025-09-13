@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             name: '无尘丨溯荒',
             role: '中心负责人',
-            bio: '莫负相逢人海间 \
+            bio: '莫负相逢人海间 <br>\
              ——用一点点时间，和全部的爱。',
             imageUrl: 'image/2_fzr.jpg',
             departmentId: 'lead',
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'SH',
             role:'中心负责人',
             bio:'敢想、敢错、敢创造；保持好奇，保持天真，科技永远为浪漫的理想主义者敞开大门✨',
-            imageUrl:'image/3_fzr.png',
+            imageUrl:'image/1_fzr.jpeg',
             departmentId:'lead',
             year:'2023-2024届',
             contact:'smooth_lsh@zju.edu.cn'
@@ -172,8 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             name:'Lil Dino$aur',
             role:'技术推广部部长',
-            bio:'Tech或许是这个时代最容易获得的生产力😋\
-所以想到什么就去做做看，和AI聊一聊想法和设计。\
+            bio:'Tech或许是这个时代最容易获得的生产力😋<br>\
+所以想到什么就去做做看，和AI聊一聊想法和设计。<br>\
 如果有什么好东西也要记得推广给身边人哦，毕竟任何技术的发展都需要依靠社区的力量😋',
             imageUrl:'image/1_jt.jpg',
             departmentId:'jt',
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             name:'HZ',
             role:'指导老师',
-            bio:'循此苦旅，以达天际,\
+            bio:'循此苦旅，以达天际,<br>\
 祝大家在科创有所得有所获',
             imageUrl:'image/0_zdls.jpeg',
             departmentId:'lead',
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             name:'BW',
             role:'负责人',
-            bio:'能和志同道合的伙伴共创云峰科创中心，我深感幸运。在这里的每段经历都让我受益匪浅：既结识了行业前辈与优秀同窗，也让心中的科研种子随年级增长愈发茁壮，更陪伴我斩获竺奖、收获全奖Offer。\
+            bio:'能和志同道合的伙伴共创云峰科创中心，我深感幸运。在这里的每段经历都让我受益匪浅：既结识了行业前辈与优秀同窗，也让心中的科研种子随年级增长愈发茁壮，更陪伴我斩获竺奖、收获全奖Offer。<br>\
 愿科创中心的大家都能在此找到热爱，用好平台资源，让这份热爱发光发热。如有需要，请联系我13857822356~',
             imageUrl:'image/0_fzr.JPG',
             departmentId:'lead',

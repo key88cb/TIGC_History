@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'xk',
             role:'中心负责人',
             bio:'让科技有温度，让科技有力量！希望和科创一起，变得越来越好！',
-            imageUrl:'/image/3_fzr.png',
+            imageUrl:'image/3_fzr.png',
             departmentId:'lead',
             year:'2025-2026届',
             contact:''
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'太阳镜',
             role:'文宣部部长',
             bio:'天天开心，开心就好，大家都要幸福呀🥰 ps：来文宣来文宣',
-            imageUrl:'/image/3_wx.jpeg',
+            imageUrl:'image/3_wx.jpeg',
             departmentId:'wx',
             year:'2025-2026届',
             contact:'3346875120@qq.com'
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'夏白轩',
             role:'技术推广部部长',
             bio:'找到几件热爱的事情，然后做下去就好了੭ ᐕ)੭ 希望每一位加入科创的小朋友都能找到自己愿意为之投入的事情！',
-            imageUrl:'/image/3_jt.gif',
+            imageUrl:'image/3_jt.gif',
             departmentId:'jt',
             year:'2025-2026届',
             contact:'3493947396@qq.com'
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'JJ',
             role:'创新实践部部长',
             bio:'明天一定会是更好的一天，不论对你，对我们，对科创大家庭',
-            imageUrl:'/image/3_cj.jpg',
+            imageUrl:'image/3_cj.jpg',
             departmentId:'cj',
             year:'2025-2026届',
             contact:'2176342971@qq.com'
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'邪恶涵宝猎手',
             role:'前研探索部长',
             bio:'科创的故事，永远有下一章 —— 而我们，都是执笔人',
-            imageUrl:'/image/3_qy.jpg',
+            imageUrl:'image/3_qy.jpg',
             departmentId:'qy',
             year:'2025-2026届',
             contact:''
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'斯威特·铁',
             role:'指导老师',
             bio:'To be pure, decent and brave.',
-            imageUrl:'/image/1_zdls.jpeg',
+            imageUrl:'image/1_zdls.jpeg',
             departmentId:'lead',
             year:'2023-2024届',
             contact:''
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'SH',
             role:'中心负责人',
             bio:'敢想、敢错、敢创造；保持好奇，保持天真，科技永远为浪漫的理想主义者敞开大门✨',
-            imageUrl:'/image/3_fzr.png',
+            imageUrl:'image/3_fzr.png',
             departmentId:'lead',
             year:'2023-2024届',
             contact:'smooth_lsh@zju.edu.cn'
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'XX',
             role:'文宣部部长',
             bio:'希望大家在科创拥有特别好的每一年～',
-            imageUrl:'/image/1_wx.jpeg',
+            imageUrl:'image/1_wx.jpeg',
             departmentId:'wx',
             year:'2023-2024届',
             contact:''
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
             bio:'Tech或许是这个时代最容易获得的生产力😋\
 所以想到什么就去做做看，和AI聊一聊想法和设计。\
 如果有什么好东西也要记得推广给身边人哦，毕竟任何技术的发展都需要依靠社区的力量😋',
-            imageUrl:'/image/1_jt.jpg',
+            imageUrl:'image/1_jt.jpg',
             departmentId:'jt',
             year:'2023-2024届',
             contact:'lildinosaurni@outlook.com'
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'SH',
             role:'创新实践部部长',
             bio:'',
-            imageUrl:'/image/3_cj.jpg',
+            imageUrl:'image/3_cj.jpg',
             departmentId:'cj',
             year:'2023-2024届',
             contact:''
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'李峥',
             role:'前研探索部长',
             bio:'仰望前空，追研星辰；心怀热爱，启智求真。作为第一任前研探索部部长，我见证了无数想法在这里萌芽、生长，最终化为实践。那份从零到一的激情与坚持，是云峰科创精神最真实的注脚。愿未来的科创人始终保持热爱与好奇，在青春的年华里敢想敢做，把探索的脚步延伸到更远的地方。',
-            imageUrl:'/image/3_qy.jpg',
+            imageUrl:'image/3_qy.jpg',
             departmentId:'qy',
             year:'2023-2024届',
             contact:'realleechung@foxmail.com'
@@ -208,9 +208,9 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             name:'HZ',
             role:'指导老师',
-            bio:'循此苦旅，以达天际\
+            bio:'循此苦旅，以达天际,\
 祝大家在科创有所得有所获',
-            imageUrl:'/image/0_zdls.jpeg',
+            imageUrl:'image/0_zdls.jpeg',
             departmentId:'lead',
             year:'初创',
             contact:''
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
             role:'负责人',
             bio:'能和志同道合的伙伴共创云峰科创中心，我深感幸运。在这里的每段经历都让我受益匪浅：既结识了行业前辈与优秀同窗，也让心中的科研种子随年级增长愈发茁壮，更陪伴我斩获竺奖、收获全奖Offer。\
 愿科创中心的大家都能在此找到热爱，用好平台资源，让这份热爱发光发热。如有需要，请联系我13857822356~',
-            imageUrl:'/image/0_fzr.JPG',
+            imageUrl:'image/0_fzr.JPG',
             departmentId:'lead',
             year:'初创',
             contact:'qiubowendddd@gmail.com'

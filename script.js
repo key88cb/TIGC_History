@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'SH',
             role:'创新实践部部长',
             bio:'',
-            imageUrl:'image/3_cj.jpg',
+            imageUrl:'image/1_cj.jpg',
             departmentId:'cj',
             year:'2023-2024届',
             contact:''
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'李峥',
             role:'前研探索部长',
             bio:'仰望前空，追研星辰；心怀热爱，启智求真。作为第一任前研探索部部长，我见证了无数想法在这里萌芽、生长，最终化为实践。那份从零到一的激情与坚持，是云峰科创精神最真实的注脚。愿未来的科创人始终保持热爱与好奇，在青春的年华里敢想敢做，把探索的脚步延伸到更远的地方。',
-            imageUrl:'image/3_qy.jpg',
+            imageUrl:'image/1_qy.jpg',
             departmentId:'qy',
             year:'2023-2024届',
             contact:'realleechung@foxmail.com'

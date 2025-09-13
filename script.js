@@ -99,6 +99,14 @@ document.addEventListener('DOMContentLoaded', function() {
             bio: '无桎梏自由的风，千万个无色温柔的梦', // 生物（bio）简介。
             imageUrl: 'image/2_cj.jpg',
             departmentId: 'cj'
+        },
+        {
+            // 第七个成员对象：张钊
+            name: 'Mutsumi',
+            role: '前研干事一枚',
+            bio: '喜欢睦子米,渴望成为小说家',
+            imageUrl: 'image/Mutsumi.jpg',
+            departmentId: 'qy'
         }
     ];
 

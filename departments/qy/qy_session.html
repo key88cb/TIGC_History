@@ -1,0 +1,386 @@
+ <!DOCTYPE html>
+ <html lang="zh-CN">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前研探索部</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header-bar {
+            font-size: 22px;
+            background-color: #33333300;
+            color: white;
+            padding: 10px 0;
+        }
+        .header-bar a {
+            color: rgb(0, 0, 0);
+            margin: 0 15px;
+            text-decoration: none;
+            display:inline-block;
+            border: 1px solid black;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .lflink {
+            float: left;
+            margin-left: 20px;
+        }
+        .rtlink {
+            float: right;
+            margin-right: 20px;
+         }
+        .header-bar a:hover {
+            background-color: rgba(128, 128, 128, 0.2);
+        }
+        .card-container {
+            bottom: 0;
+            width: 100%;
+            height: 60vh;
+            perspective: 1000px;
+        }
+        .card {
+            transform: 
+                translateX(-50%)
+                scale(var(--cardScale, 1))
+                rotateY(var(--cardRotateY, 0deg))
+                rotateX(var(--rotateX,0deg))
+                rotateY(var(--rotateY,0deg)); /* 重新添加 rotateX 和 rotateY */
+            position: absolute;
+            width: 175px;
+            height: 50%;
+            bottom: -10%;
+            background-color: transparent;
+            border-radius: 10%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform-style: preserve-3d;
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10%;
+        }
+
+        .card-face.front { /* 保持这个类名不变 */
+            transform: rotateY(0deg);
+        }
+
+        .card-face.back { /* 保持这个类名不变 */
+            transform: rotateY(180deg);
+        }
+
+        /* 当卡片被翻转时，同时应用翻转效果和重置鼠标效果 */
+        .card.flipped {
+            transform: 
+                translateX(-50%) 
+                scale(var(--cardScale, 1)) 
+                rotateY(var(--cardRotateY, 0deg))
+                rotateY(180deg); /* 仅用 rotateY(180deg) 即可实现翻转效果 */
+        }
+
+        /* 翻转后，正面和背面都保持静止，不再受鼠标影响 */
+        .card.flipped .card-face.front {
+            transform: rotateY(180deg);
+        }
+        .card.flipped .card-face.back {
+            transform: rotateY(180deg);
+        }
+        .card.active {
+            opacity: 1;
+        }
+        .card.center {
+            left: 50%;
+            z-index: 3;
+            pointer-events: all;
+            --cardScale: 2;
+            --cardRotateY: 0deg;
+        }
+        .card.left {
+            left: 25%;
+            z-index: 2;
+            --cardScale: 1.6;
+            --cardRotateY: -45deg;
+        }
+        .card.right {
+            left: 75%;
+            z-index: 2;
+            --cardScale: 1.6;
+            --cardRotateY: 45deg;
+        }
+        .card.hide-left {
+            left: 10%;
+            z-index: 1;
+            --cardScale: 1;
+            --cardRotateY: -70deg;
+        }
+        .card.hide-right {
+            left: 90%;
+            z-index: 1;
+            --cardScale: 1;
+            --cardRotateY: 70deg;
+        }
+        .card.flipped {
+            transform: 
+              translateX(-50%) 
+              scale(var(--cardScale, 1)) 
+              rotateY(var(--cardRotateY, 0deg))
+              rotateX(var(--rotateX, 0deg)) 
+              rotateY(calc(180deg + var(--rotateY, 0deg)));
+        }
+        .controls {
+            position: fixed;
+            bottom: 40%;
+            border-color: rgba(0,0,0,0);
+            width: 100%;
+        }
+        .controls button {
+            background-color: #f4f4f4;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 120px;
+        }
+        .controls button:hover {
+            color:grey;
+        }
+        #prevBtn {
+            float: left;
+            margin-left: 20px;
+        }
+        #nextBtn {
+            float: right;
+            margin-right: 20px;
+        }
+        .line-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* 确保线条不会阻碍其他元素的交互 */
+        }
+        .V-line-A {
+            position: absolute;
+            top: 0;
+            left: 35%;
+            width: 2px;
+            height: 30%;
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: translateX(-50%);
+        }
+        .V-line-B {
+            position: absolute;
+            bottom: 0;
+            left: 35%;
+            width: 2px;
+            height: 55%;
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: translateX(-50%);
+        }
+        .H-line {
+            position: absolute;
+            top: 70%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.1);
+            transform: translateY(-50%);
+        }
+        .word-container {
+            position: fixed;
+            bottom: 70%;
+            right: 66%;
+            width: 90%;
+            text-align: right;
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.7);
+        }
+      </style>
+ </head>
+ <body>
+    <header class="header-bar">
+      <div class="lflink">
+        <a href="../../index.html",class="backset">返回主页</a>
+      </div>
+      <div class="rtlink">
+        <a href="">部门介绍</a>
+        <a href="#">历届部门</a>
+        <a href="">部门活动</a>
+        <a href="">日志</a>
+      </div> 
+    </header>
+    <div class="card-container">
+        <div class="card active center">
+          <div class="card-face front">
+            <img src="../../image/session-1.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
+          </div>
+          <div class="card-face back">
+            <a href="" style="display: block; width: 100%; height: 100%;">
+              <img src="../../image/session-1-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+            </a>
+          </div>
+        </div>
+        <div class="card active left">
+          <div class="card-face front">
+            <img src="../../image/session-2.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
+          </div>
+          <div class="card-face back">
+            <a href="" style="display: block; width: 100%; height: 100%;">
+              <img src="../../image/session-2-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+            </a>          
+          </div>
+        </div>
+        <div class="card active right">
+          <div class="card-face front">
+            <img src="../../image/session-3.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
+          </div>
+          <div class="card-face back">
+            <a href="" style="display: block; width: 100%; height: 100%;">
+              <img src="../../image/session-3-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+            </a>          
+          </div>
+        </div>
+        <div class="card hide-left">
+          <div class="card-face front">
+            <img src="../../image/session-4.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
+          </div>
+          <div class="card-face back">
+            <a href="#" style="display: block; width: 100%; height: 100%;">
+              <img src="../../image/session-4-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+            </a>          
+          </div>
+        </div>
+        <div class="card hide-right">
+          <div class="card-face front">
+            <img src="../../image/session-5.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
+          </div>
+          <div class="card-face back">
+            <a href="" style="display: block; width: 100%; height: 100%;">
+              <img src="../../image/session-5-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+            </a>          
+          </div>
+        </div>
+    </div>   
+    <div class="controls">
+        <button id="prevBtn">
+            <i class="fas fa-angle-left"></i>
+        </button>
+        <button id="nextBtn">
+            <i class="fas fa-angle-right"></i>
+        </button>
+    </div>
+
+    <!-- 界面美化 -->
+    <div class="line-container">
+        <div class="V-line-A"> </div>
+        <div class="V-line-B"> </div>
+        <div class="H-line"> </div>
+    </div>
+
+    <!-- 用户提示 -->
+    <div class="word-container">
+        <p class="word1">
+            1. 点击卡片下方翻转
+        </p>
+        <p class="word2">
+            2. 根据卡片背面数字点击卡片上方 进入对应届期页面
+        </p>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll(".card");
+            const totalCards = cards.length;
+            let currentIndex = 0;
+
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+
+            function showCard(index){
+                cards.forEach((card, i) => {
+                    card.classList.remove("active", "left", "right", "center", "hide-left", "hide-right");
+                    if(i === index){
+                        card.classList.add("active", "center");
+                    } else if(i === (index - 1 + totalCards) % totalCards){
+                        card.classList.add("active", "left");
+                    } else if(i === (index + 1) % totalCards){
+                        card.classList.add("active", "right");
+                    } else if(i === (index - 2 + totalCards) % totalCards){
+                        card.classList.add("hide-left");
+                    } else if(i === (index + 2) % totalCards){
+                        card.classList.add("hide-right");
+                    } else {
+                        card.classList.remove("active");
+                    }
+                });
+            }
+            prevBtn.addEventListener("click", function(){
+                currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+                showCard(currentIndex);
+            });
+            nextBtn.addEventListener("click", function(){
+                currentIndex = (currentIndex + 1) % totalCards;
+                showCard(currentIndex);
+            });
+            showCard(currentIndex);
+
+            const angle = 40;
+            document.addEventListener("mousemove", (e) => {
+                const centerCard = document.querySelector('.card.center');
+                if (!centerCard || centerCard.classList.contains('flipped')) {
+                    return; // 如果不是中心卡片或卡片已翻转，则不做任何事
+                }
+
+                const rect = centerCard.getBoundingClientRect();
+                const cardWidth = rect.width;
+                const cardHeight = rect.height;
+                const centerX = rect.left + cardWidth / 2;
+                const centerY = rect.top + cardHeight / 2;
+                const mouseX = e.clientX - centerX;
+                const mouseY = e.clientY - centerY;
+                
+                // 检查鼠标是否在卡片范围内
+                if (mouseX >= -cardWidth/2 && mouseX <= cardWidth/2 && 
+                    mouseY >= -cardHeight/2 && mouseY <= cardHeight/2) {
+                    const rotateX = -(angle * mouseY) / (cardHeight / 2);
+                    const rotateY = (angle * mouseX) / (cardWidth / 2);
+                    
+                    // 将效果应用到中心卡片上
+                    centerCard.style.setProperty("--rotateX", rotateX + "deg");
+                    centerCard.style.setProperty("--rotateY", rotateY + "deg");
+                } else {
+                    // 鼠标离开时恢复
+                    centerCard.style.setProperty("--rotateX", "0deg");
+                    centerCard.style.setProperty("--rotateY", "0deg");
+                }
+            });
+
+            document.addEventListener("click", (e) => {
+            const centerCard = document.querySelector('.card.center');
+            if (centerCard && centerCard.contains(e.target)) {
+                // 重置由鼠标移动引起的旋转效果
+                centerCard.style.setProperty("--rotateX", "0deg");
+                centerCard.style.setProperty("--rotateY", "0deg");
+
+                // 切换 "flipped" 类，触发翻转
+                centerCard.classList.toggle("flipped");
+            }
+        });
+        });
+    </script>
+ </body>
+ </html>

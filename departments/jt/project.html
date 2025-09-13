@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鸡腿の项目一览</title>
+    <link rel="stylesheet" href="./font/iconfont.css">
+    <style>
+         body {
+            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            line-height: 1.7;
+            background-size: cover; /* 覆盖整个视口 */
+            background-position: center; /* 居中显示 */
+            background-attachment: fixed; /* 固定背景，滚动时不移动 */
+            overflow:hidden;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            /* box-sizing: border-box; */
+        }
+        .main {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            position: relative;
+            background: linear-gradient(135deg, #5053fc, #6a5af9, #00aaff);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            overflow: hidden;
+        }
+        
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .iconfont {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            left: 27%;
+            z-index: 999;
+            font: 900 80px '';
+            color: #fff;
+        }
+
+        #up-btn {
+            top: 5%;
+        }
+
+        #down-btn {
+            bottom: 5%;
+        }
+
+        #content {
+            width: 30%;
+            height: 100%;
+            position: absolute;
+            left: 15%;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            transition: transform .8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            padding: 40px;
+            position: relative;
+            transform: translateY(0);
+        }
+        
+        .card:hover {
+            transform: translateY(0) scale(1.02);
+        }
+        
+        .card-time {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            color: white;
+        }
+        
+        .card-title {
+            font-size: 50px;
+            font-weight: 500;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+            position: relative;
+            color: white;
+        }
+        
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: #ff9800;
+            transition: width 0.5s ease;
+        }
+        
+        .card:hover .card-title::after {
+            width: 100%;
+        }
+        
+        .card-passage {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: white; /* 确保文字颜色为白色以便在深色背景上可见 */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* 添加文字阴影提高可读性 */
+        }
+        
+        .card-passage p {
+            margin: 10px 0;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        
+        .card-passage p:first-child {
+            margin-top: 0;
+        }
+        
+        .card-passage p:last-child {
+            margin-bottom: 20px;
+        }
+        
+        .card img {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            margin-top: 20px;
+        }
+        
+        .card img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        /* 粒子效果 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            pointer-events: auto; /* 允许交互 */
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        #clock {
+            height: 130%;
+            /* 纵横比为1:1 */
+            aspect-ratio: 1 / 1;
+            position: absolute;
+            right: -28%;
+            top: -15%;
+            border-radius: 50%;
+            background-color: white;
+            border: #ff9214 30px solid;
+        }
+
+        @media(max-width:1000px) {
+            #clock {
+                right: -90%;
+            }
+        }
+
+        #clock-table {
+            width: 96%;
+            height: 96%;
+            border-radius: 50%;
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            transition: transform .8s ease-in-out;
+        }
+
+        .invisible-table {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform-origin: 50% 50%;
+            position: absolute;
+        }
+
+        .clock-thick {
+            width: 6%;
+            height: 6px;
+            background-color: #5053fc;
+            position: absolute;
+            top: calc(50% - 3px);
+            left: 0px;
+        }
+
+        .clock-thick span {
+            font-size: 50px;
+            position: absolute;
+            left: 140%;
+            top: calc(50% - 30px);
+            color: #5053fc;
+        }
+
+        .clock-scale {
+            width: 4%;
+            height: 2px;
+            background-color: #5053fc;
+            position: absolute;
+            top: calc(50% - .5px);
+            left: 0px;
+        }
+        /*标题栏*/
+        .header-bar {
+            background-color: var(--surface-color);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-bar a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<header class="header-bar">
+        <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回部门主页</a>
+        <span>欢迎参加我们的活动！</span>
+    </header>
+<body>
+    <!-- 进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
+    <div class="main">
+        <div class="particles" id="particles"></div>
+        <i class="iconfont icon-arrowup" id="up-btn" onclick="slideToPrev()"></i>
+        <i class="iconfont icon-arrowdown" id="down-btn" onclick="slideToNext()"></i>
+        <div id="content">
+            <!-- 时间需要精确到月，根据月份来控制时钟旋转的比例 -->
+            <div class="card">
+                <div class="card-time">
+                    <span class="card-time-year">2022</span>
+                    <span>.</span>
+                    <span class="card-time-month">1</span> 
+                </div>
+                <div class="card-title">
+                    梦开始的地方
+                </div>
+                <div class="card-passage">
+                    <p>心中那自由的世界</p>
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-time">
+                    <span class="card-time-year">2022</span>
+                    <span>.</span>
+                    <span class="card-time-month">5</span> 
+                </div>
+                <div class="card-title">
+                    活动AAA
+                </div>
+                <div class="card-passage">
+                    <p>如此的清澈高远</p>
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-time">
+                    <span class="card-time-year">2024</span>
+                    <span>.</span>
+                    <span class="card-time-month">2</span> 
+                </div>
+                <div class="card-title">
+                    活动BBB
+                </div>
+                <div class="card-passage">
+                    <p>盛开着永不凋零</p>
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-time">
+                    <span class="card-time-year">2025</span>
+                    <span>.</span>
+                    <span class="card-time-month">6</span> 
+                </div>
+                <div class="card-title">
+                    活动CCC
+                </div>
+                <div class="card-passage">
+                    <p>蓝莲花~</p>
+                    <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
+                </div>
+            </div>
+
+        </div>
+
+        <div id="clock">
+            <div id="clock-center"></div>
+            <div id="clock-pointer"></div>
+            <div id="clock-table"></div>
+        </div>
+    </div>
+    <script>
+        
+        // 获取所有卡片元素并存储在数组中
+        const slides = Array.from(document.querySelectorAll(".card"));
+        const clock = document.querySelector("#clock-table");
+        let yearcontent = [2021,2022,2023,2024,2025,'未完待续'];
+        //============这里需要调整格式！！！！！！！！！！！！！！！
+        let year = 0;
+        for (let i = -60; i < 300; i += 5) {
+            addClockScale(i);
+            if (i % 60 === 0) {
+                if (year < yearcontent.length) {
+                    addThickClockScale(i, yearcontent[year]);
+                    year++;
+                }
+                // 否则，不再添加粗刻度
+            }
+        }
+        
+        // 定义偏移量和偏移边界
+        let offset = 0;
+        let maxOffset = 0; // 第一张卡片
+        let minOffset = -(slides.length-1); // 最后一张卡片
+
+        // 添加时钟刻度
+        function addClockScale(degree) {
+            // 创建一个隐藏的表格元素
+            const invisibleClockTable = document.createElement("div");
+            // 添加类名
+            invisibleClockTable.className = "invisible-table";
+            // 设置旋转角度
+            invisibleClockTable.style.transform = `rotate(${degree}deg)`;
+            // 创建时钟刻度元素
+            const clockScale = document.createElement("div");
+            // 添加类名
+            clockScale.className = "clock-scale";
+            // 将时钟刻度元素添加到表格中
+            invisibleClockTable.appendChild(clockScale);
+            // 将表格添加到时钟表盘中
+            clock.appendChild(invisibleClockTable);
+        }
+        // 添加粗刻度
+        function addThickClockScale(degree, time) {
+            // 创建一个隐藏的表格元素
+            const invisibleClockTable = document.createElement("div");
+            invisibleClockTable.className = "invisible-table";
+            invisibleClockTable.style.transform = `rotate(${degree}deg)`;
+            const thickClockScale = document.createElement("div");
+            thickClockScale.className = "clock-thick";
+            const scaleContent = document.createElement("span");
+            scaleContent.textContent = `${time}`;
+            thickClockScale.appendChild(scaleContent);
+            invisibleClockTable.appendChild(thickClockScale);
+            clock.appendChild(invisibleClockTable);
+        }
+
+        const absoluteMonths = slides.map(slide => {
+        const yearElement = slide.querySelector('.card-time-year');
+        const monthElement = slide.querySelector('.card-time-month');
+        const year = yearElement ? parseInt(yearElement.textContent) : 0;
+        const month = monthElement ? parseInt(monthElement.textContent) : 0;
+        return year * 12 + month;
+        });
+
+        // 计算每张卡片相对于第一张卡片的月份差，并转换为角度
+        const baseMonths = absoluteMonths[0]; // 第一张卡片的绝对月份
+        const rotationAngles = absoluteMonths.map(months => {
+            const diff = months - baseMonths;
+            return -(diff / 12) * 60; // 每差12个月旋转60度
+        });
+
+        let currentIndex = 0; // 当前卡片索引
+        let maxIndex = slides.length - 1; // 最大索引
+        let minIndex = 0; // 最小索引
+
+        // 向前切换卡片（上一张）
+        function slideToPrev() {
+        if (currentIndex <= minIndex) return; // 已经是第一张
+
+        currentIndex--;
+        // 移动卡片：这里偏移量是currentIndex的负值乘以100%
+        offset = -currentIndex; //offset可能不再需要？
+
+        slides.forEach(slide => {
+            slide.style.transform = `translateY(${offset * 100}%)`;
+        });
+
+        // 旋转时钟到当前卡片对应的角度
+        clockRotate(rotationAngles[currentIndex]);
+        }
+
+        // 向后切换卡片（下一张）
+        function slideToNext() {
+            if (currentIndex >= maxIndex) return; // 已经是最后一张
+
+            currentIndex++;
+            offset = -currentIndex;
+
+            slides.forEach(slide => {
+            slide.style.transform = `translateY(${offset * 100}%)`;
+            });
+
+            clockRotate(rotationAngles[currentIndex]);
+        }
+
+        // 旋转时钟表盘
+        function clockRotate(degree) {
+            // 根据角度旋转时钟表盘
+            clock.style.transform = `rotate(${degree}deg)`;
+        }
+        
+
+        // 创建粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50; // 增加粒子数量
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置和动画延迟
+                const size = Math.random() * 10 + 5; // 增大粒子尺寸
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                
+                // 使用多种颜色（适应深色背景）
+                const colors = [
+                    `rgba(255, 255, 255, ${Math.random() * 0.7 + 0.3})`,  // 白色
+                    `rgba(106, 90, 249, ${Math.random() * 0.7 + 0.3})`,   // 紫色
+                    `rgba(0, 170, 255, ${Math.random() * 0.7 + 0.3})`,    // 蓝色
+                    `rgba(255, 152, 0, ${Math.random() * 0.7 + 0.3})`     // 橙色
+                ];
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 添加交互效果
+                particle.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(2)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                particle.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 滚动进度条
+        function updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
+        }
+        
+        // 鼠标移动视差效果
+        function parallaxParticles(e) {
+            const particles = document.querySelectorAll('.particle');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            particles.forEach(particle => {
+                const speed = parseFloat(particle.style.animationDuration) / 20;
+                const xPos = (x - 0.5) * speed;
+                const yPos = (y - 0.5) * speed;
+                
+                particle.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            });
+        }
+        
+        // 初始化粒子效果和滚动监听
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            window.addEventListener('scroll', updateScrollProgress);
+            document.addEventListener('mousemove', parallaxParticles);
+        });
+
+        // 添加鼠标滚轮事件监听
+        document.addEventListener('wheel', function(event) {
+        if (event.deltaY > 0) {
+        // 向下滚动 - 切换到下一项
+        slideToNext();
+        } else {
+        // 向上滚动 - 切换到上一项
+        slideToPrev();
+        }
+    
+        // 阻止默认滚动行为
+        event.preventDefault();
+        }, { passive: false });
+
+    </script>
+</body>
+
+</html>

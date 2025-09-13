@@ -1,0 +1,278 @@
+/* ======================= 全局样式和变量 ======================= */
+
+/* 引入谷歌字体 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+/* 【已修改】使用CSS变量来定义一套深色主题 */
+:root {
+    --primary-color: #4f8ff7; /* 主题色：调整为更亮的蓝色以在深色背景上突出 */
+    --secondary-color: #10b981; /* 辅色：绿色可以保持不变或稍微调亮 */
+    --background-color: #121212; /* 页面背景色：非常深的灰色 */
+    --light-background: #1e1e1e; /* 浅色背景：用于卡片的深灰色，比背景稍亮 */
+    --text-color: #e0e0e0; /* 主要文字颜色：调整为浅灰色 */
+    --text-light: #a0a0a0; /* 次要文字颜色：调整为更暗的灰色 */
+    --border-color: #333333; /* 边框颜色：调整为深色模式下的边框色 */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* 卡片阴影：在深色模式下可以稍微加重 */
+    --container-width: 1100px; /* 内容区域最大宽度 */
+}
+
+
+/* 基础重置和默认样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 让盒子的宽高计算更直观 */
+}
+
+/* 【已修改】将背景改为带有斜向流线的深色背景 */
+body {
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+    /* 设置一个深色底色作为回退 */
+    background-color: var(--background-color); 
+    /* 使用渐变创建斜向纹理 */
+    background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 20px
+    );
+}
+
+/* ======================= 通用样式类 ======================= */
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto; /* 水平居中 */
+    padding: 0 20px; /* 两侧留出边距 */
+}
+
+.section-padding {
+    padding: 60px 0; /* 上下内边距 */
+}
+
+.bg-light {
+    background-color: var(--light-background);
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none; /* 去掉下划线 */
+    transition: color 0.3s ease; /* 颜色变化动画 */
+}
+
+/* 【已修改】调整链接悬停颜色以适应深色主题 */
+a:hover {
+    color: #87b1f9; /* 鼠标悬停时使用更亮的蓝色 */
+}
+
+/* ======================= 页眉和导航栏 ======================= */
+
+/* 【已修改】调整页眉背景为深色半透明 */
+header {
+    background-color: rgba(25, 25, 25, 0.8); /* 深色毛玻璃效果 */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+}
+
+header.scrolled {
+    box-shadow: var(--shadow);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color); /* Logo文字颜色也应变浅 */
+}
+
+.logo i {
+    margin-right: 8px;
+    color: var(--primary-color); /* 让Logo图标保持主题色 */
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--text-light);
+    position: relative;
+    padding: 5px 0;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.mobile-menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color); /* 汉堡按钮颜色 */
+}
+
+/* ======================= 成员列表 ======================= */
+
+.member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.member-card {
+    background-color: var(--light-background);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color); /* 在深色模式下加一个边框会更有层次感 */
+}
+
+.member-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.member-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 4px solid var(--primary-color);
+}
+
+.member-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.member-card .role {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.member-card .bio {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ======================= 其他区域 ======================= */
+
+.event-list {
+    list-style: none;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.event-list li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.event-list i {
+    margin-right: 15px;
+    color: var(--secondary-color);
+}
+
+.contact-info {
+    text-align: center;
+    max-width: 600px;
+    margin: 20px auto 0;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+.contact-info i {
+    margin-right: 10px;
+}
+
+/* ======================= 页脚 ======================= */
+/* 页脚样式已很适合深色模式，无需大改 */
+footer {
+    background-color: #111; /* 可以调得比页面背景更深一点 */
+    color: #eee;
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ======================= 响应式设计 ======================= */
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--light-background); /* 移动端菜单背景 */
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 0;
+        box-shadow: var(--shadow);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+    
+    .nav-menu li {
+        margin: 10px 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+}

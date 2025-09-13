@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>部门风采与分享墙</title>
+
+        <!-- 图标（返回箭头用到） -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <!-- 字体：与你原来一致 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+
+        <style>
+            :root{
+            --primary-color:#6a5af9;
+            --secondary-color:#00aaff;
+            --background-color:#f4f7fc;
+            --surface-color:#ffffff;
+            --text-dark:#2c3e50;
+            --text-light:#7f8c8d;
+            --border-radius:12px;
+            --shadow:0 10px 30px rgba(0,0,0,.07);
+            }
+
+            /* 基础 */
+            *{ box-sizing: border-box; }
+            html,body{ height:100%; }
+            body{
+            margin:0;
+            font-family:'Poppins','Noto Sans SC',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+            color:var(--text-dark);
+            background:var(--background-color);
+            line-height:1.7;
+            }
+
+            /* 顶部栏 */
+            .header-bar{
+            position:sticky; top:0; z-index:1000;
+            background:var(--surface-color);
+            backdrop-filter: blur(10px);
+            padding:12px 20px;
+            box-shadow:0 2px 8px rgba(0,0,0,.05);
+            display:flex; align-items:center; gap:16px;
+            }
+            .header-bar a{
+            color:var(--primary-color); text-decoration:none; font-weight:600;
+            }
+
+            /* 页面容器与分区 */
+            .page-wrapper{ max-width:1100px; margin:32px auto; padding:0 20px; }
+            .content-section{
+            background:var(--surface-color);
+            border-radius:var(--border-radius);
+            box-shadow:var(--shadow);
+            padding:28px;
+            margin-bottom:32px;
+            }
+            .section-title{
+            font-size:2rem; font-weight:700; text-align:center; margin:0 0 24px;
+            position:relative;
+            }
+            .section-title::after{
+            content:""; display:block; width:60px; height:4px; border-radius:2px;
+            background:var(--primary-color); margin:10px auto 0;
+            }
+
+            /* 轮播 */
+            .carousel{ position:relative; overflow:hidden; border-radius:var(--border-radius); }
+            .carousel-track{
+            display:flex; height:100%;
+            transition: transform .5s ease; will-change: transform;
+            }
+            .slide{ min-width:100%; position:relative; }
+            .slide img{
+            width:100%; display:block;
+            aspect-ratio: 12 / 7;   /* 自适应比例，替代固定 500px 高 */
+            object-fit:cover; border-radius:0;
+            }
+            .caption{
+            position:absolute; left:0; right:0; bottom:0;
+            padding:10px 14px; color:#fff;
+            background: linear-gradient(transparent, rgba(0,0,0,.55));
+            font-size:1.5rem;
+            }
+
+            /* 左右箭头 */
+            .carousel-btn{
+            position:absolute; top:50%; transform:translateY(-50%);
+            z-index:10; width:44px; height:44px; border:none; border-radius:50%;
+            background:rgba(0,0,0,.45);
+            display:grid; place-items:center; cursor:pointer;
+            transition: background .2s ease, transform .2s ease;
+            font-size:0; line-height:0;
+            }
+            .carousel-btn:hover{ background:rgba(0,0,0,.65); transform:translateY(-50%) scale(1.06); }
+            .carousel-btn:active{ transform:translateY(-50%) scale(.98); }
+            .carousel-btn.prev{ left:12px; }
+            .carousel-btn.next{ right:12px; }
+            .carousel-btn svg{ width:22px; height:22px; display:block; }
+
+            /* 分页器（虚线条风格） */
+            .carousel-dots{
+            position:absolute; left:0; right:0; bottom:12px; z-index:9;
+            display:flex; gap:8px; justify-content:center; pointer-events:auto;
+            }
+            .carousel-dots button{
+            all:unset; display:inline-block; cursor:pointer;
+            width:24px; height:6px; border-radius:3px; background:#d7dbe3;
+            transition: background-color .3s, width .3s;
+            }
+            .carousel-dots button[aria-current="true"]{
+            background:var(--primary-color); width:36px;
+            }
+
+            /* 个人分享墙 */
+            .share-grid{
+            display:grid; gap:24px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .share-card{
+            position:relative; overflow:hidden;
+            background:var(--surface-color);
+            border:1px solid #e9edf3; border-radius:16px; box-shadow:var(--shadow);
+            transition: transform .25s ease, box-shadow .25s ease;
+            outline:none;
+            }
+            .share-card:hover, .share-card:focus{
+            transform: translateY(-6px);
+            box-shadow: 0 14px 36px rgba(0,0,0,.10);
+            }
+            .share-cover{ width:100%; height:160px; object-fit:cover; display:block; }
+            .share-body{ padding:16px; }
+            .share-author{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+            .share-author img{
+            width:44px; height:44px; border-radius:50%; object-fit:cover; flex:none;
+            box-shadow:0 0 0 3px #fff, 0 0 0 5px rgba(0,0,0,.06);
+            }
+            .share-author h3{ margin:0; font-size:1.05rem; }
+            .share-brief{ color:var(--text-light); margin:10px 0 12px; }
+            .share-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+            .share-tags span{ font-size:.8rem; color:#4a5568; background:#f2f4f8; padding:4px 8px; border-radius:999px; }
+
+            /* 悬浮详情层（PC 悬浮、移动点击） */
+            .share-overlay{
+            position:absolute; inset:0; color:#fff;
+            background: rgba(0,0,0,.6);
+            display:flex; flex-direction:column; justify-content:flex-end;
+            padding:18px; opacity:0; visibility:hidden;
+            transition: opacity .25s ease, visibility .25s ease;
+            }
+            .share-card:hover .share-overlay,
+            .share-card:focus .share-overlay,
+            .share-card.is-open .share-overlay{
+            opacity:1; visibility:visible;
+            }
+            .share-overlay h4{ margin:0 0 8px; font-size:1.05rem; }
+            .share-overlay ul{ margin:0 0 12px 18px; }
+            .share-overlay li{ line-height:1.6; }
+            .share-link{
+            align-self:flex-start; text-decoration:none; font-weight:600;
+            background:var(--primary-color); color:#fff; padding:8px 12px; border-radius:10px;
+            transition: filter .2s ease;
+            }
+            .share-link:hover{ filter:brightness(.95); }
+
+            .pdf-btn {
+            display: block;              /* 独占一行 */
+            margin: 16px auto 0;         /* 上下留空，左右自动居中 */
+            padding: 6px 16px;           /* 调小内边距 */
+            font-size: 0.9rem;           /* 缩小文字 */
+            background: var(--primary-color, #6a5af9);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            width: fit-content;          /* 宽度随内容 */
+            transition: background 0.3s, transform 0.2s;
+            }
+            .pdf-btn:hover {
+            background: #4a3bd6;
+            transform: translateY(-2px);
+            }
+            .pdf-btn:active {
+            transform: translateY(0);
+            }
+
+
+            /* 更小屏的微调 */
+            @media (max-width: 520px){
+            .slide img{ aspect-ratio: 16 / 9; }
+            .carousel-btn{ width:40px; height:40px; }
+            .carousel-btn svg{ width:20px; height:20px; }
+            }
+            
+            /* 粒子背景效果 */
+            .particles {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: -1;
+            }
+            
+            .particle {
+                position: absolute;
+                border-radius: 50%;
+                animation: float 15s infinite linear;
+                pointer-events: auto; /* 允许交互 */
+            }
+            
+            @keyframes float {
+                0% {
+                    transform: translateY(0) translateX(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            /* 渐变标题效果 */
+            .section-title {
+                background: linear-gradient(45deg, #6a5af9, #00aaff, #ff9800);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-size: 300% 300%;
+                animation: gradientShift 3s ease infinite;
+                font-size: 2rem; 
+                font-weight: 700; 
+                text-align: center; 
+                margin: 0 0 24px;
+                position: relative;
+            }
+            
+            @keyframes gradientShift {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+            
+            /* 卡片悬停效果增强 */
+            .share-card {
+                position: relative;
+                overflow: hidden;
+                background: var(--surface-color);
+                border: 1px solid #e9edf3;
+                border-radius: 16px;
+                box-shadow: var(--shadow);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                outline: none;
+                perspective: 1000px;
+            }
+            
+            .share-card:hover {
+                transform: translateY(-10px) rotateY(5deg);
+                box-shadow: 0 20px 40px rgba(0,0,0,.15);
+            }
+            
+            /* 进度条 */
+            .scroll-progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 0%;
+                height: 4px;
+                background: linear-gradient(90deg, #6a5af9, #00aaff);
+                z-index: 1001;
+                transition: width 0.3s ease;
+            }
+        </style>
+    </head>
+    <body>
+    <!-- 进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+    
+    <header class="header-bar">
+        <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回部门主页</a>
+        <span>欢迎参加我们的活动！</span>
+    </header>   
+
+    <div class="page-wrapper">
+        <main>
+        <!-- 部门风采：照片轮播 -->
+        <section class="content-section" aria-labelledby="sec-gallery">
+            <h2 class="section-title" id="sec-gallery">部门风采</h2>
+
+            <div class="carousel" aria-roledescription="carousel">
+            <button class="carousel-btn prev" aria-label="上一张">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15.5 4.5l-7 7 7 7" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <div class="carousel-track">
+                <div class="slide is-active">
+                <img loading="lazy" src="https://placehold.co/1200x700/28a745/ffffff?text=Team+Building" alt="团建现场" />
+                <div class="caption">团建 · Team Building</div>
+                </div>
+                <div class="slide">
+                <img loading="lazy" src="https://placehold.co/1200x700/ffc107/000?text=Be+Abstract" alt="创意时刻" />
+                <div class="caption">创意时刻 · Be Abstract</div>
+                </div>
+                <div class="slide">
+                <img loading="lazy" src="https://placehold.co/1200x700/dc3545/ffffff?text=Go+Out+To+Play" alt="外出活动" />
+                <div class="caption">外出活动 · Go out to play</div>
+                </div>
+                <div class="slide">
+                <img loading="lazy" src="https://placehold.co/1200x700/6f42c1/ffffff?text=Daily+Work" alt="日常工作" />
+                <div class="caption">日常工作 · Daily Work</div>
+                </div>
+            </div>
+
+            <button class="carousel-btn next" aria-label="下一张">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8.5 4.5l7 7-7 7" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <div class="carousel-dots" aria-label="分页指示"></div>
+            </div>
+        </section>
+
+        <!-- 个人分享墙 -->
+        <section class="content-section" aria-labelledby="sec-share">
+            <h2 class="section-title" id="sec-share">个人分享墙</h2>
+
+            <div class="share-grid">
+            <!-- 卡片 1 -->
+            <article class="share-card" tabindex="0" aria-label="A同学 · 经历分享">
+                <img class="share-cover" loading="lazy" src="https://dummyimage.com/600x400/6a5af9/fff&text=中文" alt="xxx封面">
+                <div class="share-body">
+                <div class="share-author">
+                    <img loading="lazy" src="https://placehold.co/80x80/00aaff/ffffff?text=A" alt="A同学头像">
+                    <!--还可以做个链接到成员介绍那里去-->
+                    <div>
+                    <h3>A同学</h3> 
+                    </div>
+                </div>
+                <p class="share-brief">分享内容的标题</p>
+                <div class="share-tags"><span>#生活</span><span>#抽象</span></div>
+                </div>
+                <div class="share-overlay">
+                <h4>内容概要</h4>
+                <ul>
+                    <li>1. 想要分享的东西</li>
+                    <li>2. 想要分享的东西</li>
+                    <li>3. 想要分享的东西</li>
+                </ul>
+                <a href="./projects/example.pdf" target="_blank" class="pdf-btn">查看 PDF</a>
+                </div>
+            </article>
+
+            <!-- 卡片 2 -->
+            <article class="share-card" tabindex="0" aria-label="B同学 · 心得">
+                <img class="share-cover" loading="lazy" src="https://placehold.co/600x400/ff8a00/ffffff?text=game" alt="xxx封面">
+                <div class="share-body">
+                <div class="share-author">
+                    <img loading="lazy" src="https://placehold.co/80x80/ff8a00/ffffff?text=L" alt="B同学头像">
+                    <div>
+                    <h3>B同学</h3>
+                    </div>
+                </div>
+                <p class="share-brief">分享内容的标题</p>
+                <div class="share-tags"><span>#生活</span><span>#抽象</span></div>
+                </div>
+                <div class="share-overlay">
+                <h4>内容概要</h4>
+                <ul>
+                    <li>1. 想要分享的东西</li>
+                    <li>2. 想要分享的东西</li>
+                    <li>3. 想要分享的东西</li>
+                </ul>
+                <a href="./projects/example.pdf" target="_blank" class="pdf-btn">查看 PDF</a>
+                </div>
+            </article>
+
+            <!-- 卡片 3 -->
+            <article class="share-card" tabindex="0" aria-label="C同学 · 速通">
+                <img class="share-cover" loading="lazy" src="https://placehold.co/600x400/2ecc71/ffffff?text=Interview" alt="xxx封面">
+                <div class="share-body">
+                <div class="share-author">
+                    <img loading="lazy" src="https://placehold.co/80x80/2ecc71/ffffff?text=Z" alt="C同学头像">
+                    <div>
+                    <h3>C同学</h3>
+                    </div>
+                </div>
+                <p class="share-brief">分享内容的标题</p>
+                <div class="share-tags"><span>#生活</span><span>#抽象</span></div>
+                </div>
+                <div class="share-overlay">
+                <h4>内容概要</h4>
+                <ul>
+                    <li>1. 想要分享的东西</li>
+                    <li>2. 想要分享的东西</li>
+                    <li>3. 想要分享的东西</li>
+                </ul>
+                <a href="./projects/example.pdf" target="_blank" class="pdf-btn">查看 PDF</a>
+                </div>
+            </article>
+            </div>
+        </section>
+        </main>
+    </div>
+
+        <script>
+            /* ---------------- 轮播：无缝循环 + 键盘 + 触摸 ---------------- */
+            (function(){
+            const root  = document.querySelector('.carousel');
+            if(!root) return;
+            const track = root.querySelector('.carousel-track');
+            const prev  = root.querySelector('.carousel-btn.prev');
+            const next  = root.querySelector('.carousel-btn.next');
+            const dotsC = root.querySelector('.carousel-dots');
+
+            // 原始幻灯
+            let slides = Array.from(track.children);
+            // 首尾克隆
+            const firstClone = slides[0].cloneNode(true);
+            const lastClone  = slides[slides.length-1].cloneNode(true);
+            firstClone.classList.add('clone'); lastClone.classList.add('clone');
+            track.appendChild(firstClone); track.insertBefore(lastClone, slides[0]);
+
+            // 更新引用（含克隆）
+            slides = Array.from(track.children);
+            const REAL_COUNT = slides.length - 2;
+
+            // 初始在真实第 1 张
+            let index = 1;
+            const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const DURATION = prefersReduce ? 0 : 500;
+            track.style.transition = 'none';
+            track.style.transform  = `translateX(-${index*100}%)`;
+
+            // 分页器
+            const dots = [];
+            for(let i=0;i<REAL_COUNT;i++){
+                const b = document.createElement('button');
+                if(i===0) b.setAttribute('aria-current','true');
+                b.addEventListener('click', ()=> goTo(i+1)); // i+1 = 真实索引
+                dotsC.appendChild(b); dots.push(b);
+            }
+            function updateDots(){
+                let real = index - 1;
+                if(real < 0) real = REAL_COUNT-1;
+                if(real >= REAL_COUNT) real = 0;
+                dots.forEach((d,i)=> d.setAttribute('aria-current', i===real ? 'true':'false'));
+            }
+            function goTo(i){
+                index = i;
+                track.style.transition = `transform ${DURATION}ms ease`;
+                track.style.transform  = `translateX(-${index*100}%)`;
+                updateDots();
+            }
+            function nextSlide(){ goTo(index+1); }
+            function prevSlide(){ goTo(index-1); }
+
+            // 过渡结束：落在克隆处则瞬移
+            track.addEventListener('transitionend', ()=>{
+                const cur = slides[index];
+                if(!cur) return;
+                if(cur.classList.contains('clone')){
+                track.style.transition = 'none';
+                index = (index === slides.length-1) ? 1 : slides.length-2;
+                track.style.transform = `translateX(-${index*100}%)`;
+                requestAnimationFrame(()=> requestAnimationFrame(()=> {
+                    track.style.transition = `transform ${DURATION}ms ease`;
+                }));
+                }
+            });
+
+            // 事件绑定（空值保护）
+            next && next.addEventListener('click', nextSlide);
+            prev && prev.addEventListener('click', prevSlide);
+
+            // 键盘：左右方向键
+            document.addEventListener('keydown', (e)=>{
+                if(e.key === 'ArrowRight') nextSlide();
+                else if(e.key === 'ArrowLeft') prevSlide();
+            });
+
+            // 触摸/拖拽滑动（简易）
+            let startX = 0, dx = 0, touching = false;
+            const THRESHOLD = 40;
+            track.addEventListener('pointerdown', (e)=>{ touching=true; startX=e.clientX; dx=0; track.setPointerCapture(e.pointerId); });
+            track.addEventListener('pointermove', (e)=>{ if(!touching) return; dx = e.clientX - startX; });
+            track.addEventListener('pointerup',   (e)=>{
+                if(!touching) return; touching=false;
+                if(dx > THRESHOLD) prevSlide();
+                else if(dx < -THRESHOLD) nextSlide();
+            });
+
+            // 自动播放（可根据需要调整/移除）
+            let timer=null;
+            const start = ()=>{ stop(); if(!prefersReduce) timer = setInterval(nextSlide, 3500); };
+            const stop  = ()=>{ if(timer) clearInterval(timer); timer=null; };
+            root.addEventListener('mouseenter', stop);
+            root.addEventListener('mouseleave', start);
+            document.addEventListener('visibilitychange', ()=> document.hidden ? stop() : start());
+
+            updateDots();
+            setTimeout(()=>{ track.style.transition = `transform ${DURATION}ms ease`; start(); }, 30);
+            })();
+
+            /* --------- 分享卡：移动端点击展开/关闭 --------- */
+            (function(){
+            const cards = document.querySelectorAll('.share-card');
+            if(!cards.length) return;
+            document.addEventListener('click', (e)=>{
+                const card = e.target.closest('.share-card');
+                // 点到卡片：切换
+                if(card){
+                if(e.target.closest('a')) return; // 点击链接不拦
+                card.classList.toggle('is-open');
+                return;
+                }
+                // 点到空白处：全部收起
+                cards.forEach(c=> c.classList.remove('is-open'));
+            });
+            })();
+            
+            // 创建粒子效果
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 50; // 增加粒子数量
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // 随机位置和动画延迟
+                    const size = Math.random() * 10 + 5; // 增大粒子尺寸
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 15}s`;
+                    particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                    
+                    // 使用多种颜色
+                    const colors = [
+                        `rgba(106, 90, 249, ${Math.random() * 0.7 + 0.3})`,  // 紫色
+                        `rgba(0, 170, 255, ${Math.random() * 0.7 + 0.3})`,    // 蓝色
+                        `rgba(255, 152, 0, ${Math.random() * 0.7 + 0.3})`,    // 橙色
+                        `rgba(124, 77, 255, ${Math.random() * 0.7 + 0.3})`    // 深紫
+                    ];
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // 添加交互效果
+                    particle.addEventListener('mouseover', function() {
+                        this.style.transform = 'scale(2)';
+                        this.style.transition = 'transform 0.3s ease';
+                    });
+                    
+                    particle.addEventListener('mouseout', function() {
+                        this.style.transform = 'scale(1)';
+                    });
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            // 滚动进度条
+            function updateScrollProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
+            }
+            
+            // 鼠标移动视差效果
+            function parallaxParticles(e) {
+                const particles = document.querySelectorAll('.particle');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                particles.forEach(particle => {
+                    const speed = parseFloat(particle.style.animationDuration) / 20;
+                    const xPos = (x - 0.5) * speed;
+                    const yPos = (y - 0.5) * speed;
+                    
+                    particle.style.transform = `translate(${xPos}px, ${yPos}px)`;
+                });
+            }
+            
+            // 初始化
+            document.addEventListener('DOMContentLoaded', function() {
+                createParticles();
+                window.addEventListener('scroll', updateScrollProgress);
+                document.addEventListener('mousemove', parallaxParticles);
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历届部门成员 - 技术推广部</title>
+    <link rel="icon" href="image/jt.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a5af9;
+            --secondary-color: #00aaff;
+            --background-color: #f4f7fc;
+            --surface-color: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.07);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        body.dark-mode {
+            --background-color: #23272f;
+            --surface-color: #2c313a;
+            --text-dark: #f4f7fc;
+            --text-light: #b0b8c1;
+            --primary-color: #ff9800;
+            --secondary-color: #6a5af9;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #1d4ed8;
+        }
+
+        .header-bar {
+            background-color: var(--surface-color);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            overflow: visible;
+        }
+
+        .header-bar a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .header-title {
+            font-weight: 700;
+            margin: 0 20px;
+        }
+
+        .header-nav { 
+            display: flex; 
+            gap: 22px; 
+            align-items: center; 
+            margin-left: auto; 
+            z-index: 1101; 
+        }
+
+        .header-nav a { 
+            color: var(--text-light); 
+            font-weight: 700; 
+        }
+
+        .header-nav a:hover { 
+            color: var(--primary-color); 
+        }
+
+        .mobile-menu-toggle{ 
+            display:none; 
+            font-size:1.5rem; 
+            background:none; 
+            border:none; 
+            cursor:pointer; 
+            color: var(--primary-color); 
+            z-index:1102; 
+        }
+
+        @media (max-width: 768px) {
+            .header-bar{ justify-content: space-between; }
+            .mobile-menu-toggle{ display:block; order: 4; }
+            .header-bar > a:first-child{ order: 1; }
+            .header-title{ order: 2; margin: 0 auto; }
+            #theme-toggle{ order: 3; }
+            .header-nav{ 
+                display:none; 
+                position:absolute; 
+                top:60px; 
+                right:16px; 
+                background: var(--surface-color); 
+                box-shadow: var(--shadow); 
+                border:1px solid #e9edf3; 
+                border-radius: 10px; 
+                padding:10px 14px; 
+                flex-direction: column; 
+                gap:12px; 
+                z-index: 1101; 
+                margin-left: 0; 
+            }
+            .header-nav.active{ display:flex !important; }
+        }
+
+        .page-wrapper {
+            max-width: 1400px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .breadcrumb {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+        }
+
+        .years-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .year-link {
+            padding: 12px 24px;
+            background: var(--surface-color);
+            border-radius: 30px;
+            color: var(--text-dark);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .year-link:hover, .year-link.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .year-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .year-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .year-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            position: relative;
+        }
+
+        .year-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            margin: 10px auto 0;
+        }
+
+        .members-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .member-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid #e9edf3;
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid var(--surface-color);
+            box-shadow: 0 0 0 3px var(--primary-color);
+        }
+
+        .member-name {
+            font-size: 1.4rem;
+            margin: 0 0 10px;
+            color: var(--text-dark);
+        }
+
+        .member-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0 0 15px;
+            font-size: 1.1rem;
+        }
+
+        .member-bio {
+            color: var(--text-light);
+            font-style: italic;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .no-members {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper {
+                margin-top: 80px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .members-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        /* 粒子背景效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            pointer-events: auto; /* 允许交互 */
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-bar">
+        <a href="dep_home.html"><i class="fas fa-arrow-left"></i> 返回部门主页</a>
+        <span class="header-title">历届部门成员</span>
+        <nav class="header-nav">
+            <a href="#2025" class="year-nav-link" data-year="2025">2025届</a>
+            <a href="#2024" class="year-nav-link" data-year="2024">2024届</a>
+            <a href="#2023" class="year-nav-link" data-year="2023">2023届</a>
+        </nav>
+        <button class="mobile-menu-toggle" id="jt-mobile-menu" aria-label="打开菜单">
+            <i class="fas fa-bars"></i>
+        </button>
+        <i id="theme-toggle" class="fas fa-moon" title="切换浅/深色模式" style="font-size:1.5rem;cursor:pointer;margin-left:20px;color:var(--primary-color);"></i>
+    </header>
+    
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+
+    <div class="page-wrapper">
+        <h1 class="page-title">历届部门成员</h1>
+        <p class="breadcrumb">
+            <a href="dep_home.html">部门主页</a> > 历届部门成员
+        </p>
+
+        <div class="years-nav">
+            <a href="#2025" class="year-link active" data-year="2025">2025届</a>
+            <a href="#2024" class="year-link" data-year="2024">2024届</a>
+            <a href="#2023" class="year-link" data-year="2023">2023届</a>
+        </div>
+
+        <!-- 2025届成员 -->
+        <section id="2025" class="year-section active">
+            <h2 class="year-title">2025届</h2>
+            <div class="members-container">
+                <!-- 部长 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/6a5af9/ffffff?text=李智谨" alt="李智谨" class="member-avatar">
+                    <h3 class="member-name">李智谨</h3>
+                    <p class="member-role">部门部长</p>
+                    <p class="member-bio">"找到几件热爱的事情，然后做下去就好了੭ ᐕ)੭
+希望每一位加入科创的小朋友都能找到自己愿意为之投入的事情！"</p>
+                </div>
+                
+                <!-- 副部长 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=贺子珏" alt="贺子珏" class="member-avatar">
+                    <h3 class="member-name">贺子珏</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"人和禽兽之间最大的区别是传承。"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=蒋孝民" alt="蒋孝民" class="member-avatar">
+                    <h3 class="member-name">蒋孝民</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"绝赞摸鱼中"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=刘铭祺" alt="刘铭祺" class="member-avatar">
+                    <h3 class="member-name">刘铭祺</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"走吧，就算我们无法让大雨停下，还有我陪你在雨里放肆奔跑"</p>
+                </div>
+                
+                <!-- 干事 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=黄超" alt="黄超" class="member-avatar">
+                    <h3 class="member-name">黄超</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"感谢生命中能遇见伟大的皓哥和部长团!!!!!!!对小朋友的话，大一试错成本很高的，想做什么就去做吧~"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=毛玉琪" alt="毛玉琪" class="member-avatar">
+                    <h3 class="member-name">毛玉琪</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"我的心脏不会因为快没电而衰减。"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=郑航霁" alt="郑航霁" class="member-avatar">
+                    <h3 class="member-name">郑航霁</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"科创是个好地方"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=管政涵" alt="管政涵" class="member-avatar">
+                    <h3 class="member-name">管政涵</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"科创大家庭，共进！"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=程皓宇" alt="程皓宇" class="member-avatar">
+                    <h3 class="member-name">程皓宇</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"去挥霍和珍惜是同一件事情"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=邝姿霖" alt="邝姿霖" class="member-avatar">
+                    <h3 class="member-name">邝姿霖</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"耶！希望科创越做越大！"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=黄千格" alt="黄千格" class="member-avatar">
+                    <h3 class="member-name">黄千格</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"这是一个喜欢 yellow &不拘一格的女孩纸～感谢科创中心，见证了我 chaotic yet culminating 的 18  岁 o(^▽^)o 希望自己， 老朋友，新朋友，科创中心，都都都越来越好呀(◍•ᴗ•◍)"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=郑伊霞" alt="郑伊霞" class="member-avatar">
+                    <h3 class="member-name">郑伊霞</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"我要做一棵树 拥有坚硬的纹理"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2024届成员 -->
+        <section id="2024" class="year-section">
+            <h2 class="year-title">2024届</h2>
+            <div class="members-container">
+                <!-- 部长 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/6a5af9/ffffff?text=倪旌哲" alt="倪旌哲" class="member-avatar">
+                    <h3 class="member-name">倪旌哲</h3>
+                    <p class="member-role">部门部长</p>
+                    <p class="member-bio">"Tech或许是这个时代最容易获得的生产力😋
+所以想到什么就去做做看，和AI聊一聊想法和设计。
+如果有什么好东西也要记得推广给身边人哦，毕竟任何技术的发展都需要依靠社区的力量😋"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/6a5af9/ffffff?text=周天恺" alt="周天恺" class="member-avatar">
+                    <h3 class="member-name">周天恺</h3>
+                    <p class="member-role">部门部长</p>
+                    <p class="member-bio">"不要急，没有⼀朵花，从⼀开始就是花。也不要嚣张，没有⼀朵花，到最后还是花。"</p>
+                </div>
+                
+                <!-- 副部长 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=贺子珏" alt="贺子珏" class="member-avatar">
+                    <h3 class="member-name">贺子珏</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"人和禽兽之间最大的区别是传承。"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=姜子衿" alt="姜子衿" class="member-avatar">
+                    <h3 class="member-name">姜子衿</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"保持热爱，奔赴山海！"</p>
+                </div>
+                
+                <!-- 干事 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=杨思然" alt="杨思然" class="member-avatar">
+                    <h3 class="member-name">杨思然</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"加油加油科创也要闯出自己的一番天地"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2023届成员 -->
+        <section id="2023" class="year-section">
+            <h2 class="year-title">2023届</h2>
+            <div class="members-container">
+                <!-- 副部长 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/00aaff/ffffff?text=姜子衿" alt="姜子衿" class="member-avatar">
+                    <h3 class="member-name">姜子衿</h3>
+                    <p class="member-role">副部长</p>
+                    <p class="member-bio">"保持热爱，奔赴山海！"</p>
+                </div>
+                
+                <!-- 干事 -->
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=杨思然" alt="杨思然" class="member-avatar">
+                    <h3 class="member-name">杨思然</h3>
+                    <p class="member-role">干事</p>
+                    <p class="member-bio">"加油加油科创也要闯出自己的一番天地"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=倪旌哲" alt="倪旌哲" class="member-avatar">
+                    <h3 class="member-name">倪旌哲</h3>
+                    <p class="member-role">部长</p>
+                    <p class="member-bio">"Tech或许是这个时代最容易获得的生产力😋
+所以想到什么就去做做看，和AI聊一聊想法和设计。
+如果有什么好东西也要记得推广给身边人哦，毕竟任何技术的发展都需要依靠社区的力量😋"</p>
+                </div>
+                
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/28a745/ffffff?text=周天恺" alt="周天恺" class="member-avatar">
+                    <h3 class="member-name">周天恺</h3>
+                    <p class="member-role">部长</p>
+                    <p class="member-bio">"不要急，没有⼀朵花，从⼀开始就是花。也不要嚣张，没有⼀朵花，到最后还是花。"</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // 创建粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50; // 增加粒子数量
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置和动画延迟
+                const size = Math.random() * 10 + 5; // 增大粒子尺寸
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                
+                // 使用多种颜色
+                const colors = [
+                    `rgba(106, 90, 249, ${Math.random() * 0.7 + 0.3})`,  // 紫色
+                    `rgba(0, 170, 255, ${Math.random() * 0.7 + 0.3})`,    // 蓝色
+                    `rgba(255, 152, 0, ${Math.random() * 0.7 + 0.3})`,    // 橙色
+                    `rgba(124, 77, 255, ${Math.random() * 0.7 + 0.3})`    // 深紫
+                ];
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 添加交互效果
+                particle.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(2)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                particle.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 鼠标移动视差效果
+        function parallaxParticles(e) {
+            const particles = document.querySelectorAll('.particle');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            particles.forEach(particle => {
+                const speed = parseFloat(particle.style.animationDuration) / 20;
+                const xPos = (x - 0.5) * speed;
+                const yPos = (y - 0.5) * speed;
+                
+                particle.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            });
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建粒子效果
+            createParticles();
+            document.addEventListener('mousemove', parallaxParticles);
+            
+            // 主题切换功能
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            
+            // 检查本地存储中的主题设置
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggle.classList.remove('fa-moon');
+                themeToggle.classList.add('fa-sun');
+            }
+            
+            // 主题切换按钮点击事件
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    themeToggle.classList.remove('fa-moon');
+                    themeToggle.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeToggle.classList.remove('fa-sun');
+                    themeToggle.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            // 年份导航链接点击事件
+            const yearLinks = document.querySelectorAll('.year-link, .year-nav-link');
+            const yearSections = document.querySelectorAll('.year-section');
+            
+            yearLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const year = this.getAttribute('data-year');
+                    const targetSection = document.getElementById(year);
+                    
+                    // 更新活动状态
+                    yearLinks.forEach(l => l.classList.remove('active'));
+                    yearSections.forEach(s => s.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    targetSection.classList.add('active');
+                    
+                    // 滚动到目标区域
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // 移动端菜单切换
+            const mobileMenuToggle = document.getElementById('jt-mobile-menu');
+            const headerNav = document.querySelector('.header-nav');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                headerNav.classList.toggle('active');
+            });
+            
+            // 点击导航链接后关闭移动端菜单
+            document.querySelectorAll('.header-nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    headerNav.classList.remove('active');
+                });
+            });
+            
+            // 返回顶部按钮
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 处理URL中的hash
+            function handleHash() {
+                const hash = window.location.hash.substring(1);
+                if (hash && document.getElementById(hash)) {
+                    const targetSection = document.getElementById(hash);
+                    const year = hash;
+                    
+                    // 更新活动状态
+                    yearLinks.forEach(l => l.classList.remove('active'));
+                    yearSections.forEach(s => s.classList.remove('active'));
+                    
+                    document.querySelector(`[data-year=\"${year}\"]`).classList.add('active');
+                    targetSection.classList.add('active');
+                }
+            }
+            
+            // 页面加载时处理hash
+            handleHash();
+            
+            // 监听hash变化
+            window.addEventListener('hashchange', handleHash);
+        });
+    </script>
+</body>
+</html>

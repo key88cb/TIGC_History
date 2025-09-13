@@ -3,269 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>部门介绍页练兵场[请改掉我]</title>
+    <title>技术推广部</title>
+    <link rel="icon" href="image/jt.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* --- 练兵场样式 这部分的样式表等到你看明白了javascript就可以来研究一下啦  --- */
-        :root {
-            --primary-color: #6a5af9; /* 更鲜明的紫色 */
-            --secondary-color: #00aaff;
-            --background-color: #f4f7fc;
-            --surface-color: #ffffff;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
-            --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.07);
-            --transition-speed: 0.3s;
-        }
-        body {
-            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
-            margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-dark);
-            line-height: 1.7;
-            background-image: url('../../image/TOm.png'); /* 你可以把它替换成你自己的背景图片URL */
-            background-size: cover; /* 覆盖整个视口 */
-            background-position: center; /* 居中显示 */
-            background-attachment: fixed; /* 固定背景，滚动时不移动 */
-        }
-        .header-bar {
-            background-color: var(--surface-color);
-            backdrop-filter: blur(10px);
-            padding: 15px 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
+        /* 粒子背景效果 */
+        .particles {
+            position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
         }
-        .header-bar a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .page-wrapper {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .department-hero {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 80px;
-        }
-        .hero-visual {
-            font-size: 12rem;
-            color: var(--primary-color);
-            opacity: 0.1;
-            text-align: center;
-        }
-        .hero-text h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1.2;
-        }
-        .hero-text p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-top: 15px;
-        }
-        .content-section {
-            background: var(--surface-color);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 50px;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
-            margin: 10px auto 0;
-        }
-
-        .leader-card {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            margin-bottom: 50px;
-        }
-        .leader-card img {
-            width: 150px;
-            height: 150px;
+        
+        .particle {
+            position: absolute;
             border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
+            animation: float 15s infinite linear;
+            pointer-events: auto; /* 允许交互 */
         }
-        .leader-info h3 { font-size: 1.8rem; margin: 0; }
-        .leader-info .role { font-size: 1.1rem; opacity: 0.8; margin-bottom: 15px; }
-        .leader-info .bio { font-style: italic; }
-
-        .member-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 30px;
-            justify-items: center;
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
         }
-        .member-card {
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-            width: 100%;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid #e0e5ec;
-            transition: all var(--transition-speed) ease-in-out;
+        
+        /* 渐变标题效果 */
+        .dept-title {
+            background: linear-gradient(45deg, #6a5af9, #00aaff, #ff9800);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
         }
-        .member-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
-        .member-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 4px solid var(--surface-color);
-            box-shadow: 0 0 0 4px var(--primary-color);
-        }
-        .member-card h3 { margin: 10px 0 5px; font-size: 1.2rem; }
-        .member-card .role { color: var(--primary-color); font-weight: 600; margin-bottom: 10px; }
-        .member-card .bio { font-size: 0.9rem; color: var(--text-light); }
-
-        /* 项目卡片样式 */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .project-card {
-            background: var(--background-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: all var(--transition-speed) ease-in-out;
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow);
-        }
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .project-info {
-            padding: 20px;
-        }
-        .project-info h3 { font-size: 1.3rem; margin-top: 0; }
-        .project-info p { color: var(--text-light); }
-
-        /* 照片墙样式 */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .photo-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            transition: all var(--transition-speed);
-            cursor: pointer;
-        }
+        
+        /* 悬停放大效果 */
+        .project-card:hover img,
         .photo-item img:hover {
             transform: scale(1.05);
-            box-shadow: var(--shadow);
+        }
+        
+        /* 卡片入场动画 */
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-section {
+            animation: cardEntrance 0.6s ease-out forwards;
+        }
+        
+        /* 进度指示器 */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #6a5af9, #00aaff);
+            z-index: 1001;
+            transition: width 0.3s ease;
         }
     </style>
-
 </head>
-<!-- 先从这里的html开始试一试吧！ -->
 <body>
-
+    <!-- 进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
     <header class="header-bar">
         <a href="../../index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
-        <span>部门介绍页练兵场[期待你的创意]</span>
+        <span class="header-title">技术推广部</span>
+        <nav class="header-nav">
+            <a href="#members">部门成员</a>
+            <a href="#core-activities">核心活动</a>
+            <a href="#photos">部门风采</a>
+        </nav>
+        <!-- 鸡腿图标按钮 -->
+        <button class="mobile-menu-toggle" id="jt-mobile-menu" aria-label="打开菜单" style="margin-left:16px;">
+            <i class="fas fa-bars"></i>
+        </button>
+        <i id="theme-toggle" class="fas fa-drumstick-bite" title="切换浅/深色模式" style="font-size:1.5rem;cursor:pointer;margin-left:20px;color:var(--primary-color);"></i>
     </header>
+    
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+    <div class="page page-active" id="main-page">
+        <section>
+        <div class="page-wrapper">
+            <!-- ======================= 你可以修改部门信息 ======================= -->
+            <section class="department-hero">
+                <!-- 左侧：部门信息 -->
+                <aside class="panel panel--left">
+                    <h1 class="dept-title">技术推广部</h1>
 
-    <div class="page-wrapper">
-        
-        <!-- ======================= 你可以修改部门信息 ======================= -->
-        <section class="department-hero">
-            <div class="hero-visual">
-                <img src="../../image/default.jpg">
-            </div>
-            <div class="hero-text">
-                <h1>抽象部</h1>
-                <p>我们负责抽象</p>
-            </div>
-        </section>
+                    <h3>我们负责抽象</h3>
+                    <p>部门名称：技术推广部（鸡腿🍗）</p>
 
-        <main>
-            <!-- ======================= 任务 #2: 添加负责人与核心成员 ======================= -->
-            <section class="content-section">
-                <h2 class="section-title">成员</h2>
-                <!-- 负责人卡片 -->
-                <div class="leader-card">
-                    <img src="../../image/default.jpg" alt="负责人头像"> <!-- ../.. 代表上一级文件夹的上一级文件夹，它们下面才会有image这个保存图片的文件夹哦 -->
+                    <h3>部门口号：</h3>
+                    <p>（可填写一句话口号）</p>
+
+                    <h3>核心职责：</h3>
+                    <ul class="list">
+                    <li>负责组织技术分享和培训</li>
+                    <li>开发和维护组织官方网站</li>
+                    <li>探索前沿技术并进行分享</li>
+                    </ul>
+
+                    <h3>联系方式：</h3>
+                    <p>部门邮箱</p>
+
+                    <h3>历届部门成员信息</h3>
+                    <ul class="year-list">
+                        <li><a href="members.html#2025" class="nav-link">2025届</a></li>
+                        <li><a href="members.html#2024" class="nav-link">2024届</a></li>
+                        <li><a href="members.html#2023" class="nav-link">2023届</a></li>
+                </aside>
+
+                <!-- 右侧：成员区 -->
+                <section class="panel panel--right scroll-target" id="members">
+                    <h2 class="section-title section-title--with-link">成员
+                        <a class="section-more-link section-more-link--right" href="member.html">Click For More <i class="fas fa-arrow-right"></i></a>
+                    </h2>
+
+                    <!-- 负责人卡片 -->
+                    <div class="leader-card">
+                    <img src="../jt/image/lzj.gif" alt="负责人头像">
                     <div class="leader-info">
-                        <h3>抽象</h3>
-                        <p class="role">部门部长</p>
-                        <p class="bio">“这里是一句座右铭或简介。”</p>
+                        <h3>夏白轩</h3>
+                        <p class="role">技推部长</p>
+                        <p class="bio">“找到几件热爱的事情，然后做下去就好了&nbsp;&nbsp;&nbsp;੭ ᐕ)੭。”</p>
                     </div>
-                </div>
-                <!-- 核心成员网格 -->
-                <div class="member-grid">
+                    </div>
+
+                    <!-- 成员网格：把三张卡都放到同一个 grid 里 -->
+                    <div class="member-grid">
+                        <div class="member-card">
+                          <div class="card-inner">
+                            <div class="card-front">
+                              <img src="../jt/image/jxm.jpg" alt="成员头像">
+                              <h3>Sevepu</h3>
+                              <p class="role">副部长</p>
+                              <p class="bio">绝赞摸鱼中。</p>
+                            </div>
+                            <div class="card-back">
+                              <p class="motto">"喵喵喵"没有联系方式捏</p>
+                            </div>
+                          </div>
+                        </div>
+
                     <div class="member-card">
-                        <img src="https://placehold.co/200x200/00aaff/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>成员姓名</h3>
-                        <p class="role">职位/角色</p>
-                        <p class="bio">一句简短的个人介绍或座右铭。</p>
+                      <div class="card-inner">
+                        <div class="card-front">
+                          <img src="../jt/image/lmq.png" alt="成员头像">
+                          <h3>刘铭祺</h3>
+                          <p class="role">副部长</p>
+                          <p class="bio">走吧，就算我们无法让大雨停下，还有我陪你在雨里放肆奔跑。</p>
+                        </div>
+                        <div class="card-back">
+                          <p class="motto">"喵喵喵"</p>
+                        </div>
+                      </div>
                     </div>
+
                     <div class="member-card">
-                        <img src="https://placehold.co/200x200/28A745/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>另一位成员</h3>
-                        <p class="role">另一个职位</p>
-                        <p class="bio">这是另一位成员的简介。</p>
+                      <div class="card-inner">
+                        <div class="card-front">
+                          <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
+                          <h3>第三位副部长</h3>
+                          <p class="role">第三个职位</p>
+                          <p class="bio">这是第三位成员的简介。</p>
+                        </div>
+                        <div class="card-back">
+                          <p class="motto">"喵喵喵"</p>
+                        </div>
+                      </div>
                     </div>
-                    <div class="member-card">
-                        <img src="https://placehold.co/200x200/ffc107/FFFFFF?text=Avatar" alt="成员头像">
-                        <h3>第三位成员</h3>
-                        <p class="role">第三个职位</p>
-                        <p class="bio">这是第三位成员的简介。</p>
                     </div>
-                </div>
+                </section>
             </section>
+
+        </div>
 
             <!-- ====================================================================== -->
             <!-- ======================= 动手任务 #3: 添加核心项目 ======================= -->
             <!-- ====================================================================== -->
-            <section class="content-section">
-                <h2 class="section-title">核心活动</h2>
+            <section class="content-section scroll-target" id="core-activities">
+                    <h2 class="section-title">
+                    <a href="project.html" style="color:inherit;text-decoration:none;cursor:pointer;">
+                        核心活动
+                    </a>
+                </h2>
                 <div class="project-grid">
                     <!-- 
                         提示：下方是一个项目卡片的HTML模板。
@@ -274,18 +238,18 @@
                     -->
                     <!-- 项目卡片模板开始 -->
                     <div class="project-card">
-                        <img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图">
+                        <a href="training.html" class="project-link"><img src="https://placehold.co/400x300/6a5af9/ffffff?text=Picture" alt="项目截图"></a>
                         <div class="project-info">
-                            <h3>名称</h3>
-                            <p>这里是关于这个项目的一段简短介绍，说明它的目标和使用的技术。</p>
+                            <h3>部门内训</h3>
+                            <p>技能提升/知识分享/... <a class="section-more-link" href="training.html">Click For More <i class="fas fa-arrow-right"></i></a></p>
                         </div>
                     </div>
                     <!-- 项目卡片模板结束 -->
                     <div class="project-card">
-                        <img src="https://placehold.co/400x300/00aaff/ffffff?text=Picture" alt="项目截图">
+                        <a href="project.html" class="project-link"><img src="https://placehold.co/400x300/00aaff/ffffff?text=Picture" alt="项目截图"></a>
                         <div class="project-info">
-                            <h3>另一个很棒的活动</h3>
-                            <p>这是另一个项目的简介</p>
+                            <h3>承办活动</h3>
+                            <p>技能竞赛/技术公开课/... <a class="section-more-link" href="project.html">Click For More <i class="fas fa-arrow-right"></i></a></p>
                         </div>
                     </div>
                 </div>
@@ -294,8 +258,13 @@
             <!-- ====================================================================== -->
             <!-- ======================= 动手任务 #4: 搭建照片墙 ======================= -->
             <!-- ====================================================================== -->
-            <section class="content-section">
-                <h2 class="section-title">部门风采</h2>
+            <section class="content-section scroll-target" id="photos">
+                <h2 class="section-title section-title--with-link">
+                    <a href="photo.html" style="color:inherit;text-decoration:none;cursor:pointer;">
+                        部门风采
+                    </a>
+                    <a class="section-more-link section-more-link--right" href="photo.html">Click For More <i class="fas fa-arrow-right"></i></a>
+                </h2>
                 <div class="photo-grid">
                     <!-- 
                         提示：下方是一个照片墙项目的HTML模板。
@@ -318,42 +287,80 @@
                     </div>
                 </div>
             </section>
-        </main>
     </div>
-    <!-- 提示：将 src 指向你自己的音乐文件地址。由于浏览器安全策略，本地文件可能无法播放，建议使用在线URL或将音乐文件与HTML放在同一服务器。 -->
-    <audio id="bg-music" src="YOUR_MUSIC_FILE.mp3" loop></audio>
-    <!-- ====================================================================== -->
-    <!-- ======================= 动手任务 #5: 激活交互 (可选) ======================= -->
-    <!-- ====================================================================== -->
+        <script src="script.js"></script>
+    
     <script>
-        // 提示：当你学到JavaScript后，可以尝试取消下面代码的注释，为卡片添加酷炫的3D悬停效果！
-        // 方法：删除 `/*` 和 `*/` 即可。
-
-        /*
-        document.addEventListener('DOMContentLoaded', function() {
-            const cardsToAnimate = document.querySelectorAll('.member-card, .leader-card, .project-card');
-
-            cardsToAnimate.forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    
-                    const rotateX = -y / 25; // 旋转强度
-                    const rotateY = x / 25;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
-                    card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+        // 创建粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50; // 增加粒子数量
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置和动画延迟
+                const size = Math.random() * 10 + 5; // 增大粒子尺寸
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                
+                // 使用多种颜色
+                const colors = [
+                    `rgba(106, 90, 249, ${Math.random() * 0.7 + 0.3})`,  // 紫色
+                    `rgba(0, 170, 255, ${Math.random() * 0.7 + 0.3})`,    // 蓝色
+                    `rgba(255, 152, 0, ${Math.random() * 0.7 + 0.3})`,    // 橙色
+                    `rgba(124, 77, 255, ${Math.random() * 0.7 + 0.3})`    // 深紫
+                ];
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 添加交互效果
+                particle.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(2)';
+                    this.style.transition = 'transform 0.3s ease';
                 });
-
-                card.addEventListener('mouseleave', function() {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                    card.style.boxShadow = 'var(--shadow)';
+                
+                particle.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1)';
                 });
-            });
-        });
-        */
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
         
+        // 滚动进度条
+        function updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scroll-progress').style.width = `${scrollPercent}%`;
+        }
+        
+        // 鼠标移动视差效果
+        function parallaxParticles(e) {
+            const particles = document.querySelectorAll('.particle');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            particles.forEach(particle => {
+                const speed = parseFloat(particle.style.animationDuration) / 20;
+                const xPos = (x - 0.5) * speed;
+                const yPos = (y - 0.5) * speed;
+                
+                particle.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            });
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            window.addEventListener('scroll', updateScrollProgress);
+            document.addEventListener('mousemove', parallaxParticles);
+        });
     </script>
 
 </body>

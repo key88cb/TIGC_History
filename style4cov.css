@@ -1,0 +1,115 @@
+/* --- 基础和全局样式 --- */
+body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden; font-family: 'Noto Sans SC', sans-serif; }
+
+/* --- 父容器 --- */
+.parent { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); gap: 0; }
+
+/* --- 【已移除】 不再需要动画 Keyframes --- */
+
+/* ========================================================= */
+/*  【核心精简区】                                           */
+/* ========================================================= */
+
+/* --- 所有区块的通用样式 --- */
+.tile {
+    position: relative;
+    cursor: pointer;
+    background: #8f8d8d;
+    /* 核心修复：将 transition 的目标改为 'all' */
+    transition: all 1s ease-in-out;
+    /* 效果1: 默认状态下的外部辉光 (不受边界限制) */
+    filter: drop-shadow(0 0 8px rgba(174, 171, 171, 0.8));
+}
+.tile:hover { 
+    transform: scale(1.03); 
+    z-index: 100; 
+    /* 效果1: 悬停时更强的外部辉光 */
+    filter: drop-shadow(0 0 25px var(--glow-color, cyan));
+}
+
+/* --- 【已简化】只保留一个伪元素用于显示LOGO --- */
+.tile::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; /* 确保不影响点击 */
+}
+
+
+/* --- 内容样式 --- */
+.content { 
+    position: relative;
+    z-index: 3; /* 内容在最顶层 */
+    width: 100%; height: 100%; 
+    display: flex; flex-direction: column; 
+    justify-content: center; align-items: center; 
+    color: white; text-align: center; 
+    padding: 20px; box-sizing: border-box; 
+}
+.content h2 { font-size: 2vw; margin-bottom: 10px; text-shadow: 0 3px 6px rgba(143, 138, 138, 0.8); }
+.content p { font-size: 1.1vw; margin: 0; text-shadow: 0 2px 4px rgba(135, 128, 128, 0.8); }
+
+/* --- 定义放大后的 fullscreen 状态 (保持不变) --- */
+.tile.fullscreen {
+    /* 使用 !important 来确保覆盖JS设置的内联样式，从而触发动画 */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    /* 将不规则形状变回一个完美的矩形 */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%) !important;
+    border-radius: 0 !important; /* 如果有圆角也去掉 */
+    z-index: 9999 !important; /* 确保在最最顶层 */
+}
+
+/* ========================================================= */
+/*  为每个区块定义具体样式 (更简洁)                          */
+/* ========================================================= */
+
+.div1 {
+grid-area: 3 / 3 / 7 / 7;
+clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
+--glow-color: #e69901;
+}
+/* 中心块的::before用于显示LOGO */
+.div1::before {
+background: url('image/TIGC_transparent.png') no-repeat center / 50%;
+z-index: 2;
+}
+.div2 {
+grid-area: 1 / 5 / 5 / 9;
+clip-path: polygon(0 50%, 50% 100%, 100% 100%, 100% 0, 0 0);
+--glow-color: #8f82c4;
+}
+.div2::before {
+background: linear-gradient(135deg, rgba(75, 63, 114, 0.4), rgba(35, 166, 213, 0.1));
+clip-path: inherit; 
+}
+.div3 {
+grid-area: 5 / 5 / 9 / 9;
+clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%, 0 50%);
+--glow-color: #e51f8c;
+}
+.div3::before {
+background: linear-gradient(135deg, rgba(188, 80, 144, 0.4), rgba(255, 99, 97, 0.1));
+clip-path: inherit;
+}
+.div4 {
+grid-area: 1 / 1 / 5 / 5;
+clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 100%, 0 100%);
+--glow-color: #04bcff;
+}
+.div4::before {
+background: linear-gradient(135deg, rgba(12, 112, 159, 0.4), rgba(188, 80, 144, 0.1));
+clip-path: inherit;
+}
+.div5 {
+grid-area: 5 / 1 / 9 / 5;
+clip-path: polygon(0 0, 50% 0, 100% 50%, 100% 100%, 0 100%);
+--glow-color: #ff8a88;
+}
+.div5::before {
+background: linear-gradient(135deg, rgba(255, 99, 97, 0.4), rgba(255, 166, 0, 0.1));
+clip-path: inherit;
+}

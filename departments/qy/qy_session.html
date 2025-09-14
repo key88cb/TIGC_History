@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
  <html lang="zh-CN">
  <head>
     <meta charset="UTF-8">
@@ -212,6 +212,9 @@
  </head>
  <body>
     <header class="header-bar">
+    <!-- 扩散绿色色块背景层 -->
+    <div id="green-bg" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:-2;pointer-events:none;overflow:hidden;"></div>
+    <div id="lightgreen-bg" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;overflow:hidden;"></div>
       <div class="lflink">
         <a href="../../index.html",class="backset">返回主页</a>
       </div>
@@ -227,50 +230,60 @@
           <div class="card-face front">
             <img src="../../image/session-1.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
           </div>
-          <div class="card-face back">
-            <a href="" style="display: block; width: 100%; height: 100%;">
-              <img src="../../image/session-1-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
-            </a>
+                    <div class="card-face back">
+                        <!-- <a href="" style="display: block; width: 100%; height: 100%;"> -->
+                        <div style="display: block; width: 100%; height: 100%;">
+                            <img src="../../image/session-1-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+                        </div>
+                        <!-- </a> -->
           </div>
         </div>
         <div class="card active left">
           <div class="card-face front">
             <img src="../../image/session-2.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
           </div>
-          <div class="card-face back">
-            <a href="" style="display: block; width: 100%; height: 100%;">
-              <img src="../../image/session-2-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
-            </a>          
+                    <div class="card-face back">
+                        <!-- <a href="" style="display: block; width: 100%; height: 100%;"> -->
+                        <div style="display: block; width: 100%; height: 100%;">
+                            <img src="../../image/session-2-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+                        </div>
+                        <!-- </a> -->
           </div>
         </div>
         <div class="card active right">
           <div class="card-face front">
             <img src="../../image/session-3.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
           </div>
-          <div class="card-face back">
-            <a href="" style="display: block; width: 100%; height: 100%;">
-              <img src="../../image/session-3-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
-            </a>          
+                    <div class="card-face back">
+                        <!-- <a href="" style="display: block; width: 100%; height: 100%;"> -->
+                        <div style="display: block; width: 100%; height: 100%;">
+                            <img src="../../image/session-3-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+                        </div>
+                        <!-- </a> -->
           </div>
         </div>
         <div class="card hide-left">
           <div class="card-face front">
             <img src="../../image/session-4.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
           </div>
-          <div class="card-face back">
-            <a href="#" style="display: block; width: 100%; height: 100%;">
-              <img src="../../image/session-4-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
-            </a>          
+                    <div class="card-face back">
+                        <!-- <a href="#" style="display: block; width: 100%; height: 100%;"> -->
+                        <div style="display: block; width: 100%; height: 100%;">
+                            <img src="../../image/session-4-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+                        </div>
+                        <!-- </a> -->
           </div>
         </div>
         <div class="card hide-right">
           <div class="card-face front">
             <img src="../../image/session-5.png" alt="Card Image" style="width:100%; height:100%; border-radius:10%;">
           </div>
-          <div class="card-face back">
-            <a href="" style="display: block; width: 100%; height: 100%;">
-              <img src="../../image/session-5-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
-            </a>          
+                    <div class="card-face back">
+                        <!-- <a href="" style="display: block; width: 100%; height: 100%;"> -->
+                        <div style="display: block; width: 100%; height: 100%;">
+                            <img src="../../image/session-5-b.png" alt="Card Back Image" style="width:100%; height:100%; border-radius:10%;">
+                        </div>
+                        <!-- </a> -->
           </div>
         </div>
     </div>   
@@ -291,14 +304,44 @@
     </div>
 
     <!-- 用户提示 -->
-    <div class="word-container">
-        <p class="word1">
-            1. 点击卡片下方翻转
-        </p>
-        <p class="word2">
-            2. 根据卡片背面数字点击卡片上方 进入对应届期页面
-        </p>
-    </div>
+    <h2 class="flash-title">点击下方卡片，将其翻转</h2>
+    <div id="flip-tip" class="flip-tip" style="display:none;"></div>
+    <style>
+    .flash-title {
+        position: fixed;
+        top: 8vh;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2.2rem;
+        color: #111;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-align: center;
+        z-index: 10;
+        animation: flash 1.2s linear infinite alternate;
+        text-shadow: 0 0 8px #b6f7c200, 0 0 16px #3ecf5e00;
+    }
+    .flip-tip {
+        position: fixed;
+        left: 50%;
+        top: calc(68vh + 200px);
+        transform: translateX(-50%);
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #2e8b57;
+        text-align: center;
+        z-index: 20;
+        letter-spacing: 1.5px;
+        user-select: none;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        animation: flash 1.2s linear infinite alternate;
+    }
+    @keyframes flash {
+        0% { opacity: 1; }
+        100% { opacity: 0.3; }
+    }
+    </style>
 
 
     <script>
@@ -369,17 +412,106 @@
                 }
             });
 
-            document.addEventListener("click", (e) => {
-            const centerCard = document.querySelector('.card.center');
-            if (centerCard && centerCard.contains(e.target)) {
-                // 重置由鼠标移动引起的旋转效果
-                centerCard.style.setProperty("--rotateX", "0deg");
-                centerCard.style.setProperty("--rotateY", "0deg");
 
-                // 切换 "flipped" 类，触发翻转
-                centerCard.classList.toggle("flipped");
+            // 扩散动画函数（深绿色和淡绿色）
+            function playGreenExpand(centerCard) {
+                const greenBg = document.getElementById('green-bg');
+                const lightgreenBg = document.getElementById('lightgreen-bg');
+                // 清空旧内容
+                greenBg.innerHTML = '';
+                lightgreenBg.innerHTML = '';
+                // 获取卡片中心点
+                const rect = centerCard.getBoundingClientRect();
+                const cx = rect.left + rect.width/2;
+                const cy = rect.top + rect.height/2;
+                // 1. 扩散深绿色圆环
+                const ring = document.createElement('div');
+                ring.style.position = 'fixed';
+                ring.style.left = (cx - 1) + 'px';
+                ring.style.top = (cy - 1) + 'px';
+                ring.style.width = '2px';
+                ring.style.height = '2px';
+                ring.style.borderRadius = '50%';
+                ring.style.boxSizing = 'border-box';
+                ring.style.border = '6vw solid rgba(62,207,94,0.7)';
+                ring.style.background = 'transparent';
+                ring.style.zIndex = '-1';
+                ring.style.transform = 'translate(-50%,-50%)';
+                ring.style.transition = 'width 0.8s cubic-bezier(.4,2,.6,1), height 0.8s cubic-bezier(.4,2,.6,1), left 0.8s, top 0.8s, border-width 0.8s';
+                greenBg.appendChild(ring);
+                setTimeout(()=>{
+                    ring.style.left = '50vw';
+                    ring.style.top = '50vh';
+                    ring.style.width = '300vw';
+                    ring.style.height = '300vw';
+                    ring.style.borderWidth = '0vw';
+                }, 10);
+                setTimeout(()=>{
+                    greenBg.style.background = 'linear-gradient(135deg,#3ecf5e 0%,#2e8b57 100%)';
+                    ring.style.display = 'none';
+                }, 900);
+
+                // 2. 0.1秒后扩散淡绿色色块
+                setTimeout(()=>{
+                    const circle2 = document.createElement('div');
+                    circle2.style.position = 'fixed';
+                    circle2.style.left = (cx - 1) + 'px';
+                    circle2.style.top = (cy - 1) + 'px';
+                    circle2.style.width = '2px';
+                    circle2.style.height = '2px';
+                    circle2.style.borderRadius = '50%';
+                    circle2.style.background = 'radial-gradient(circle, #b6f7c2 80%, #a2e6b8 100%)';
+                    circle2.style.zIndex = '-1';
+                    circle2.style.transform = 'translate(-50%,-50%)';
+                    circle2.style.transition = 'width 0.8s cubic-bezier(.4,2,.6,1), height 0.8s cubic-bezier(.4,2,.6,1), left 0.8s, top 0.8s, background 0.8s';
+                    lightgreenBg.appendChild(circle2);
+                    setTimeout(()=>{
+                        circle2.style.left = '50vw';
+                        circle2.style.top = '50vh';
+                        circle2.style.width = '300vw';
+                        circle2.style.height = '300vw';
+                    }, 10);
+                    setTimeout(()=>{
+                        lightgreenBg.style.background = 'linear-gradient(135deg,#b6f7c2 0%,#a2e6b8 100%)';
+                        circle2.style.display = 'none';
+                    }, 900);
+                }, 100);
             }
-        });
+
+            // 卡片届期标题映射
+            const sessionNames = ["一", "二", "三", "四", "五"];
+            const flipTip = document.getElementById("flip-tip");
+
+            document.addEventListener("click", (e) => {
+                const centerCard = document.querySelector('.card.center');
+                if (centerCard && centerCard.contains(e.target)) {
+                    // 只在未翻转时才翻转
+                    if (!centerCard.classList.contains("flipped")) {
+                        centerCard.style.setProperty("--rotateX", "0deg");
+                        centerCard.style.setProperty("--rotateY", "0deg");
+                        centerCard.classList.add("flipped");
+                        // 显示彩色标题
+                        const idx = Array.from(cards).indexOf(centerCard);
+                        const session = sessionNames[idx] || "X";
+                        flipTip.innerHTML = `再次点击卡片进入第<span style="font-size:2.1rem;vertical-align:-2px;">${session}</span>届页面。你的点击将为网页带来色彩。`;
+                        setTimeout(()=>{
+                            flipTip.style.display = "block";
+                            flipTip.style.opacity = 1;
+                        }, 500);
+                    } else {
+                        // 已翻转时，扩散绿色色块
+                        playGreenExpand(centerCard);
+                    }
+                }
+            });
+
+            // 切换卡片时隐藏彩色标题
+            function hideFlipTip() {
+                flipTip.style.opacity = 0;
+                setTimeout(()=>{flipTip.style.display = "none";}, 300);
+            }
+            prevBtn.addEventListener("click", hideFlipTip);
+            nextBtn.addEventListener("click", hideFlipTip);
         });
     </script>
  </body>

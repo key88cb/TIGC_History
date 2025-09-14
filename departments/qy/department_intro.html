@@ -591,48 +591,92 @@
         // 确保位置在迷宫范围内
         row = Math.max(0, Math.min(mazeConfig.rows - 1, row));
         col = Math.max(0, Math.min(mazeConfig.cols - 1, col));
-        
         // 计算玩家位置（百分比）
         const cellWidth = 100 / mazeConfig.cols;
         const cellHeight = 100 / mazeConfig.rows;
-        
         const xPos = (col * cellWidth) + (cellWidth / 2);
         const yPos = (row * cellHeight) + (cellHeight / 2);
-        
         player.style.left = `${xPos}%`;
         player.style.top = `${yPos}%`;
-        
-        // 更新迷宫信息
+        // 只在起点/终点显示提示
         if (row === mazeConfig.start.row && col === mazeConfig.start.col) {
             mazeInfo.textContent = "起点 - 滚动页面移动小球";
         } else if (row === mazeConfig.end.row && col === mazeConfig.end.col) {
             mazeInfo.textContent = "终点！恭喜完成迷宫探索";
         } else {
-            mazeInfo.textContent = `位置: (${row}, ${col})`;
+            mazeInfo.textContent = "";
         }
     }
     
-    // 按照路径移动玩家
+    // 按照路径移动玩家（逐步插值，防止穿墙，拐角减速）
     function movePlayerAlongPath(pathIndex, callback) {
         if (isAnimating) return;
-        
         isAnimating = true;
         const path = sectionPaths[pathIndex];
-        let step = 0;
-        
-        const moveStep = () => {
-            if (step < path.length) {
-                const position = path[step];
-                updatePlayerPosition(position.row, position.col);
-                step++;
-                setTimeout(moveStep, 200);
-            } else {
+        let curr = path[0];
+        let nextStep = 1;
+        let prevDir = null;
+
+        function getDir(from, to) {
+            if (from.row === to.row) {
+                return to.col > from.col ? 'right' : 'left';
+            } else if (from.col === to.col) {
+                return to.row > from.row ? 'down' : 'up';
+            }
+            return 'diag'; // 理论上不会出现
+        }
+
+        function moveOneStep(from, to, onDone) {
+            let row = from.row, col = from.col;
+            const dRow = Math.sign(to.row - from.row);
+            const dCol = Math.sign(to.col - from.col);
+            const steps = Math.max(Math.abs(to.row - from.row), Math.abs(to.col - from.col));
+            let i = 0;
+            function stepMove() {
+                if (i >= steps) {
+                    onDone && onDone();
+                    return;
+                }
+                row += dRow;
+                col += dCol;
+                // 检查是否为墙
+                if (mazeMap[row][col] === 1) {
+                    // 遇到墙，直接跳到onDone
+                    onDone && onDone();
+                    return;
+                }
+                updatePlayerPosition(row, col);
+                i++;
+                setTimeout(stepMove, 40); // 单步速度
+            }
+            stepMove();
+        }
+
+        function animatePath() {
+            if (nextStep >= path.length) {
                 isAnimating = false;
                 if (callback) callback();
+                return;
             }
-        };
-        
-        moveStep();
+            const from = curr;
+            const to = path[nextStep];
+            const dir = getDir(from, to);
+            // 判断是否拐角
+            let delay = 40;
+            if (prevDir && dir !== prevDir) {
+                delay = 1200; // 拐角处慢一点
+            }
+            moveOneStep(from, to, () => {
+                curr = to;
+                prevDir = dir;
+                setTimeout(animatePath, delay);
+            });
+            nextStep++;
+        }
+        // 首先设置初始位置
+        updatePlayerPosition(curr.row, curr.col);
+        prevDir = null;
+        setTimeout(animatePath, 40);
     }
     
     // 滚动到指定section

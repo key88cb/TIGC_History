@@ -7,7 +7,7 @@
 :root {
     --primary-color: #4f8ff7;
     --secondary-color: #ffffff;
-    --background-color: #121212ec;
+    --background-color: #262626ec;
     /* 我们不再直接使用 --light-background，而是通过 rgba 定义半透明背景 */
     --text-color: #e0e0e0;
     --text-light: #a0a0a0;
@@ -85,7 +85,8 @@ body {
 h2 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     color: var(--primary-color);
 }
 

@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name:'xk',
             role:'中心负责人',
             bio:'让科技有温度，让科技有力量！希望和科创一起，变得越来越好！',
-            imageUrl:'/TIGC_History/image/3_fzr.png',
+            imageUrl:'image/3_fzr.png',
             departmentId:'lead',
             year:'2025-2026届',
             contact:''

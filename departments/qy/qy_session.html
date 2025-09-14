@@ -219,7 +219,7 @@
         <a href="../../index.html",class="backset">返回主页</a>
       </div>
       <div class="rtlink">
-        <a href="">部门介绍</a>
+    <a href="#" id="btn-dep-intro">部门介绍</a>
         <a href="#">历届部门</a>
         <a href="">部门活动</a>
         <a href="">日志</a>
@@ -513,6 +513,13 @@
             prevBtn.addEventListener("click", hideFlipTip);
             nextBtn.addEventListener("click", hideFlipTip);
         });
+    </script>
+    <script>
+    // 部门介绍按钮点击，通知父页面
+    document.getElementById('btn-dep-intro')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.parent.postMessage({ type: 'show-department-intro' }, '*');
+    });
     </script>
  </body>
  </html>

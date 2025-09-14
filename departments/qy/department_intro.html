@@ -342,7 +342,7 @@
         <button class="nav-btn" id="next-btn">下一页 <i class="fas fa-arrow-down"></i></button>
     </div>
     
-    <div class="split-container">
+    <div class="split-container" id="split-container">
         <div class="text-container" id="text-container">
             <section id="section1">
                 <div class="content">
@@ -386,13 +386,17 @@
             </section>
         </div>
         
-        <div class="maze-side">
-            <div class="maze-container" id="maze-container">
+        <div class="maze-side" id="maze-side" style="position:relative;">
+            <!-- 背景iframe -->
+            <iframe src="qy_session.html" id="bg-iframe" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;border:none;pointer-events:none;"></iframe>
+            <!-- 纯色遮罩，初始显示，溶解后消失 -->
+            <div id="maze-mask" style="position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(135deg,#0c0c1d 0%,#1a1a3a 100%);z-index:2;pointer-events:none;transition:opacity 1s cubic-bezier(.7,1.7,.7,1);opacity:1;"></div>
+            <div class="maze-container" id="maze-container" style="height:100%;position:relative;z-index:3;">
                 <div class="maze" id="maze"></div>
                 <div class="player" id="player"></div>
                 <div id="path-lines"></div>
             </div>
-            <div class="maze-info" id="maze-info">起点 - 滚动页面移动小球</div>
+            <div class="maze-info" id="maze-info" style="z-index:4;position:relative;">起点 - 滚动页面移动小球</div>
         </div>
     </div>
 
@@ -591,120 +595,127 @@
         // 确保位置在迷宫范围内
         row = Math.max(0, Math.min(mazeConfig.rows - 1, row));
         col = Math.max(0, Math.min(mazeConfig.cols - 1, col));
+        
         // 计算玩家位置（百分比）
         const cellWidth = 100 / mazeConfig.cols;
         const cellHeight = 100 / mazeConfig.rows;
+        
         const xPos = (col * cellWidth) + (cellWidth / 2);
         const yPos = (row * cellHeight) + (cellHeight / 2);
+        
         player.style.left = `${xPos}%`;
         player.style.top = `${yPos}%`;
-        // 只在起点/终点显示提示
+        
+        // 更新迷宫信息
         if (row === mazeConfig.start.row && col === mazeConfig.start.col) {
             mazeInfo.textContent = "起点 - 滚动页面移动小球";
         } else if (row === mazeConfig.end.row && col === mazeConfig.end.col) {
             mazeInfo.textContent = "终点！恭喜完成迷宫探索";
+            // 只在首次到达终点时触发收缩提示
+            if (!mazeCompleted) {
+                mazeCompleted = true;
+                setTimeout(() => {
+                    shrinkSplitAndMaze();
+                }, 800);
+            }
         } else {
-            mazeInfo.textContent = "";
+            mazeInfo.textContent = ` `;
         }
     }
     
-    // 按照路径移动玩家（逐步插值，防止穿墙，拐角减速）
+    // 匀速移动玩家（每步耗时相同，消除穿墙感）
     function movePlayerAlongPath(pathIndex, callback) {
         if (isAnimating) return;
         isAnimating = true;
+        // 禁用所有导航按钮和圆点
+        setNavEnabled(false);
         const path = sectionPaths[pathIndex];
-        let curr = path[0];
-        let nextStep = 1;
-        let prevDir = null;
+        let step = 0;
+        const stepInterval = 60; // 普通步长
+        const cornerPause = 150; // 拐角处额外停顿ms
 
-        function getDir(from, to) {
-            if (from.row === to.row) {
-                return to.col > from.col ? 'right' : 'left';
-            } else if (from.col === to.col) {
-                return to.row > from.row ? 'down' : 'up';
-            }
-            return 'diag'; // 理论上不会出现
+        function getDir(a, b) {
+            if (!a || !b) return null;
+            if (a.row === b.row) return b.col > a.col ? 'R' : 'L';
+            if (a.col === b.col) return b.row > a.row ? 'D' : 'U';
+            return null;
         }
 
-        function moveOneStep(from, to, onDone) {
-            let row = from.row, col = from.col;
-            const dRow = Math.sign(to.row - from.row);
-            const dCol = Math.sign(to.col - from.col);
-            const steps = Math.max(Math.abs(to.row - from.row), Math.abs(to.col - from.col));
-            let i = 0;
-            function stepMove() {
-                if (i >= steps) {
-                    onDone && onDone();
-                    return;
-                }
-                row += dRow;
-                col += dCol;
-                // 检查是否为墙
-                if (mazeMap[row][col] === 1) {
-                    // 遇到墙，直接跳到onDone
-                    onDone && onDone();
-                    return;
-                }
-                updatePlayerPosition(row, col);
-                i++;
-                setTimeout(stepMove, 40); // 单步速度
-            }
-            stepMove();
-        }
+        function moveToNext() {
+            if (step < path.length - 1) {
+                const from = path[step];
+                const to = path[step + 1];
+                updatePlayerPosition(to.row, to.col);
 
-        function animatePath() {
-            if (nextStep >= path.length) {
+                // 判断是否拐角
+                let pause = stepInterval;
+                if (step < path.length - 2) {
+                    const next = path[step + 2];
+                    const dir1 = getDir(to, next);
+                    const dir2 = getDir(from, to);
+                    if (dir1 && dir2 && dir1 !== dir2) {
+                        pause += cornerPause;
+                    }
+                }
+                step++;
+                setTimeout(moveToNext, pause);
+            } else {
                 isAnimating = false;
+                setNavEnabled(true);
                 if (callback) callback();
-                return;
             }
-            const from = curr;
-            const to = path[nextStep];
-            const dir = getDir(from, to);
-            // 判断是否拐角
-            let delay = 40;
-            if (prevDir && dir !== prevDir) {
-                delay = 1200; // 拐角处慢一点
-            }
-            moveOneStep(from, to, () => {
-                curr = to;
-                prevDir = dir;
-                setTimeout(animatePath, delay);
-            });
-            nextStep++;
         }
-        // 首先设置初始位置
-        updatePlayerPosition(curr.row, curr.col);
-        prevDir = null;
-        setTimeout(animatePath, 40);
+        updatePlayerPosition(path[0].row, path[0].col);
+        setTimeout(moveToNext, stepInterval);
     }
     
     // 滚动到指定section
     function scrollToSection(index, animate) {
-        index = Math.max(0, Math.min(sections.length - 1, index));
-        
+        // 修正：允许index超出最后一页以触发收缩动画
+        const maxSection = sections.length - 1;
+        const prevSection = currentSection;
+        lastSection = currentSection;
+        // 终点后第一次点击下一页，先收缩
+        if (currentSection === maxSection && index > maxSection && !splitShrunk) {
+            isActiveNav = true;
+            shrinkSplitAndMaze();
+            setTimeout(() => { isActiveNav = false; }, 600);
+            return;
+        }
+        // 终点后点击下一页，溶解mask并通知iframe，并滚动到section5
+        if (currentSection === maxSection && index > maxSection && splitShrunk && mazeCompleted && !maskDissolved) {
+            isActiveNav = true;
+            // 溶解遮罩
+            const mask = document.getElementById('maze-mask');
+            mask.style.opacity = '0';
+            maskDissolved = true;
+            // 通知iframe
+            const iframe = document.getElementById('bg-iframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({ type: 'mazeComplete' }, '*');
+            }
+            // 滚动到section5
+            sections[maxSection].scrollIntoView({ behavior: 'auto' });
+            setTimeout(() => { isActiveNav = false; }, 1200);
+            return;
+        }
+        // 限制index范围
+        index = Math.max(0, Math.min(maxSection, index));
         // 如果已经是当前section，则不执行任何操作
         if (index === currentSection) return;
-        
         // 标记主动导航开始
         isActiveNav = true;
-        
-        // 记录上一次的位置
-        lastSection = currentSection;
-        
         // 更新当前section
         currentSection = index;
-        
         // 判断滚动方向
         const isScrollingDown = index > lastSection;
-        
         // 更新玩家位置
         if (isScrollingDown && animate && index > 0 && index <= sectionPaths.length + 1) {
             // 向下滚动并且需要动画效果
             movePlayerAlongPath(index - 1, () => {
                 // 动画完成后更新指示器
                 updateIndicator();
-                sections[index].scrollIntoView({ behavior: 'smooth' });
+                sections[index].scrollIntoView({ behavior: 'instant' });
                 // 导航完成，解除锁定
                 setTimeout(() => { isActiveNav = false; }, 500);
             });
@@ -715,7 +726,7 @@
                 sectionPositions[index].col
             );
             // 主动滚动到目标章节
-            sections[index].scrollIntoView({ behavior: 'smooth' });
+            sections[index].scrollIntoView({ behavior: 'auto' });
             // 更新指示器
             if (!animate) {
                 updateIndicator();
@@ -723,6 +734,47 @@
             // 导航完成，解除锁定
             setTimeout(() => { isActiveNav = false; }, 500);
         }
+    }
+
+    // 标记是否已收起
+    let splitShrunk = false;
+
+    // 收起左侧text-container，缩小迷宫
+    function shrinkSplitAndMaze() {
+        splitShrunk = true;
+        const text = document.getElementById('text-container');
+        const mazeSide = document.getElementById('maze-side');
+        const mazeContainer = document.getElementById('maze-container');
+        text.style.transition = 'width 0.6s cubic-bezier(.7,1.7,.7,1)';
+        mazeSide.style.transition = 'width 0.6s cubic-bezier(.7,1.7,.7,1)';
+        text.style.width = '20px';
+        mazeSide.style.width = 'calc(100% - 20px)';
+        mazeContainer.style.transition = 'width 0.6s, height 0.6s, top 0.6s, left 0.6s';
+        mazeContainer.style.width = '30px';
+        mazeContainer.style.height = '30px';
+        mazeContainer.style.top = '10px';
+        mazeContainer.style.left = '10px';
+        // 如果已完成迷宫且mask未溶解，显示“点击下一步溶解”提示
+        if (mazeCompleted && !maskDissolved) {
+            mazeInfo.textContent = '点击下一页，解锁网页背景';
+        }
+    }
+
+    // 还原动画：展开左侧和迷宫
+    function expandSplitAndMaze() {
+        splitShrunk = false;
+        const text = document.getElementById('text-container');
+        const mazeSide = document.getElementById('maze-side');
+        const mazeContainer = document.getElementById('maze-container');
+        text.style.transition = 'width 0.6s cubic-bezier(.7,1.7,.7,1)';
+        mazeSide.style.transition = 'width 0.6s cubic-bezier(.7,1.7,.7,1)';
+        text.style.width = '';
+        mazeSide.style.width = '';
+        mazeContainer.style.transition = 'width 0.6s, height 0.6s, top 0.6s, left 0.6s';
+        mazeContainer.style.width = '';
+        mazeContainer.style.height = '';
+        mazeContainer.style.top = '';
+        mazeContainer.style.left = '';
     }
     
     // 更新进度指示器
@@ -741,21 +793,36 @@
         progressBar.style.width = `${progress}%`;
     }
     
+    // 设置导航按钮、圆点、键盘输入的可用性
+    function setNavEnabled(enabled) {
+        prevBtn.disabled = !enabled;
+        nextBtn.disabled = !enabled;
+        dots.forEach(dot => {
+            if (enabled) {
+                dot.classList.remove('disabled-dot');
+            } else {
+                dot.classList.add('disabled-dot');
+            }
+        });
+        navInputEnabled = enabled;
+    }
+
     // 初始化
+    let navInputEnabled = true;
     function init() {
         // 生成迷宫
         generateMaze();
-        
+
         // 设置Intersection Observer来检测当前可见的section
         const observerOptions = {
             root: textContainer,
             threshold: 0.6
         };
-        
+
         const observer = new IntersectionObserver((entries) => {
             // 主动导航时不响应观察器
             if (isActiveNav) return;
-            
+
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const index = Array.from(sections).indexOf(entry.target);
@@ -767,32 +834,47 @@
                 }
             });
         }, observerOptions);
-        
+
         // 观察所有sections
         sections.forEach(section => {
             observer.observe(section);
         });
-        
+
         // 导航按钮事件
         prevBtn.addEventListener('click', () => {
+            if (!navInputEnabled) return;
+            // 如果已收起则先还原动画，不切换section
+            if (splitShrunk) {
+                expandSplitAndMaze();
+                return;
+            }
             scrollToSection(currentSection - 1, false);
         });
-        
+
         nextBtn.addEventListener('click', () => {
+            if (!navInputEnabled) return;
             scrollToSection(currentSection + 1, true);
         });
-        
+
         // 导航圆点点击事件 - 修复部分
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
+                if (!navInputEnabled) return;
                 // 明确：下滚需要动画，上滚不需要动画
                 const needAnimate = index > currentSection;
                 scrollToSection(index, needAnimate);
             });
         });
-        
+
         // 键盘导航支持
         document.addEventListener('keydown', (e) => {
+            if (!navInputEnabled) return;
+            // 收起后按上键/pgup还原动画
+            if (splitShrunk && (e.key === 'ArrowUp' || e.key === 'PageUp')) {
+                expandSplitAndMaze();
+                e.preventDefault();
+                return;
+            }
             if (e.key === 'ArrowDown' || e.key === 'PageDown') {
                 scrollToSection(currentSection + 1, true);
                 e.preventDefault();
@@ -807,24 +889,54 @@
                 e.preventDefault();
             }
         });
-        
+
         // 鼠标滚轮导航（防止一次滚动过多）
         let scrollTimeout = null;
         textContainer.addEventListener('wheel', (e) => {
+            if (!navInputEnabled) return;
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 if (e.deltaY > 50) {
                     scrollToSection(currentSection + 1, true);
                 } else if (e.deltaY < -50) {
+                    // 收起后滚轮上滚还原动画
+                    if (splitShrunk) {
+                        expandSplitAndMaze();
+                        return;
+                    }
                     scrollToSection(currentSection - 1, false);
                 }
             }, 100);
+        });
+
+        // 收起后点击左侧色块还原动画
+        textContainer.addEventListener('click', () => {
+            if (splitShrunk) {
+                expandSplitAndMaze();
+            }
         });
     }
     
     // 页面加载完成后初始化
     window.addEventListener('load', init);
 </script>
+<style>
+/* 禁用时圆点样式 */
+.disabled-dot {
+    pointer-events: none;
+    opacity: 0.4;
+    filter: grayscale(1);
+}
+/* 收起后样式（防御性，主要靠js控制） */
+#text-container {
+    min-width: 0;
+    overflow: hidden;
+}
+#maze-container {
+    min-width: 0;
+    min-height: 0;
+}
+</style>
 
 </body>
 </html>

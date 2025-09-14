@@ -79,3 +79,39 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+const Rslider = document.querySelector('.right-slider');
+const Rcards = document.querySelectorAll('.right-slider img');
+const Lslider = document.querySelector('.left-slider');
+const Lcards = document.querySelectorAll('.left-slider img');
+const cardHeight = 200;
+let Rindex = 0;
+let Lindex = 0;
+
+function nextSlide() {
+  Rindex++;
+  Rslider.style.transition = 'transform 0.5s ease-out';
+  Rslider.style.transform = `translateY(-${Rindex * cardHeight}px)`;
+
+  if (Rindex >= Rcards.length - 1) { // 到达复制的第一张
+    setTimeout(() => {
+      Rslider.style.transition = 'none'; // 立即重置
+      Rslider.style.transform = 'translateY(0)';
+      Rindex = 0;
+    }, 500); // 等过渡完成
+  }
+  Lindex++;
+  Lslider.style.transition = 'transform 0.5s ease-out';
+  Lslider.style.transform = `translateY(-${Lindex * cardHeight}px)`;
+
+  if (Lindex >= Lcards.length - 1) { // 到达复制的第一张
+    setTimeout(() => {
+      Lslider.style.transition = 'none'; // 立即重置
+      Lslider.style.transform = 'translateY(0)';
+      Lindex = 0;
+    }, 500); // 等过渡完成
+  }
+}
+
+// 每 2 秒切换一张
+setInterval(nextSlide, 2500);
+

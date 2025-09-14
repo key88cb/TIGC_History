@@ -69,6 +69,7 @@
             height: 100%;
             position: absolute;
             left: 15%;
+            top: -5%;
             overflow: hidden;
         }
 
@@ -146,7 +147,7 @@
         }
         
         .card img {
-            width: 100%;
+            width: 85%;
             height: 200px;
             border-radius: 15px;
             object-fit: cover;
@@ -268,6 +269,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            opacity: 0.75;
         }
         .header-bar a {
             color: var(--primary-color);
@@ -365,7 +367,7 @@
         // 获取所有卡片元素并存储在数组中
         const slides = Array.from(document.querySelectorAll(".card"));
         const clock = document.querySelector("#clock-table");
-        let yearcontent = [2021,2022,2023,2024,2025,'未完待续'];
+        let yearcontent = [2021,2022,2023,2024,2025,2026];
         //============这里需要调整格式！！！！！！！！！！！！！！！
         let year = 0;
         for (let i = -60; i < 300; i += 5) {

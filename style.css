@@ -73,6 +73,12 @@ body {
     padding: 0 20px;
 }
 
+.page-wrapper {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .section-padding {
     padding: 60px 0;
 }

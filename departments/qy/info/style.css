@@ -313,6 +313,7 @@ body {
   align-items: center;
   justify-content: center;
   border: 3px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 8px;
 }
 
 .detail-avatar img {
@@ -333,7 +334,7 @@ body {
 .detail-name {
   font-size: 2.8em;
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 8px 0;
   text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
   color: white !important;
   visibility: visible !important;

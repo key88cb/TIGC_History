@@ -3,21 +3,314 @@
   const prevBtn = document.getElementById('prev');
   const nextBtn = document.getElementById('next');
 
-  // 示例数据：可替换为任意数量的卡牌
   // 卡牌数据：每项至少需要 { title, color }
-  const cardsData = [
-    {title:'Universe', color:1},
-    {title:"Campbell's Soup 3D", color:2},
-    {title:'Bokeh', color:3},
-    {title:'Sheep', color:4},
-    {title:'The Scream', color:5},
-    {title:'Viper Typography', color:6},
-    {title:'Plant Trees', color:7},
-    {title:'Surface Waves', color:8}
+  const cardsData2023 = [
+    { title: "LZ", color: "#000060" },
+    { title: "lcjj", color: '#00cccc' },
+    { title: "Django", color: '#c0c0c0' },
+    { title: "ZHY", color: '#ff00ff' },
+    { title: "HY", color: '#7a7a00' },
+    { title: "YYH", color: '#00ffff' },
+    { title: "BENER", color: '#00e5e5' },
+    { title: "马飞飞", color: '#000080' },
+    { title: "WSQ", color: '#008080' },
+    { title: "FCY", color: '#808080' },
+    { title: "Lemonoscar", color: '#006666' },
   ];
 
-  // 详情数据数组 - 你可以在这里添加每个卡牌对应的详细信息
-  const detailsData = [
+  const cardsData2024 = [
+    { title: "Lemonoscar", color: '#006666' },
+    { title: "FCY", color: '#808080' },
+    { title: "星星", color: '#800000' },
+    { title: "邪恶涵宝猎手", color: '#800080' },
+    { title: "YXY", color: '#660000' },
+    { title: "LEM", color: '#990099' },
+    { title: "小土豆", color: '#c0c0c0' },
+    { title: "QRK", color: '#808080' },
+    { title: "羅", color: '#a8a8a8' },
+    { title: "Mutsumii", color: '#c0c0c0' },
+    { title: "kl", color: '#009999' },
+    { title: "叶子", color: '#008000' },
+    { title: "多多", color: '#924900' },
+  ];
+
+  const cardsData2025 = [
+    { title: "邪恶涵宝猎手", color: '#800080' },
+    { title: "kl", color: '#009999' },
+    { title: "叶子", color: '#008000' },
+    { title: "多多", color: '#924900' },
+  ];
+
+    const cardsDataDefault = [
+    { title: "Universe", color: "#7986cb" },
+    { title: "Campbell's Soup 3D", color: 2 },
+    { title: "Bokeh", color: 3 },
+    { title: "Sheep", color: 4 },
+    { title: "The Scream", color: 5 },
+    { title: "Viper Typography", color: 6 },
+    { title: "Plant Trees", color: 7 },
+    { title: "Surface Waves", color: 8 },
+  ];
+
+    function pickDataFromURL() {
+      const params = new URLSearchParams(location.search);
+      const key = (params.get('set') || params.get('year') || location.hash.replace('#', '') || 'default').toString();
+      const cardsMap = {
+        '2023': cardsData2023,
+        '2024': cardsData2024,
+        '2025': cardsData2025,
+        'default': cardsDataDefault
+      };
+      const detailsMap = {
+        '2023': detailsData2023,
+        '2024': detailsData2024,
+        '2025': detailsData2025,
+        'default': detailsDataDefault
+      };
+      const cards = (window.__CARDS_OVERRIDE && Array.isArray(window.__CARDS_OVERRIDE)) ? window.__CARDS_OVERRIDE : (cardsMap[key] || cardsDataDefault);
+      const details = (window.__DETAILS_OVERRIDE && Array.isArray(window.__DETAILS_OVERRIDE)) ? window.__DETAILS_OVERRIDE : (detailsMap[key] || detailsDataDefault);
+      return { key, cards, details };
+    }
+
+    // picked assignment will be moved below after detailsDataDefault is declared
+  const detailsData2023 = [
+    {
+      title: "LZ",
+      position: "部长",
+      tenure: "2023-2024",
+      avatar: "./pic/lz.jpg",
+      connect: "realleechung@foxmail.com",
+      message:
+        "仰望前空，追研星辰；心怀热爱，启智求真。\n作为第一任前研探索部部长，我见证了无数想法在这里萌芽、生长，最终化为实践。那份从零到一的激情与坚持，是云峰科创精神最真实的注脚。愿未来的科创人始终保持热爱与好奇，在青春的年华里敢想敢做，把探索的脚步延伸到更远的地方。",
+    },
+    {
+      title: "lcjj",
+      position: "副部长",
+      tenure: "2023-2024",
+      avatar: "./pic/lc.jpg",
+      connect: "598958302@qq.com",
+      message: "多学习多思考 多交友多吃好 开开心心度过你的大学生活！",
+    },
+    {
+      title: "Django",
+      position: "副部长",
+      tenure: "2023-2024",
+      avatar: "./pic/jgy.jpg",
+      connect: "从人工走向智能！从前研走向探索！从云峰科创走向未来！🫡",
+      message: "guanyujiang103@gmail.com",
+    },
+    {
+      title: "ZHY",
+      position: "副部长",
+      tenure: "2023-2024",
+      avatar: "./pic/zhy.jpg",
+      connect: "1161332337@qq.com",
+      message: "这个人懒得想（bushi）\n祝科创中心越来越好！",
+    },
+    {
+      title: "HY",
+      position: "干事",
+      tenure: "2023-2024",
+      avatar: "./pic/hy.jpg",
+      connect: "2697163855@qq.com",
+      message: "未来可期~",
+    },
+    {
+      title: "YYH",
+      position: "干事",
+      tenure: "2023-2024",
+      avatar: "",
+      connect: "",
+      message: "祝大家天天开心~",
+    },
+    {
+      title: "BENER",
+      position: "干事",
+      tenure: "2023-2024",
+      avatar: "",
+      connect: "",
+      message: "希望大家健康快乐，永远不似！",
+    },
+    {
+      title: "马飞飞",
+      position: "干事",
+      tenure: "2023-2024",
+      avatar: "",
+      connect: "",
+      message: "科创的每个人都身怀绝技，有他们的激励可以学到很多",
+    },
+    {
+      title: "WSQ",
+      position: "干事",
+      tenure: "2023-2024",
+      avatar: "",
+      connect: "18314896118",
+      message: "运气也是实力的一部分。",
+    },
+    {
+      title: "FCY",
+      position: "干事",
+      tenure: "2023-2025",
+      avatar: "./pic/fcy.jpg",
+      connect: "2726310959@qq.com",
+      message: "科创，亦家亦使命。",
+    },
+    {
+      title: "Lemonoscar",
+      position: "干事",
+      tenure: "2023-2025",
+      avatar: "./pic/xhq.jpg",
+      connect: "3467057703@qq.com",
+      message:
+        "玲珑骰子安红豆，入骨相思知不知。爱来自前研！衷心祝愿科创的未来一帆风顺，继往开来！！！",
+    },
+  ];
+
+  const detailsData2024 = [
+    {
+      title: "Lemonoscar",
+      position: "部长",
+      tenure: "2024-2025",
+      avatar: "./pic/xhq.jpg",
+      connect: "3467057703@qq.com",
+      message:
+        "玲珑骰子安红豆，入骨相思知不知。爱来自前研！衷心祝愿科创的未来一帆风顺，继往开来！！！",
+    },
+    {
+      title: "FCY",
+      position: "副部长",
+      tenure: "2024-2025",
+      avatar: "./pic/fcy.jpg",
+      connect: "2726310959@qq.com",
+      message: "科创，亦家亦使命。",
+    },
+    {
+      title: "星星",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "./pic/wxx.jpg",
+      connect: "",
+      message: "科创越来越好！",
+    },
+    {
+      title: "邪恶涵宝猎手",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "./pic/wzh.jpg",
+      connect: "",
+      message: "科创的故事，永远有下一章 —— 而我们，都是执笔人",
+    },
+    {
+      title: "YXY",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "./pic/yxy.jpg",
+      connect: "xinyiyang171@gmail.com",
+      message: "我在山河间找路。",
+    },
+    {
+      title: "LEM",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "./pic/lem.jpg",
+      connect: "",
+      message: "起风了，让我们迎风而生！",
+    },
+    {
+      title: "小土豆",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "./pic/lxy.jpg",
+      connect: "",
+      message: "读万卷书，行万里路，见万种花开",
+    },
+    {
+      title: "QRK",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "./pic/qrk.jpg",
+      connect: "",
+      message: "来，来的就是科创！",
+    },
+    {
+      title: "羅",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "",
+      connect: "",
+      message: "当你为错过太阳而哭泣的时候,你也要再错过群星了",
+    },
+    {
+      title: "Mutsumii",
+      position: "干事",
+      tenure: "2024-2025",
+      avatar: "",
+      connect: "",
+      message: "很有意思的大家庭，希望大家都好",
+    },
+    {
+      title: "kl",
+      position: "干事",
+      tenure: "2024-2026",
+      avatar: "./pic/wkl.jpg",
+      connect: "2489175136@qq.com",
+      message: "我是入机，大家抱着美好理想而来，为科创中心作出了巨大的贡献，无敌了",
+    },
+    {
+      title: "叶子",
+      position: "干事",
+      tenure: "2024-2026",
+      avatar: "./pic/jhq.jpg",
+      connect: "",
+      message: "非常好科创非常好的大家🥹\n遇到困难时总有靠谱的学长学姐们帮忙答疑解惑，工作时身边有共度困难的同学朋友们，在未来还有可可爱爱的学弟学妹们加入科创一起进步。爱来自前研🥰",
+    },
+    {
+      title: "多多",
+      position: "干事",
+      tenure: "2024-2026",
+      avatar: "./pic/lrd.jpg",
+      connect: "runduo.lin@qq.com",
+      message: "祝你狠扎进山河，做时间的骨钉。"
+    },
+  ];
+
+  const detailsData2025 = [
+    {
+      title: "邪恶涵宝猎手",
+      position: "部长",
+      tenure: "2025-2026",
+      avatar: "./pic/wzh.jpg",
+      connect: "",
+      message: "科创的故事，永远有下一章 —— 而我们，都是执笔人"
+    },
+    {
+      title: "kl",
+      position: "副部长",
+      tenure: "2024-2026",
+      avatar: "./pic/wkl.jpg",
+      connect: "2489175136@qq.com",
+      message: "我是入机，大家抱着美好理想而来，为科创中心作出了巨大的贡献，无敌了"
+    },
+    {
+      title: "叶子",
+      position: "副部长",
+      tenure: "2024-2026",
+      avatar: "./pic/jhq.jpg",
+      connect: "",
+      message: "非常好科创非常好的大家🥹\n遇到困难时总有靠谱的学长学姐们帮忙答疑解惑，工作时身边有共度困难的同学朋友们，在未来还有可可爱爱的学弟学妹们加入科创一起进步。爱来自前研🥰"
+    },
+    {
+      title: "多多",
+      position: "干事",
+      tenure: "2024-2026",
+      avatar: "./pic/lrd.jpg",
+      connect: "runduo.lin@qq.com",
+      message: "祝你狠扎进山河，做时间的骨钉。"
+    }
+  ];
+
+  // 详情数据数组 - 你可以在这里添加每个卡牌对应的详细信息（默认集）
+  const detailsDataDefault = [
     {
       name: '宇宙探索者',
       position: '天体物理学家',
@@ -84,11 +377,59 @@
     }
   ];
 
+  // picked assignment: 在 detailsDataDefault 已定义后再执行
+  const picked = pickDataFromURL();
+  let cardsData = picked.cards;
+  let detailsData = picked.details;
+
+  // 在页面顶部显示当前集（如果有 .title 元素）
+  (function showDatasetTitle(){
+    const titleEl = document.querySelector('.title') || (function(){ const t = document.createElement('div'); t.className='title'; document.body.appendChild(t); return t; })();
+    const name = picked.key === 'default' ? '成员' : ('前研 ' + picked.key + ' 成员集');
+    titleEl.textContent = name;
+  })();
+
   // centerIndex will be computed after we build the display list (with placeholders)
   let centerIndex = 0;
 
   // gap deg (must match CSS --gap-deg number)
   const GAP_DEG = 10; // degrees per slot —如果你更改 CSS 的 --gap-deg 请在此同步
+
+  // 颜色处理工具：支持 #hex 自动生成渐变色
+  function isHexColor(s) {
+    return typeof s === 'string' && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s.trim());
+  }
+  function expandHex(h) {
+    h = h.trim();
+    if (h.length === 4) {
+      return '#' + h[1] + h[1] + h[2] + h[2] + h[3] + h[3];
+    }
+    return h;
+  }
+  function hexToRgb(hex) {
+    hex = expandHex(hex).slice(1);
+    const num = parseInt(hex, 16);
+    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+  }
+  function rgbToHex(rgb) {
+    const toHex = (v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0');
+    return '#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b);
+  }
+  function lightenRgb(rgb, amount) {
+    // amount: 0..1
+    return {
+      r: Math.round(rgb.r + (255 - rgb.r) * amount),
+      g: Math.round(rgb.g + (255 - rgb.g) * amount),
+      b: Math.round(rgb.b + (255 - rgb.b) * amount)
+    };
+  }
+  function darkenRgb(rgb, amount) {
+    return {
+      r: Math.round(rgb.r * (1 - amount)),
+      g: Math.round(rgb.g * (1 - amount)),
+      b: Math.round(rgb.b * (1 - amount))
+    };
+  }
 
   function render(){
     // build display list: original cardsData plus placeholder black cards if needed
@@ -108,7 +449,30 @@
       const el = document.createElement('div');
       el.className = 'card';
       el.dataset.index = i;
-      el.dataset.color = d.color || (i%8+1);
+      // 支持 color 为数字或字符串。
+      // 数字（或数字字符串）会映射为 data-color/class color-N（兼容旧样式）。
+      // 若值为 hex 颜色 (#fff 或 #ffffff)，自动生成渐变并直接写入 el.style.background。
+      const colorVal = (d && d.color) !== undefined ? d.color : (i % 8 + 1);
+      // 清理之前的 color 类
+      el.classList.remove(...Array.from(el.classList).filter(c => c.startsWith('color-') || c === 'color-custom'));
+      if (isHexColor(String(colorVal))) {
+        // 生成渐变：由稍亮色到稍暗色
+        const rgb = hexToRgb(String(colorVal));
+        const light = rgbToHex(lightenRgb(rgb, 0.18));
+        const dark = rgbToHex(darkenRgb(rgb, 0.12));
+        el.style.background = `linear-gradient(180deg, ${light} 0%, ${dark} 100%)`;
+        el.dataset.color = String(colorVal);
+      } else if (/^\d+$/.test(String(colorVal))) {
+        el.classList.add(`color-${String(colorVal)}`);
+        el.dataset.color = String(colorVal);
+        el.style.removeProperty('background');
+      } else {
+        // 普通字符串（例如 'red' 或 'brand-blue'），交给 CSS 变量或 color-custom 处理
+        el.classList.add('color-custom');
+        el.style.setProperty('--card-bg', String(colorVal));
+        el.dataset.color = String(colorVal);
+        el.style.removeProperty('background');
+      }
       el.style.setProperty('--i', i);
       // mark placeholders
       if(d.isPlaceholder){
@@ -262,11 +626,20 @@
     detailBackground.innerHTML = '';
 
     // 填充详细信息
-    document.getElementById('detailName').textContent = detailData.name;
-    document.getElementById('detailPosition').textContent = detailData.position;
-    document.getElementById('detailTenure').textContent = detailData.tenure;
-    document.getElementById('detailConnect').textContent = detailData.connect;
-    document.getElementById('detailMessage').textContent = detailData.message;
+    const displayName = detailData.name || detailData.title || cardData.title || '';
+    document.getElementById('detailName').textContent = displayName;
+    document.getElementById('detailPosition').textContent = detailData.position || '';
+    document.getElementById('detailTenure').textContent = detailData.tenure || '';
+    const connectEl = document.getElementById('detailConnect');
+    if (detailData.connect && String(detailData.connect).trim().length > 0) {
+      connectEl.textContent = detailData.connect;
+      connectEl.parentElement.style.display = '';
+    } else {
+      // 隐藏联系方式容器
+      connectEl.textContent = '';
+      connectEl.parentElement.style.display = 'none';
+    }
+    document.getElementById('detailMessage').textContent = detailData.message || '';
     
     // 设置头像
     const avatarImg = document.getElementById('detailAvatar');

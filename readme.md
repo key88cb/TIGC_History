@@ -2,6 +2,7 @@
 
 本项目是 **科创中心 (Technology and Innovation Guidance Center)** 的官方历史与成员展示网站。展示平台+前端入门实战！通过实践学习HTML、CSS和JavaScript。
 > “如果你停止，就是谷底。如果你还在继续，就是上坡。” 欢迎来到科创中心，在这里开始你的探索之旅！
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ 项目特色

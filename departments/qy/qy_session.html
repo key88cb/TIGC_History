@@ -346,6 +346,19 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.rtlink a').forEach(a => {
+                if (a.textContent.includes('部门活动')) {
+                    a.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.location.href = 'department_activities.html';
+                    });
+                }
+                if (a.textContent.includes('历届部门')) {
+                    a.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.location.href = 'qy_session.html';
+                    });
+                }});
             const cards = document.querySelectorAll(".card");
             const totalCards = cards.length;
             let currentIndex = 0;

@@ -7,32 +7,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <main class="container">
     <h1 class="title">前研人物集</h1>
 
-    <div class="carousel" id="carousel" tabindex="0" aria-label="卡牌扇面" aria-live="polite"><!-- 卡牌容器 --></div>
+  <div class="carousel" id="carousel" tabindex="0" aria-label="卡牌扇面" aria-live="polite"><!-- 卡牌容器 --></div>
 
     <div class="controls">
       <button id="prev" aria-label="上一张" aria-controls="carousel">◀</button>
       <button id="next" aria-label="下一张" aria-controls="carousel">▶</button>
     </div>
   </main>
-  <script>
-    // 设置背景色
-    (function() {
-      function getSetParam() {
-        const url = new URL(window.location.href);
-        return url.searchParams.get('set');
-      }
-      const set = getSetParam();
-      if (set === '2023') {
-        document.body.style.background = '#e6faee'; // 更淡的绿色
-      } else if (set === '2024') {
-        document.body.style.background = '#e6f3fa'; // 更淡的蓝色
-      }
-    })();
-  </script>
 
   <!-- 详情页模态框 -->
   <div id="detailModal" class="detail-modal">

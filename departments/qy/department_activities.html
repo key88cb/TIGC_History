@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+ <html lang="zh-CN">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前研探索部</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header-bar {
+            font-size: 22px;
+            background-color: #33333300;
+            color: white;
+            padding: 10px 0;
+        }
+        .lflink {
+            float: left;
+            margin-left: 20px;
+        }
+        .rtlink {
+            float: right;
+            margin-right: 20px;
+         }
+        .header-bar a {
+            color: rgb(0, 0, 0);
+            margin: 0 15px;
+            text-decoration: none;
+            display:inline-block;
+            border: 1px solid black;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .card {
+            position: absolute;
+            width: 750px;/*不需改变*/
+            height: 60%;
+            left: 50%;
+            top: 30%;
+            background-color: #4fc3f7;
+            border-radius: 10%;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform-style: preserve-3d;
+            transform: translateX(-50%);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-face.front { /* 保持这个类名不变 */
+            transform: rotateY(0deg);
+            z-index: 2;
+            visibility: visible;
+        }
+
+        .card-face.back { /* 保持这个类名不变 */
+            transform: rotateY(180deg);
+            z-index: 1;
+            visibility: hidden;
+        }
+
+        /* 当卡片被翻转时，同时应用翻转效果和重置鼠标效果 */
+        .card.flipped {
+            transform: 
+                translateX(-50%) 
+                scale(var(--cardScale, 1)) 
+                rotateY(var(--cardRotateY, 0deg))
+                rotateY(180deg); /* 仅用 rotateY(180deg) 即可实现翻转效果 */
+        }
+
+        /* 翻转后，正面和背面都保持静止，不再受鼠标影响 */
+        .card.flipped .card-face.front {
+            transform: rotateY(180deg);
+            visibility: hidden;
+        }
+        .card.flipped .card-face.back {
+            transform: rotateY(180deg);
+            visibility: visible;
+        }
+        .card.active {
+            opacity: 1;
+        }
+        .card.center {
+            left: 50%;
+            z-index: 3;
+            pointer-events: all;
+            --cardScale: 2;
+            --cardRotateY: 0deg;
+        }
+        .card.left {
+            left: 25%;
+            z-index: 2;
+            --cardScale: 1.2;
+            --cardRotateY: 0deg;
+            transform: translateX(-50%) scale(0.8) rotateY(var(--cardRotateY, 0deg));
+        }
+        .card.right {
+            left: 75%;
+            z-index: 2;
+            --cardScale: 1.2;
+            --cardRotateY: 0deg;
+            transform: translateX(-50%) scale(0.8) rotateY(var(--cardRotateY, 0deg));
+        }
+        .card.hide-left {
+            left: 10%;
+            z-index: 1;
+            --cardScale: 1;
+            --cardRotateY: 0deg;
+            width: 300px;
+            transform: translateX(-50%) scale(0.6) rotateY(var(--cardRotateY, 0deg));
+        }
+        .card.hide-right {
+            left: 90%;
+            z-index: 1;
+            --cardScale: 1;
+            --cardRotateY: 0deg;
+            width: 300px;
+            transform: translateX(-50%) scale(0.6) rotateY(var(--cardRotateY, 0deg));
+        }
+        .card.flipped {
+            transform: 
+              translateX(-50%) 
+              scale(var(--cardScale, 1)) 
+              rotateY(var(--cardRotateY, 0deg))
+              rotateX(var(--rotateX, 0deg)) 
+              rotateY(calc(180deg + var(--rotateY, 0deg)));
+        }
+        .controls {
+            position: fixed;
+            bottom: 40%;
+            border-color: rgba(0,0,0,0);
+            width: 100%;
+        }
+        .controls button {
+            background-color: #f4f4f4;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 120px;
+        }
+        .controls button:hover {
+            color:grey;
+        }
+        #prevBtn {
+            float: left;
+            margin-left: 20px;
+        }
+        #nextBtn {
+            float: right;
+            margin-right: 20px;
+        }
+        .line-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* 确保线条不会阻碍其他元素的交互 */
+        }
+        .V-line-A {
+            position: absolute;
+            top: 0;
+            left: 35%;
+            width: 2px;
+            height: 30%;
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: translateX(-50%);
+        }
+        .V-line-B {
+            position: absolute;
+            bottom: 0;
+            left: 35%;
+            width: 2px;
+            height: 55%;
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: translateX(-50%);
+        }
+        .H-line {
+            position: absolute;
+            top: 70%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.1);
+            transform: translateY(-50%);
+        }
+        .word-container {
+            position: fixed;
+            bottom: 70%;
+            right: 66%;
+            width: 90%;
+            text-align: right;
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.7);
+        }
+      </style>
+ </head>
+ <body>
+    <header class="header-bar">
+      <div class="lflink">
+        <a href="../../index.html",class="backset">返回主页</a>
+        <a href="#" id="btn-dep-intro">部门介绍</a>
+      </div>
+      <div class="rtlink">
+        <a href="#">历届部门</a>
+        <a href="">部门活动</a>
+        <a href="">日志</a>
+      </div> 
+    </header>
+    <div class="card-container">
+        <div class="card active center">
+                <div class="card-face front">
+                    <div style="width:100%;height:100%;background:#4fc3f7;border-radius:10%;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <h2 style="color:#fff;font-size:6rem;display:flex;justify-content:center;align-items:center;height:100%;width:100%;margin:0;z-index:2;">内训</h2>
+                        <div class="wordcloud" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-face back">
+                    <div style="width:100%;height:100%;background:#4fc3f7;border-radius:10%;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <p style="color:#fff;font-size:1.6rem;line-height:1.6;">前研探索部例会中有丰富的内训。主题包括：<br>
+                        Markdown<br>
+                        Latex<br>
+                        Git，github<br>
+                        Matplotlib
+                        PPT，Execl<br>
+                        文献检索</p>
+                    </div>
+                </div>
+        </div>
+        <div class="card active left">
+                <div class="card-face front">
+                    <div style="width:100%;height:100%;background:#4ff7cd;border-radius:10%;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <h2 style="color:#fff;font-size:6rem;display:flex;justify-content:center;align-items:center;height:100%;width:100%;margin:0;z-index:2;">卓越论坛</h2>
+                        <div class="wordcloud" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></div>
+                    </div>
+                </div>
+                <div class="card-face back">
+                    <div style="width:100%;height:100%;background:#4ff7cd;border-radius:10%;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <p style="color:#fff;font-size:1.5rem;line-height:1.6;">前研探索部参与承办第34、35、36、37期卓越论坛。<br>卓越论坛的筹备是前研新干事接触的第一项工作。<br>筹划卓越论坛期间，干事开始熟悉策划、主持、现场跟进、<br>导师对接等工作，逐步进入学生工作的世界。</p>
+                    </div>
+                </div>
+        </div>
+        <div class="card active right">
+                <div class="card-face front">
+                    <div style="width:100%;height:100%;background:#9f1369;border-radius:10%;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <h2 style="color:#fff;font-size:6rem;display:flex;justify-content:center;align-items:center;height:100%;width:100%;margin:0;z-index:2;">科研启蒙训练营</h2>
+                        <div class="wordcloud" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></div>
+                    </div>
+                </div>
+                <div class="card-face back">
+                    <div style="width:100%;height:100%;background:#9f1369;border-radius:10%;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <p style="color:#fff;font-size:1.5rem;line-height:1.6;">
+                            科研启蒙训练营是前研参与负责的最大型的活动。<br>满足了小朋友进入科研世界的需求。<br>
+                            项目共分成“科研启蒙”“科研进阶”“科研实践”三大模块，<br>前两个模块以课程、培训、讲座、沙龙等形式开展；<br>
+                            “科研实践”模块以个人实践为主，开展科研任务。
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </div>   
+    <div class="controls">
+        <button id="prevBtn">
+            <i class="fas fa-angle-left"></i>
+        </button>
+        <button id="nextBtn">
+            <i class="fas fa-angle-right"></i>
+        </button>
+    </div>
+
+    <!-- 界面美化 -->
+    <div class="line-container">
+        <div class="V-line-A"> </div>
+        <div class="V-line-B"> </div>
+        <div class="H-line"> </div>
+    </div>
+
+    <!-- 用户提示 -->
+    <h2 class="flash-title">点击下方卡片，翻转了解详情</h2>
+    <div id="flip-tip" class="flip-tip" style="display:none;"></div>
+    <style>
+    .flash-title {
+        position: fixed;
+        top: 8vh;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2.2rem;
+        color: #111;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-align: center;
+        z-index: 10;
+        animation: flash 1.2s linear infinite alternate;
+        text-shadow: 0 0 8px #b6f7c200, 0 0 16px #3ecf5e00;
+    }
+    .flip-tip {
+        position: fixed;
+        left: 50%;
+        top: calc(68vh + 200px);
+        transform: translateX(-50%);
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #9b00b3;
+        text-align: center;
+        z-index: 20;
+        letter-spacing: 1.5px;
+        user-select: none;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        animation: flash 1.2s linear infinite alternate;
+    }
+    @keyframes flash {
+        0% { opacity: 1; }
+        100% { opacity: 0.3; }
+    }
+    </style>
+
+
+    <script>
+        // 词云位置生成函数，保证互不重叠，支持传入标题真实边界
+                function generateWordCloudPositions(words, options = {}) {
+            const width = options.width || 750;
+            const height = options.height || 420;
+            const minFont = options.minFontSize || 64;
+            const maxFont = options.maxFontSize || 72;
+            const color = "#fff";
+            const titleBox = options.titleBox || {left:0,top:0,right:0,bottom:0};
+            // 1. 初始化词语对象
+            const wordObjs = words.map((word, i) => {
+                let fontSize = Math.floor(Math.random() * (maxFont - minFont) + minFont);
+                let left, top, w, h;
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.font = `${fontSize}px Arial`;
+                w = ctx.measureText(word).width;
+                h = fontSize * 1.2;
+                let tries = 0;
+                do {
+                    left = Math.random() * (width - w);
+                    top = Math.random() * (height - h);
+                    tries++;
+                } while (
+                    left < titleBox.right && left + w > titleBox.left &&
+                    top < titleBox.bottom && top + h > titleBox.top &&
+                    tries < 30
+                );
+                return {word, left, top, fontSize, color, width: w, height: h};
+            });
+
+            // 2. 斥力+卡片中心引力迭代+远距离微斥力
+            const ITER = 30;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            for (let iter = 0; iter < ITER; iter++) {
+                for (let i = 0; i < wordObjs.length; i++) {
+                    let wi = wordObjs[i];
+                    let fx = 0, fy = 0;
+                    // 卡片内容区中心引力
+                    let dxC = centerX - (wi.left + wi.width/2);
+                    let dyC = centerY - (wi.top + wi.height/2);
+                    fx += 0.18 * dxC;
+                    fy += 0.22 * dyC;
+                    // 与其它词语斥力（重叠强斥力+远距离微斥力）
+                    for (let j = 0; j < wordObjs.length; j++) {
+                        if (i === j) continue;
+                        let wj = wordObjs[j];
+                        let dx = (wi.left + wi.width/2) - (wj.left + wj.width/2);
+                        let dy = (wi.top + wi.height/2) - (wj.top + wj.height/2);
+                        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+                        // 强斥力（重叠时）
+                        if (!(wi.left + wi.width < wj.left || wi.left > wj.left + wj.width ||
+                      wi.top + wi.height < wj.top || wi.top > wj.top + wj.height)) {
+                    let overlapX = Math.min(wi.left + wi.width, wj.left + wj.width) - Math.max(wi.left, wj.left);
+                    let overlapY = Math.min(wi.top + wi.height, wj.top + wj.height) - Math.max(wi.top, wj.top);
+                    let force = 0.3 * (overlapX * overlapY) / dist;
+                    fx += force * dx / dist;
+                    fy += force * dy / dist;
+                }
+                // 微斥力（距离较远时，大小越小，力越弱）
+                else if (dist < Math.max(width, height) * 0.7) {
+                    let microForce = 0.04 * (wi.fontSize * wj.fontSize) / (dist * dist);
+                    fx += microForce * dx;
+                    fy += microForce * dy;
+                }
+            }
+            // 与标题斥力
+            if (!(wi.left + wi.width < titleBox.left || wi.left > titleBox.right ||
+                  wi.top + wi.height < titleBox.top || wi.top > titleBox.bottom)) {
+                let dx = (wi.left + wi.width/2) - (titleBox.left + (titleBox.right-titleBox.left)/2);
+                let dy = (wi.top + wi.height/2) - (titleBox.top + (titleBox.bottom-titleBox.top)/2);
+                let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+                let force = 0.5 * wi.width * wi.height / dist;
+                fx += force * dx / dist;
+                fy += force * dy / dist;
+            }
+            // 更新位置
+            wi.left += fx;
+            wi.top += fy;
+            // 边界回弹
+            if (wi.left < 0) wi.left = 0;
+            if (wi.top < 0) wi.top = 0;
+            if (wi.left + wi.width > width) wi.left = width - wi.width;
+            if (wi.top + wi.height > height) wi.top = height - wi.height;
+        }
+    }
+    // 3. 最终结果
+    return wordObjs;
+}
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.rtlink a').forEach(a => {
+                if (a.textContent.includes('历届部门')) {
+                    a.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.location.href = 'qy_session.html';
+                    });
+                }
+                if (a.textContent.includes('部门介绍')) {
+                    a.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.location.href = 'department_intro.html';
+                    });
+                }
+            });
+            const cards = document.querySelectorAll(".card");
+            const totalCards = cards.length;
+            let currentIndex = 0;
+
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+
+            function showCard(index){
+                cards.forEach((card, i) => {
+                    card.classList.remove("active", "left", "right", "center", "hide-left", "hide-right");
+                    if(i === index){
+                        card.classList.add("active", "center");
+                    } else if(i === (index - 1 + totalCards) % totalCards){
+                        card.classList.add("active", "left");
+                    } else if(i === (index + 1) % totalCards){
+                        card.classList.add("active", "right");
+                    } else if(i === (index - 2 + totalCards) % totalCards){
+                        card.classList.add("hide-left");
+                    } else if(i === (index + 2) % totalCards){
+                        card.classList.add("hide-right");
+                    } else {
+                        card.classList.remove("active");
+                    }
+                });
+            }
+            prevBtn.addEventListener("click", function(){
+                // 切换前将所有卡片翻回正面
+                cards.forEach(card => card.classList.remove("flipped"));
+                currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+                showCard(currentIndex);
+            });
+            nextBtn.addEventListener("click", function(){
+                // 切换前将所有卡片翻回正面
+                cards.forEach(card => card.classList.remove("flipped"));
+                currentIndex = (currentIndex + 1) % totalCards;
+                showCard(currentIndex);
+            });
+            showCard(currentIndex);
+
+            // 词云渲染逻辑
+            function renderWordCloud() {
+                // 活动对应词云内容
+                const wordMap = [
+                    ["Markdown", "Latex", "Git", "Matplotlib", "PPT", "Excel", "文献检索"], // 内训
+                    ["策划", "主持", "现场", "导师对接", "成长", "论坛", "交流"], // 卓越论坛
+                    ["科研启蒙", "进阶", "实践", "课程", "培训", "讲座", "沙龙", "小班化", "任务"] // 科研启蒙训练营
+                ];
+                const cards = document.querySelectorAll('.card');
+                cards.forEach((card, idx) => {
+                    // 只为正面中心色块添加词云
+                    const wordcloud = card.querySelector('.card-face.front .wordcloud');
+                    if (!wordcloud) return;
+                    wordcloud.innerHTML = "";
+
+                    // 获取卡片内容区实际宽高
+                    const cardContent = card.querySelector('.card-face.front > div');
+                    let cardRect = cardContent ? cardContent.getBoundingClientRect() : card.getBoundingClientRect();
+                    let width = cardRect.width;
+                    let height = cardRect.height;
+
+                    // 获取标题真实边界
+                    const titleElem = card.querySelector('h2');
+                    let titleBox = {left:0, top:0, right:0, bottom:0};
+                    if(titleElem){
+                        const rect = titleElem.getBoundingClientRect();
+                        titleBox = {
+                            left: rect.left - cardRect.left,
+                            top: rect.top - cardRect.top,
+                            right: rect.right - cardRect.left,
+                            bottom: rect.bottom - cardRect.top
+                        };
+                    }
+
+                    // 生成位置
+                    const words = wordMap[idx] || [];
+                    const positions = generateWordCloudPositions(words, {width, height, titleBox});
+                    // 渲染
+                    positions.forEach((pos, i) => {
+                        const span = document.createElement('span');
+                        span.textContent = pos.word;
+                        span.style.position = 'absolute';
+                        span.style.left = `${pos.left}px`;
+                        span.style.top = `${pos.top}px`;
+                        span.style.fontSize = `${pos.fontSize}px`;
+                        span.style.color = pos.color;
+                        span.style.pointerEvents = 'none';
+                        span.style.opacity = '0';
+                        span.style.transition = 'opacity 0.6s';
+                        wordcloud.appendChild(span);
+                    });
+                });
+            }
+            // 页面加载时渲染一次
+            renderWordCloud();
+
+            // 切换卡片时也重新渲染中心卡片词云
+            function rerenderOnSwitch() {
+                setTimeout(renderWordCloud, 100);
+            }
+            prevBtn.addEventListener("click", rerenderOnSwitch);
+            nextBtn.addEventListener("click", rerenderOnSwitch);
+
+            // 鼠标动画逻辑，适配所有卡片
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // 只允许当前中心卡片翻转
+                    if (card.classList.contains('center')) {
+                        card.classList.toggle('flipped');
+                    }
+                });
+                let fadeTimers = [];
+                card.addEventListener('mouseenter', () => {
+                    const wordcloud = card.querySelector('.card-face.front .wordcloud');
+                    if (!wordcloud) return;
+                    const spans = wordcloud.querySelectorAll('span');
+                    fadeTimers.forEach(timer => clearTimeout(timer));
+                    fadeTimers = [];
+                    spans.forEach((span, i) => {
+                        const delay = 500 + Math.random() * 200;
+                        const timer = setTimeout(() => {
+                            span.style.opacity = '1';
+                        }, delay * i);
+                        fadeTimers.push(timer);
+                    });
+                });
+                card.addEventListener('mouseleave', () => {
+                    const wordcloud = card.querySelector('.card-face.front .wordcloud');
+                    if (!wordcloud) return;
+                    const spans = wordcloud.querySelectorAll('span');
+                    fadeTimers.forEach(timer => clearTimeout(timer));
+                    fadeTimers = [];
+                    spans.forEach(span => {
+                        span.style.opacity = '0';
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+    // 部门介绍按钮点击，通知父页面
+    document.getElementById('btn-dep-intro')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.parent.postMessage({ type: 'show-department-intro' }, '*');
+    });
+    </script>
+ </body>
+ </html>
